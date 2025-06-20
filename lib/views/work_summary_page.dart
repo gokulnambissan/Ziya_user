@@ -18,9 +18,8 @@ class WorkSummaryPage extends StatelessWidget {
             crossAxisCount: 2,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
-            childAspectRatio: 1.3,
-            children:
-                viewModel.items.map(viewModel.buildSummaryCard).toList(),
+            childAspectRatio: 1.5,
+            children: viewModel.items.map(viewModel.buildSummaryCard).toList(),
           ),
         ],
       ),

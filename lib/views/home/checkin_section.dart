@@ -24,20 +24,31 @@ class CheckInSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
+      height: 150, 
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.black,
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween, 
         children: [
-          Text(checkInStatus, style: TextStyle(color: statusColor, fontSize: 16)),
-          const SizedBox(height: 8),
-          if (checkOutTimeMessage != null)
-            Text(
-              checkOutTimeMessage!,
-              style: const TextStyle(color: AppColors.black, fontSize: 14),
-            ),
-          const SizedBox(height: 12),
+          Column(
+            children: [
+              Text(checkInStatus, style: TextStyle(color: statusColor, fontSize: 16)),
+              const SizedBox(height: 8),
+              Text(
+                checkOutTimeMessage ?? '', 
+                style: const TextStyle(color: AppColors.black, fontSize: 14),
+              ),
+            ],
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
