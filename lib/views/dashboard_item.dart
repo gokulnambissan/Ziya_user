@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ziya_user/view_models/dashboard_item_viewmodel.dart';
 import '../constants/app_colors.dart';
 
-class DashboardItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final Color color;
 
-  const DashboardItem({
-    Key? key,
-    required this.icon,
-    required this.label,
-    required this.color,
-  }) : super(key: key);
+class DashboardItem extends StatelessWidget {
+  final DashboardItemViewModel viewModel;
+
+  const DashboardItem({Key? key, required this.viewModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +25,10 @@ class DashboardItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 32, color: color),
+          Icon(viewModel.icon, size: 32, color: viewModel.color),
           const SizedBox(height: 8),
           Text(
-            label,
+            viewModel.label,
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 13,

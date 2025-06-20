@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../constants/app_strings.dart';
-import '../constants/app_colors.dart';
+import '../../constants/app_strings.dart';
+import '../../constants/app_colors.dart';
 
 class CheckInSection extends StatelessWidget {
   final String checkInStatus;
@@ -32,13 +32,11 @@ class CheckInSection extends StatelessWidget {
         children: [
           Text(checkInStatus, style: TextStyle(color: statusColor, fontSize: 16)),
           const SizedBox(height: 8),
-          SizedBox(
-            height: 20,
-            child: checkOutTimeMessage != null
-                ? Text(checkOutTimeMessage!,
-                    style: const TextStyle(color: AppColors.black, fontSize: 14))
-                : const SizedBox.shrink(),
-          ),
+          if (checkOutTimeMessage != null)
+            Text(
+              checkOutTimeMessage!,
+              style: const TextStyle(color: AppColors.black, fontSize: 14),
+            ),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

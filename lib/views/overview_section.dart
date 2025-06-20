@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:ziya_user/view_models/overview_section_viewmodel.dart';
 import '../constants/app_colors.dart';
 
-
-class OverviewSection extends StatelessWidget {
+class OverviewSection extends StatefulWidget {
   const OverviewSection({super.key});
 
-  Widget buildCard(String number, Color color, String label) {
+  @override
+  State<OverviewSection> createState() => _OverviewSectionState();
+}
+
+class _OverviewSectionState extends State<OverviewSection> {
+  final OverviewSectionViewModel viewModel = OverviewSectionViewModel();
+
+  Widget buildCard(OverviewItem item) {
     return Expanded(
       child: Container(
         height: 100,
@@ -26,17 +33,17 @@ class OverviewSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              number,
+              item.number,
               style: TextStyle(
-                color: color,
+                color: item.color,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 6),
             Text(
-              label,
-              style: TextStyle(
+              item.label,
+              style: const TextStyle(
                 color: AppColors.grey,
                 fontSize: 14,
               ),
@@ -51,11 +58,7 @@ class OverviewSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        buildCard("20", AppColors.green, 'Presence'),
-        buildCard("03", AppColors.red, 'Absence'),
-        buildCard("02", AppColors.orange,'Leave'),
-      ],
+      children: viewModel.items.map(buildCard).toList(),
     );
   }
 }

@@ -1,0 +1,97 @@
+import 'package:flutter/material.dart';
+
+class TaskDefinition {
+  final String title;
+  final String description;
+
+  TaskDefinition({required this.title, required this.description});
+}
+
+class TasksViewModel {
+  final List<TaskDefinition> tasks = [
+    TaskDefinition(
+      title: "UI/UX Design Implementation",
+      description: "Translating design specifications into functional and visually appealing user interfaces using technologies like HTML, CSS, and JavaScript.",
+    ),
+    TaskDefinition(
+      title: "Responsive Design",
+      description: "Ensuring that the application adapts seamlessly to different screen sizes and devices.",
+    ),
+    TaskDefinition(
+      title: "Backend Development",
+      description: "Creating and managing databases for efficient data storage, retrieval and processing.",
+    ),
+    TaskDefinition(
+      title: "Server-Side Logic",
+      description: "Developing and maintaining the logic that runs on the server, handling user requests, processing data and interacting with databases.",
+    ),
+  ];
+
+  Widget buildTaskCard(TaskDefinition task) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(task.title,
+              style: const TextStyle(
+                  color: Colors.green,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold)),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              const Icon(Icons.circle, size: 6),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(task.description,
+                    style: const TextStyle(color: Colors.black87)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Align(
+            alignment: Alignment.centerRight,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text("Start"),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildDottedDivider() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: LayoutBuilder(builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        const dotWidth = 4.0;
+        const spacing = 4.0;
+        final dotCount = (width / (dotWidth + spacing)).floor();
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(dotCount, (_) {
+            return const SizedBox(
+              width: dotWidth,
+              height: 1,
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: Colors.grey),
+              ),
+            );
+          }),
+        );
+      }),
+    );
+  }
+}

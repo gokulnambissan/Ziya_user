@@ -1,6 +1,7 @@
+
 import 'package:flutter/material.dart';
-import '../constants/app_colors.dart';
-import '../constants/app_strings.dart';
+import '../../constants/app_colors.dart';
+import '../../constants/app_strings.dart';
 
 class HeaderSection extends StatelessWidget {
   final String userName;

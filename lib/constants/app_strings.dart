@@ -10,9 +10,6 @@ class AppStrings {
   static const String history = "History";
   static const String leave = "Leave";
   static const String profile = "Profile";
-  static const String green = "green";
-  static const String red = "red";
-  static const String orange = "orange";
   static const String deadline = "Deadline";
   static const String project = "Project";
   static const String myTasks = "My Tasks";

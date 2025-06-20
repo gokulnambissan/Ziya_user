@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ziya_user/constants/app_colors.dart';
 import 'package:ziya_user/constants/app_strings.dart';
-import 'package:ziya_user/home/home_screen.dart';
-import 'package:ziya_user/signup_screen.dart';
+import 'package:ziya_user/view_models/login_viewmodel.dart';
+import 'package:ziya_user/views/home/home_screen.dart';
+import 'package:ziya_user/views/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,32 +13,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  bool rememberMe = false;
-  bool isPasswordVisible = false;
+  final viewModel = LoginViewModel();
 
   Future<void> _login() async {
-    try {
-      final email = emailController.text.trim();
-      final password = passwordController.text.trim();
+    final result = await viewModel.login();
 
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-
-      final uid = userCredential.user!.uid;
-
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .get();
-
-      if (!userDoc.exists) {
-        throw Exception("User record not found in Firestore");
-      }
-
-      final userData = userDoc.data() as Map<String, dynamic>;
-
+    if (result['success']) {
+      final userData = result['userData'];
       await showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -59,12 +39,12 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ),
       );
-    } catch (e) {
+    } else {
       await showDialog(
         context: context,
         builder: (_) => AlertDialog(
           title: const Text(AppStrings.loginFailed),
-          content: Text(e.toString()),
+          content: Text(result['message']),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -89,19 +69,11 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Image.asset('assets/logo.jpg', height: 100),
                 const SizedBox(height: 16),
-                Text(
-                  AppStrings.appName,
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.blue,
-                  ),
-                ),
+                Text(AppStrings.appName,
+                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: AppColors.blue)),
                 const SizedBox(height: 4),
-                Text(
-                  AppStrings.tagline,
-                  style: TextStyle(fontSize: 16, color: AppColors.green),
-                ),
+                Text(AppStrings.tagline,
+                    style: TextStyle(fontSize: 16, color: AppColors.green)),
                 const SizedBox(height: 32),
                 const Align(
                   alignment: Alignment.centerLeft,
@@ -110,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 8),
                 TextField(
-                  controller: emailController,
+                  controller: viewModel.emailController,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.email_outlined),
                     hintText: AppStrings.email,
@@ -125,17 +97,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 8),
                 TextField(
-                  controller: passwordController,
-                  obscureText: !isPasswordVisible,
+                  controller: viewModel.passwordController,
+                  obscureText: !viewModel.isPasswordVisible,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.lock_outline),
                     hintText: AppStrings.password,
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                     suffixIcon: IconButton(
-                      icon: Icon(
-                          isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                      icon: Icon(viewModel.isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off),
                       onPressed: () {
-                        setState(() => isPasswordVisible = !isPasswordVisible);
+                        setState(() {
+                          viewModel.isPasswordVisible = !viewModel.isPasswordVisible;
+                        });
                       },
                     ),
                   ),
@@ -147,10 +122,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       children: [
                         Checkbox(
-                          value: rememberMe,
+                          value: viewModel.rememberMe,
                           onChanged: (bool? newValue) {
                             setState(() {
-                              rememberMe = newValue ?? false;
+                              viewModel.rememberMe = newValue ?? false;
                             });
                           },
                         ),
@@ -159,10 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: const Text(
-                        AppStrings.forgetPassword,
-                        style: TextStyle(color: AppColors.blue),
-                      ),
+                      child: const Text(AppStrings.forgetPassword,
+                          style: TextStyle(color: AppColors.blue)),
                     ),
                   ],
                 ),
@@ -171,6 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
+                    onPressed: _login,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.blue,
                       foregroundColor: AppColors.white,
@@ -178,7 +152,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    onPressed: _login,
                     child: const Text(AppStrings.loginBtn, style: TextStyle(fontSize: 18)),
                   ),
                 ),
@@ -192,10 +165,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         context,
                         MaterialPageRoute(builder: (_) => const SignUpScreen()),
                       ),
-                      child: const Text(
-                        AppStrings.signUp,
-                        style: TextStyle(color: AppColors.blue, fontWeight: FontWeight.bold),
-                      ),
+                      child: const Text(AppStrings.signUp,
+                          style: TextStyle(
+                              color: AppColors.blue, fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
