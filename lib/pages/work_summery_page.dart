@@ -21,7 +21,6 @@ class _WorkSummaryPageState extends State<WorkSummaryPage> {
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
             childAspectRatio: 1.3,
-            physics: const NeverScrollableScrollPhysics(),
             children: [
               /// Total Working Days
               Container(

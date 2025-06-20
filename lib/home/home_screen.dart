@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
       checkInStatus = "You've Checked-in at ${getFormattedTime()}";
       statusColor = Colors.green;
       checkedIn = true;
-      checkOutTimeMessage = null; // Clear old checkout message
+      checkOutTimeMessage = null;
     });
   }
 
@@ -121,52 +121,71 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HeaderSection(userName: userName ?? "..."),
-              const SizedBox(height: 16),
-              CheckInSection(
-                checkedIn: checkedIn,
-                statusColor: statusColor,
-                checkInStatus: checkInStatus,
-                onCheckIn: handleCheckIn,
-                onCheckOut: handleCheckOut,
-                checkOutTimeMessage: checkOutTimeMessage,
-              ),
-              const SizedBox(height: 24),
-              const Text("Overview",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 12),
-              const OverviewSection(),
-              const SizedBox(height: 24),
-              NavigationTabs(
-                currentPage: currentPage,
-                pageIcons: pageIcons,
-                pageTitles: pageTitles,
-                onTabSelected: (index) {
-                  setState(() => currentPage = index);
-                },
-              ),
-              const SizedBox(height: 24),
-              FilterOptions(
-                isDeadlineSelected: isDeadlineSelected,
-                onChanged: (value) {
-                  setState(() => isDeadlineSelected = value);
-                },
-              ),
-              const SizedBox(height: 12),
-              pages[currentPage],
-              const SizedBox(height: 16),
-              const Text("Dashboard",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 16),
-              const DashboardGrid(),
-            ],
-          ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            HeaderSection(userName: userName ?? "..."),
+            const SizedBox(height: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '"Good Morning ,',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '${userName ?? ''}"',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            CheckInSection(
+              checkedIn: checkedIn,
+              statusColor: statusColor,
+              checkInStatus: checkInStatus,
+              onCheckIn: handleCheckIn,
+              onCheckOut: handleCheckOut,
+              checkOutTimeMessage: checkOutTimeMessage,
+            ),
+            const SizedBox(height: 24),
+            const Text("Overview",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 12),
+            const OverviewSection(),
+            const SizedBox(height: 24),
+            NavigationTabs(
+              currentPage: currentPage,
+              pageIcons: pageIcons,
+              pageTitles: pageTitles,
+              onTabSelected: (index) {
+                setState(() => currentPage = index);
+              },
+            ),
+            const SizedBox(height: 24),
+            FilterOptions(
+              isDeadlineSelected: isDeadlineSelected,
+              onChanged: (value) {
+                setState(() => isDeadlineSelected = value);
+              },
+            ),
+            const SizedBox(height: 12),
+            pages[currentPage],
+            const SizedBox(height: 16),
+            const Text("Dashboard",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+            const DashboardGrid(),
+          ],
         ),
       ),
     );
