@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../constants/app_strings.dart';
+import '../constants/app_colors.dart';
 
 class CheckInSection extends StatelessWidget {
   final String checkInStatus;
@@ -23,43 +25,31 @@ class CheckInSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.blue[50],
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         children: [
-          /// Main status message (Check-In/Out status)
-          Text(
-            checkInStatus,
-            style: TextStyle(color: statusColor, fontSize: 16),
-          ),
-
+          Text(checkInStatus, style: TextStyle(color: statusColor, fontSize: 16)),
           const SizedBox(height: 8),
-
-          /// Fixed-height message box for the checkout message
           SizedBox(
-            height: 20, // Reserve space to prevent layout shift
+            height: 20,
             child: checkOutTimeMessage != null
-                ? Text(
-                    checkOutTimeMessage!,
-                    style: const TextStyle(color: Colors.black87, fontSize: 14),
-                  )
+                ? Text(checkOutTimeMessage!,
+                    style: const TextStyle(color: AppColors.black, fontSize: 14))
                 : const SizedBox.shrink(),
           ),
-
           const SizedBox(height: 12),
-
-          /// Buttons for Check-In and Check-Out
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton.icon(
                 onPressed: onCheckIn,
                 icon: const Icon(Icons.login),
-                label: const Text("Check In"),
+                label: const Text(AppStrings.checkIn),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: checkedIn ? Colors.blue : Colors.grey[300],
-                  foregroundColor: Colors.white,
+                  backgroundColor: checkedIn ? AppColors.blue : AppColors.grey,
+                  foregroundColor: AppColors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -69,10 +59,10 @@ class CheckInSection extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: onCheckOut,
                 icon: const Icon(Icons.logout),
-                label: const Text("Check Out"),
+                label: const Text(AppStrings.checkOut),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: !checkedIn ? Colors.blue : Colors.grey[300],
-                  foregroundColor: Colors.white,
+                  backgroundColor: !checkedIn ? AppColors.blue : AppColors.grey,
+                  foregroundColor: AppColors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

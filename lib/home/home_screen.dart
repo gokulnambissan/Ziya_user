@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:ziya_user/home/checkin_section.dart';
+import 'package:ziya_user/home/header_section.dart';
+import 'package:ziya_user/home/navigation_tabs.dart';
 import '../pages/tasks_page.dart';
 import '../pages/tracker_page.dart';
 import '../pages/ongoing_pending_page.dart';
 import '../pages/work_summery_page.dart';
 import '../shared/overview_section.dart';
 import '../shared/filter_options.dart';
-import 'header_section.dart';
-import 'checkin_section.dart';
-import 'navigation_tabs.dart';
-import 'dashboard_grid.dart';
+import '../home/dashboard_grid.dart';
+import '../constants/app_strings.dart';
+import '../constants/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -27,8 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool checkedIn = false;
   bool isDeadlineSelected = true;
 
-  String checkInStatus = "You haven't Checked-in yet";
-  Color statusColor = Colors.red;
+  String checkInStatus = AppStrings.checkInPrompt;
+  Color statusColor = AppColors.red;
 
   String? userName;
   String? checkOutTimeMessage;
@@ -42,10 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   final List<String> pageTitles = [
-    "My Tasks",
-    "Task Tracker",
-    "Ongoing & Pending",
-    "Work Summary",
+    AppStrings.myTasks,
+    AppStrings.taskTracker,
+    AppStrings.ongoingPending,
+    AppStrings.workSummary,
   ];
 
   final List<IconData> pageIcons = [
@@ -86,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void handleCheckIn() {
     setState(() {
       checkInStatus = "You've Checked-in at ${getFormattedTime()}";
-      statusColor = Colors.green;
+      statusColor = AppColors.green;
       checkedIn = true;
       checkOutTimeMessage = null;
     });
@@ -94,8 +95,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void handleCheckOut() {
     setState(() {
-      checkInStatus = "You haven't Checked-in yet";
-      statusColor = Colors.red;
+      checkInStatus = AppStrings.checkInPrompt;
+      statusColor = AppColors.red;
       checkedIn = false;
       checkOutTimeMessage = "You've Checked-out at ${getFormattedTime()}";
     });
@@ -108,17 +109,17 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: selectedIndex,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: AppColors.blue,
+        unselectedItemColor: AppColors.grey,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         onTap: (index) {
           setState(() => selectedIndex = index);
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Leave'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: AppStrings.home),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: AppStrings.history),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: AppStrings.leave),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: AppStrings.profile),
         ],
       ),
       body: SingleChildScrollView(
@@ -132,19 +133,13 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  '"Good Morning ,',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey,
-                  ),
+                  AppStrings.goodMorning,
+                  style: TextStyle(fontSize: 18, color: AppColors.grey),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   '${userName ?? ''}"',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey,
-                  ),
+                  style: const TextStyle(fontSize: 18, color: AppColors.grey),
                 ),
               ],
             ),
@@ -158,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
               checkOutTimeMessage: checkOutTimeMessage,
             ),
             const SizedBox(height: 24),
-            const Text("Overview",
+            const Text(AppStrings.overview,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 12),
             const OverviewSection(),
@@ -181,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 12),
             pages[currentPage],
             const SizedBox(height: 16),
-            const Text("Dashboard",
+            const Text(AppStrings.dashboard,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             const DashboardGrid(),

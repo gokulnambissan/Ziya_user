@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../constants/app_strings.dart';
 
 class FilterOptions extends StatelessWidget {
   final bool isDeadlineSelected;
@@ -24,7 +25,7 @@ class FilterOptions extends StatelessWidget {
                 if (value != null) onChanged(value);
               },
             ),
-            const Text("Deadline"),
+            const Text(AppStrings.deadline),
             const SizedBox(width: 10),
             Radio<bool>(
               value: false,
@@ -33,7 +34,7 @@ class FilterOptions extends StatelessWidget {
                 if (value != null) onChanged(value);
               },
             ),
-            const Text("Project"),
+            const Text(AppStrings.project),
           ],
         ),
         const Icon(Icons.filter_list),

@@ -1,0 +1,87 @@
+class AppStrings {
+  static const String checkIn = "Check In";
+  static const String checkOut = "Check Out";
+  static const String checkInPrompt = "You haven't Checked-in yet";
+  static const String goodMorning = '"Good Morning ,';
+  static const String overview = "Overview";
+  static const String dashboard = "Dashboard";
+  static const String developerTitle = "Full-stack Developer";
+  static const String home = "Home";
+  static const String history = "History";
+  static const String leave = "Leave";
+  static const String profile = "Profile";
+  static const String green = "green";
+  static const String red = "red";
+  static const String orange = "orange";
+  static const String deadline = "Deadline";
+  static const String project = "Project";
+  static const String myTasks = "My Tasks";
+  static const String taskTracker = "Task Tracker";
+  static const String ongoingPending = "Ongoing & Pending";
+  static const String workSummary = "Work Summary";
+
+  static const String attendance = "Attendance";
+  static const String orangetatus = "Leave Status";
+  static const String holidayList = "Holiday List";
+  static const String payslip = "Payslip";
+  static const String reports = "Reports";
+
+  static const uiuxDesign = "UI/UX Design Implementation";
+  static const responsiveDesign = "Responsive Design";
+  static const backendDevelopment = "Back-end Development";
+  static const serverSideLogic = "Server-side Logic";
+
+  // Task Statuses
+  static const ongoingTask = "Ongoing Task";
+  static const pendingTask = "Pending Task";
+
+  // Common Labels
+  static const status = "Status: ";
+  static const priority = "Priority ";
+  static const assignedDate = "Assigned date: ";
+  static const dueDate = "Due date: ";
+  static const daysRemaining = "days remaining";
+
+  // Button Labels
+  static const makeAsDone = "Make as Done";
+  static const markAsDone = "Mark as Done";
+  static const startTask = "Start task";
+  static const start = "Start";
+  static const update = "Update";
+  static const complete = "Complete";
+
+  // Progress and Actions
+  static const notStarted = "Not Started";
+  static const inProgress = "In Progress";
+  static const completed = "Completed";
+  static const overdue = "Overdue";
+
+  static const String appName = 'Ziya Attend';
+  static const String tagline = 'Smart Attendance Maintainer';
+  static const String loginTitle = 'Login Successful';
+  static const String loginWelcome = 'Welcome back, ';
+  static const String loginFailed = 'Login Failed';
+  static const String continueBtn = 'Continue';
+  static const String rememberMe = 'Remember me';
+  static const String forgetPassword = 'Forget Password?';
+  static const String loginBtn = 'Log In';
+  static const String noAccount = "Don't have account? ";
+  static const String signUp = 'Sign Up';
+  static const String fullName = 'Full Name';
+  static const String email = 'Email';
+  static const String password = 'Password';
+  static const String success = 'Success';
+  static const String accountCreated = 'Account created successfully!';
+  static const String error = 'Error';
+  static const String passwordMin = 'Minimum 8 characters';
+  static const String passwordNumber = 'At least 1 number';
+  static const String passwordLetter = 'At least 1 letter (A-Z or a-z)';
+  static const String signUpPrompt = 'Create an account and enjoy all services';
+  static const String haveAccount = 'Have account? ';
+  static const String login = 'Log In';
+
+  // Misc
+  static const assignedByOptional = "Assigned By\n(optional)";
+
+
+}

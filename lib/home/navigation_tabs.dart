@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../constants/app_colors.dart';
 
 class NavigationTabs extends StatelessWidget {
   final int currentPage;
@@ -27,17 +28,24 @@ class NavigationTabs extends StatelessWidget {
             padding: const EdgeInsets.only(right: 8.0),
             child: ElevatedButton.icon(
               onPressed: () => onTabSelected(index),
-              icon: Icon(pageIcons[index],
-                  size: 18, color: isSelected ? Colors.white : Colors.black),
+              icon: Icon(
+                pageIcons[index],
+                size: 18,
+                color: isSelected ? AppColors.white : AppColors.black,
+              ),
               label: Text(
                 pageTitles[index],
-                style: TextStyle(color: isSelected ? Colors.white : Colors.black),
+                style: TextStyle(
+                  color: isSelected ? AppColors.white : AppColors.black,
+                ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: isSelected ? Colors.blue : Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                backgroundColor: isSelected ? AppColors.blue : AppColors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 elevation: isSelected ? 2 : 1,
-                side: BorderSide(color: Colors.grey.shade300),
+                side: BorderSide(color: AppColors.grey),
               ),
             ),
           );

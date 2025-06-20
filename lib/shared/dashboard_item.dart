@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../constants/app_colors.dart';
 
 class DashboardItem extends StatelessWidget {
   final IconData icon;
@@ -16,11 +17,11 @@ class DashboardItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: const [
           BoxShadow(
-            color: Colors.black12,
+            color: AppColors.black,
             blurRadius: 4,
             offset: Offset(0, 2),
           ),
@@ -37,7 +38,7 @@ class DashboardItem extends StatelessWidget {
             style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: Colors.black,
+              color: AppColors.black,
             ),
           ),
         ],

@@ -30,7 +30,7 @@ class _WorkSummaryPageState extends State<WorkSummaryPage> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black12,
+                      color: Colors.black,
                       blurRadius: 6,
                       offset: const Offset(2, 2),
                     ),
@@ -58,7 +58,7 @@ class _WorkSummaryPageState extends State<WorkSummaryPage> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black12,
+                      color: Colors.black,
                       blurRadius: 6,
                       offset: const Offset(2, 2),
                     ),
@@ -86,7 +86,7 @@ class _WorkSummaryPageState extends State<WorkSummaryPage> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black12,
+                      color: Colors.black,
                       blurRadius: 6,
                       offset: const Offset(2, 2),
                     ),
@@ -114,7 +114,7 @@ class _WorkSummaryPageState extends State<WorkSummaryPage> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black12,
+                      color: Colors.black,
                       blurRadius: 6,
                       offset: const Offset(2, 2),
                     ),
@@ -142,7 +142,7 @@ class _WorkSummaryPageState extends State<WorkSummaryPage> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black12,
+                      color: Colors.black,
                       blurRadius: 6,
                       offset: const Offset(2, 2),
                     ),
@@ -170,7 +170,7 @@ class _WorkSummaryPageState extends State<WorkSummaryPage> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black12,
+                      color: Colors.black,
                       blurRadius: 6,
                       offset: const Offset(2, 2),
                     ),
