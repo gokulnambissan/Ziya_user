@@ -2,26 +2,30 @@ import 'package:flutter/material.dart';
 import '../view_models/summary_view_model.dart';
 
 class WorkSummaryPage extends StatelessWidget {
-  const WorkSummaryPage({super.key});
+  final SummaryViewModel viewModel = SummaryViewModel();
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = SummaryViewModel();
-
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        children: [
-          const SizedBox(height: 16),
-          GridView.count(
+    return Scaffold(
+      appBar: AppBar(title: const Text("Work Summary")),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GridView.builder(
             shrinkWrap: true,
-            crossAxisCount: 2,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-            childAspectRatio: 1.5,
-            children: viewModel.items.map(viewModel.buildSummaryCard).toList(),
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: viewModel.items.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              childAspectRatio: 1.3, // Adjust for card size
+            ),
+            itemBuilder: (context, index) {
+              return viewModel.buildSummaryCard(viewModel.items[index]);
+            },
           ),
-        ],
+        ),
       ),
     );
   }

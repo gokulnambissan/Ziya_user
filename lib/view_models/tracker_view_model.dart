@@ -31,7 +31,7 @@ class TrackerViewModel {
     required Function(String) onActionChanged,
   }) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 12),
+      margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -43,42 +43,48 @@ class TrackerViewModel {
         children: [
           /// Header
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(task.title,
-                  style: const TextStyle(
-                      color: Colors.green,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold)),
-              Text("Due Date: ${task.dueDate}",
+              Expanded(
+                child: Text(task.title,
+                    style: const TextStyle(
+                        color: Colors.green,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis),
+              ),
+              const SizedBox(width: 8),
+              Text("Due: ${task.dueDate}",
                   style: const TextStyle(fontSize: 13, color: Colors.grey)),
             ],
           ),
           const SizedBox(height: 8),
 
           /// Status
-          Row(
-            children: [
-              const Text("Status: "),
-              ...List.generate(statuses.length, (i) {
-                final isActive = task.statusIndex == i;
-                return Row(
-                  children: [
-                    Icon(Icons.circle,
-                        size: 10,
-                        color: isActive ? Colors.green : Colors.grey),
-                    const SizedBox(width: 4),
-                    Text(
-                      statuses[i],
-                      style: TextStyle(
-                          fontSize: 12,
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                const Text("Status: "),
+                ...List.generate(statuses.length, (i) {
+                  final isActive = task.statusIndex == i;
+                  return Row(
+                    children: [
+                      Icon(Icons.circle,
+                          size: 10,
                           color: isActive ? Colors.green : Colors.grey),
-                    ),
-                    const SizedBox(width: 10),
-                  ],
-                );
-              }),
-            ],
+                      const SizedBox(width: 4),
+                      Text(
+                        statuses[i],
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: isActive ? Colors.green : Colors.grey),
+                      ),
+                      const SizedBox(width: 10),
+                    ],
+                  );
+                }),
+              ],
+            ),
           ),
           const SizedBox(height: 12),
 
@@ -137,10 +143,12 @@ class TrackerViewModel {
           const SizedBox(height: 12),
 
           /// Actions
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 10,
             children: actions.map((action) {
               return Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Radio<String>(
                     value: action,
@@ -148,8 +156,7 @@ class TrackerViewModel {
                     activeColor: Colors.green,
                     onChanged: (value) => onActionChanged(value!),
                   ),
-                  Text(action,
-                      style: const TextStyle(color: Colors.black)),
+                  Text(action, style: const TextStyle(color: Colors.black)),
                 ],
               );
             }).toList(),
