@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ziya_user/constants/app_colors.dart';
 import '../models/summary_model.dart';
+import '../constants/app_colors.dart';
 
 class SummaryViewModel {
   final List<SummaryItem> items = [
