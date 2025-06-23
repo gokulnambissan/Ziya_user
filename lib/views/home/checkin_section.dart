@@ -36,9 +36,11 @@ class CheckInSection extends StatelessWidget {
         children: [
           Column(
             children: [
-              Text(checkInStatus, style: TextStyle(color: statusColor, fontSize: 16)),
+              Text(checkInStatus,
+                  style: TextStyle(color: statusColor, fontSize: 16)),
               const SizedBox(height: 8),
-              Text(checkOutTimeMessage ?? '', style: const TextStyle(color: AppColors.black, fontSize: 14)),
+              Text(checkOutTimeMessage ?? '',
+                  style: const TextStyle(color: AppColors.black, fontSize: 14)),
             ],
           ),
           Row(
@@ -51,9 +53,10 @@ class CheckInSection extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.blue,
                   foregroundColor: AppColors.white,
-                  disabledBackgroundColor: Colors.grey,
-                  disabledForegroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  disabledBackgroundColor: AppColors.grey,
+                  disabledForegroundColor: AppColors.white,
+                  shape:
+                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
               ),
               const SizedBox(width: 16),
@@ -64,9 +67,10 @@ class CheckInSection extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.blue,
                   foregroundColor: AppColors.white,
-                  disabledBackgroundColor: Colors.grey,
-                  disabledForegroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  disabledBackgroundColor: AppColors.grey,
+                  disabledForegroundColor: AppColors.white,
+                  shape:
+                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
               ),
             ],

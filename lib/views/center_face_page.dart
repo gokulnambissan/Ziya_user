@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
-import 'success_page.dart';
+import 'package:ziya_user/views/punch_out_success.dart';
+import 'punch_in_success_page.dart';
+
 
 class CenterFacePage extends StatelessWidget {
-  const CenterFacePage({super.key});
+  final bool isPunchOutFlow;
+  final VoidCallback? onFaceCentered;
+
+  const CenterFacePage({
+    this.isPunchOutFlow = false,
+    this.onFaceCentered,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +20,6 @@ class CenterFacePage extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            // Centered instruction text
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -31,8 +39,6 @@ class CenterFacePage extends StatelessWidget {
                 ],
               ),
             ),
-
-            // Bottom camera/flash/check buttons
             Positioned(
               bottom: 50,
               left: 0,
@@ -44,14 +50,21 @@ class CenterFacePage extends StatelessWidget {
                   const SizedBox(width: 40),
                   GestureDetector(
                     onTap: () async {
-                      // Step 1: Navigate to success page
                       final result = await Navigator.push<bool>(
                         context,
-                        MaterialPageRoute(builder: (_) => const SuccessPage()),
+                        MaterialPageRoute(
+                          builder: (_) => isPunchOutFlow
+                              ? const PunchOutSuccessPage()
+                              : const SuccessPage(),
+                        ),
                       );
 
-                      // Step 2: Pass result back to previous screen
-                      Navigator.pop(context, result ?? false);
+                      if (result == true) {
+                        Navigator.pop(context, true); // return to previous page
+                        if (onFaceCentered != null) {
+                          onFaceCentered!();
+                        }
+                      }
                     },
                     child: const CircleAvatar(
                       backgroundColor: Colors.blue,

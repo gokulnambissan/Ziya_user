@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ziya_user/view_models/filter_options_viewmodel.dart';
@@ -31,15 +30,12 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentPage = 0;
   bool isDeadlineSelected = true;
 
-  bool checkedIn = false;
-  String checkInStatus = AppStrings.checkInPrompt;
-  Color statusColor = AppColors.red;
-  String? checkOutTimeMessage;
-  String? userName;
-
-  final currentUser = FirebaseAuth.instance.currentUser;
-
   final PunchViewModel punchVM = PunchViewModel();
+  final BottomNavigationViewModel bottomNavViewModel =
+      BottomNavigationViewModel();
+
+  String? userName;
+  final currentUser = FirebaseAuth.instance.currentUser;
 
   final List<Widget> pages = [
     TasksPage(),
@@ -62,9 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Icons.summarize,
   ];
 
-   void updateUI() => setState(() {});
-
- 
+  void updateUI() => setState(() {});
 
   void handlePunchInFlow() {
     PunchDialogs.showUnifiedPunchDialog(
@@ -74,30 +68,42 @@ class _HomeScreenState extends State<HomeScreen> {
         if (type == "Work From Home") {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (_) => FaceVerificationPage(),
-            ),
+            MaterialPageRoute(builder: (_) => FaceVerificationPage()),
           ).then((result) {
-            if (result == true) punchVM.punchIn;
+            if (result == true) punchVM.punchIn(updateUI, "Work From Home");
           });
         } else {
-          punchVM.punchIn;
+          punchVM.punchIn(updateUI, "On Site");
         }
       },
     );
   }
 
- void handlePunchOutFlow() {
+  void handlePunchOutFlow() {
     PunchDialogs.showUnifiedPunchDialog(
       context: context,
       isPunchIn: false,
-      onSelected: (_) => punchVM.punchOut,
+      onSelected: (_) async {
+        final mode = await punchVM
+            .getLastPunchInMode(); // fetch 'Work From Home' or 'On Site'
+
+        if (mode == 'Work From Home') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => FaceVerificationPage(
+                      isPunchOutFlow: true,
+                      onVerificationComplete: () {
+                        punchVM.punchOut(updateUI);
+                      },
+                    )),
+          );
+        } else {
+          //Navigator.pushNamed(context, '/qrVerification'); // to be implemented later
+        }
+      },
     );
   }
-
-
-  final BottomNavigationViewModel bottomNavViewModel =
-      BottomNavigationViewModel();
 
   @override
   void initState() {
@@ -124,10 +130,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  String getFormattedTime() {
-    return DateFormat.jm().format(DateTime.now());
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,14 +151,14 @@ class _HomeScreenState extends State<HomeScreen> {
               style: const TextStyle(fontSize: 18, color: AppColors.grey),
             ),
             const SizedBox(height: 12),
-           CheckInSection(
-            checkInStatus: checkInStatus,
-            statusColor: statusColor,
-            checkedIn: checkedIn,
-            checkOutTimeMessage: checkOutTimeMessage,
-            onPunchInTap: handlePunchInFlow,
-            onPunchOutTap: handlePunchOutFlow,
-          ),
+            CheckInSection(
+              checkInStatus: punchVM.checkInStatus,
+              statusColor: punchVM.statusColor,
+              checkedIn: punchVM.checkedIn,
+              checkOutTimeMessage: punchVM.checkOutTimeMessage,
+              onPunchInTap: handlePunchInFlow,
+              onPunchOutTap: handlePunchOutFlow,
+            ),
             const SizedBox(height: 24),
             const Text(
               AppStrings.overview,

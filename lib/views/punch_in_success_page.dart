@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ziya_user/constants/app_colors.dart';
-import 'package:ziya_user/views/home/home_screen.dart'; // Import your HomeScreen
 
 class SuccessPage extends StatefulWidget {
   const SuccessPage({super.key});
@@ -20,10 +19,7 @@ class _SuccessPageState extends State<SuccessPage> {
     currentTime = DateFormat('hh:mm a').format(DateTime.now());
 
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => HomeScreen()),
-        (Route<dynamic> route) => false, // Remove all previous routes
-      );
+      Navigator.pop(context, true); // ✅ FIXED: Return true
     });
   }
 

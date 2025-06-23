@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:ziya_user/views/center_face_page.dart';
+import 'center_face_page.dart';
 
 class FaceVerificationPage extends StatefulWidget {
+  final bool isPunchOutFlow;
+  final VoidCallback? onVerificationComplete;
+
+  const FaceVerificationPage({
+    this.isPunchOutFlow = false,
+    this.onVerificationComplete,
+    Key? key,
+  }) : super(key: key);
+
   @override
   _FaceVerificationPageState createState() => _FaceVerificationPageState();
 }
@@ -17,7 +26,7 @@ class _FaceVerificationPageState extends State<FaceVerificationPage>
 
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     )..repeat(reverse: true);
 
     _animation = Tween<double>(begin: 0.0, end: 120.0).animate(_controller);
@@ -42,7 +51,7 @@ class _FaceVerificationPageState extends State<FaceVerificationPage>
               borderRadius: BorderRadius.circular(16),
               color: Colors.grey.shade100,
               boxShadow: [
-                BoxShadow(
+                const BoxShadow(
                   blurRadius: 4,
                   color: Colors.black12,
                   offset: Offset(0, 2),
@@ -50,11 +59,7 @@ class _FaceVerificationPageState extends State<FaceVerificationPage>
               ],
             ),
             alignment: Alignment.center,
-            child: Icon(
-              Icons.face_6_outlined,
-              size: 80,
-              color: Colors.black,
-            ),
+            child: const Icon(Icons.face_6_outlined, size: 80, color: Colors.black),
           ),
           AnimatedBuilder(
             animation: _animation,
@@ -81,45 +86,43 @@ class _FaceVerificationPageState extends State<FaceVerificationPage>
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "Face Verification",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8),
-              Text(
-                "Please capture your face",
-                style: TextStyle(fontSize: 16, color: Colors.black54),
-              ),
-              SizedBox(height: 40),
+              const Text("Face Verification",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              const Text("Please capture your face",
+                  style: TextStyle(fontSize: 16, color: Colors.black54)),
+              const SizedBox(height: 40),
               Center(child: _buildFaceContainer()),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  final result = await Navigator.push<bool>(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CenterFacePage(),
+                      builder: (_) => CenterFacePage(
+                        isPunchOutFlow: widget.isPunchOutFlow,
+                        onFaceCentered: widget.onVerificationComplete,
+                      ),
                     ),
                   );
+
+                  if (result == true) {
+                    Navigator.pop(context, true);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.lightBlue,
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Text(
-                  "Take Photo",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
+                child: const Text("Take Photo",
+                    style: TextStyle(fontSize: 16, color: Colors.white)),
               ),
             ],
           ),

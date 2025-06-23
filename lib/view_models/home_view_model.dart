@@ -20,22 +20,7 @@ class HomeViewModel extends ChangeNotifier {
     return DateFormat.jm().format(DateTime.now());
   }
 
-  void handleCheckIn() {
-    checkedIn = true;
-    checkInStatus = "You've Checked-in at ${getFormattedTime()}";
-    statusColor = Colors.green;
-    checkOutTimeMessage = null;
-    notifyListeners();
-  }
-
-  void handleCheckOut() {
-    checkedIn = false;
-    checkInStatus = 'Please check-in to start your day';
-    statusColor = Colors.red;
-    checkOutTimeMessage = "You've Checked-out at ${getFormattedTime()}";
-    notifyListeners();
-  }
-
+ 
   Future<void> fetchUserName() async {
     try {
       if (currentUser != null) {
