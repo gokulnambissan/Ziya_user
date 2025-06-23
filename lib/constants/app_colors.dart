@@ -11,6 +11,8 @@ class AppColors {
   static const Color dashboardPurple = Colors.purple;
   static const Color dashboardTeal = Colors.teal;
   static const priorityLow = Colors.cyan;
+  static const gradGreen=Color.fromARGB(255, 71, 241, 77);
+  static const gradOrange=Color.fromARGB(255, 255, 123, 0);
 
 
 

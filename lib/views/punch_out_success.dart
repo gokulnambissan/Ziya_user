@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ziya_user/constants/app_colors.dart';
-import 'package:ziya_user/views/home/home_screen.dart'; // Import your HomeScreen
+import 'package:ziya_user/views/home/home_screen.dart';
 
 class PunchOutSuccessPage extends StatefulWidget {
   const PunchOutSuccessPage({super.key});
@@ -21,8 +21,8 @@ class _PunchOutSuccessPageState extends State<PunchOutSuccessPage> {
 
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => HomeScreen()),
-        (Route<dynamic> route) => false, // Remove all previous routes
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        (Route<dynamic> route) => false,
       );
     });
   }
@@ -30,23 +30,31 @@ class _PunchOutSuccessPageState extends State<PunchOutSuccessPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.check_circle, size: 100, color: AppColors.green),
-            const SizedBox(height: 20),
-            Text(
-              'Punched Out successfully\nat $currentTime',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 18,
-                color: AppColors.orange,
-                fontWeight: FontWeight.w500,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.white, AppColors.gradOrange],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.check_circle, size: 100, color: AppColors.orange),
+              const SizedBox(height: 20),
+              Text(
+                'Punch out successfully\nat $currentTime',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: AppColors.orange,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
