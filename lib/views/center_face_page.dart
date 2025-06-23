@@ -24,7 +24,6 @@ class CenterFacePage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: const [
-                  Icon(Icons.play_circle_outline, size: 80, color: Colors.grey),
                   SizedBox(height: 24),
                   Text(
                     "Center your face",

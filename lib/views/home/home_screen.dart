@@ -4,12 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ziya_user/view_models/filter_options_viewmodel.dart';
 import 'package:ziya_user/view_models/bottom_navigation_viewmodel.dart';
 import 'package:ziya_user/view_models/punch_viewmodel.dart';
+import 'package:ziya_user/views/center_face_page.dart';
 import 'package:ziya_user/views/face_verification_page.dart';
 import 'package:ziya_user/views/filter_options.dart';
 import 'package:ziya_user/views/home/dashboard_grid.dart';
 import 'package:ziya_user/views/home/punch_dialogs.dart';
 import 'package:ziya_user/views/ongoing_pending_page.dart';
 import 'package:ziya_user/views/overview_section.dart';
+import 'package:ziya_user/views/punch_out_success.dart';
 import 'package:ziya_user/views/tasks_page.dart';
 import 'package:ziya_user/views/tracker_page.dart';
 import 'package:ziya_user/views/work_summary_page.dart';
@@ -79,31 +81,56 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void handlePunchOutFlow() {
-    PunchDialogs.showUnifiedPunchDialog(
-      context: context,
-      isPunchIn: false,
-      onSelected: (_) async {
-        final mode = await punchVM
-            .getLastPunchInMode(); // fetch 'Work From Home' or 'On Site'
 
-        if (mode == 'Work From Home') {
+void handlePunchOutFlow() {
+  PunchDialogs.showUnifiedPunchDialog(
+    context: context,
+    isPunchIn: false,
+    onSelected: (type) async {
+      if (type == "Punch Out") {
+        String? mode = await punchVM.getLastPunchInMode();
+
+        if (mode == "Work From Home") {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (_) => FaceVerificationPage(
-                      isPunchOutFlow: true,
-                      onVerificationComplete: () {
-                        punchVM.punchOut(updateUI);
-                      },
-                    )),
-          );
+              builder: (_) => FaceVerificationPage(isPunchOutFlow: true),
+            ),
+          ).then((faceVerified) {
+            if (faceVerified == true) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => CenterFacePage(isPunchOutFlow: true),
+                ),
+              ).then((faceCentered) {
+                if (faceCentered == true) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const PunchOutSuccessPage(),
+                    ),
+                  ).then((_) {
+                    punchVM.punchOut(updateUI); // mark state as punched out
+                  });
+                }
+              });
+            }
+          });
         } else {
-          //Navigator.pushNamed(context, '/qrVerification'); // to be implemented later
+          // Replace with actual QR Verification when available
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('QR verification for On Site punch out not implemented yet.'),
+            ),
+          );
         }
-      },
-    );
-  }
+      }
+      // If "Update Task" is selected, do nothing or handle accordingly
+    },
+  );
+}
+
 
   @override
   void initState() {

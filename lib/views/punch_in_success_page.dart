@@ -19,7 +19,7 @@ class _SuccessPageState extends State<SuccessPage> {
     currentTime = DateFormat('hh:mm a').format(DateTime.now());
 
     Timer(const Duration(seconds: 3), () {
-      Navigator.pop(context, true); // ✅ FIXED: Return true
+      Navigator.pop(context, true); 
     });
   }
 
