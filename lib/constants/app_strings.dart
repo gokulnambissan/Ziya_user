@@ -1,7 +1,7 @@
 class AppStrings {
   static const String checkIn = "Check In";
   static const String checkOut = "Check Out";
-  static const String checkInPrompt = "You haven't Checked-in yet";
+  static const String checkInPrompt = "You haven't Punched-in yet";
   static const String goodMorning = '"Good Morning ,';
   static const String overview = "Overview";
   static const String dashboard = "Dashboard";

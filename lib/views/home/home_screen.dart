@@ -4,8 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ziya_user/view_models/filter_options_viewmodel.dart';
 import 'package:ziya_user/view_models/bottom_navigation_viewmodel.dart';
+import 'package:ziya_user/view_models/punch_viewmodel.dart';
+import 'package:ziya_user/views/face_verification_page.dart';
 import 'package:ziya_user/views/filter_options.dart';
 import 'package:ziya_user/views/home/dashboard_grid.dart';
+import 'package:ziya_user/views/home/punch_dialogs.dart';
 import 'package:ziya_user/views/ongoing_pending_page.dart';
 import 'package:ziya_user/views/overview_section.dart';
 import 'package:ziya_user/views/tasks_page.dart';
@@ -36,6 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final currentUser = FirebaseAuth.instance.currentUser;
 
+  final PunchViewModel punchVM = PunchViewModel();
+
   final List<Widget> pages = [
     TasksPage(),
     TrackerPage(),
@@ -56,6 +61,40 @@ class _HomeScreenState extends State<HomeScreen> {
     Icons.pending_actions,
     Icons.summarize,
   ];
+
+   void updateUI() => setState(() {});
+
+ 
+
+  void handlePunchInFlow() {
+    PunchDialogs.showUnifiedPunchDialog(
+      context: context,
+      isPunchIn: true,
+      onSelected: (type) {
+        if (type == "Work From Home") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => FaceVerificationPage(),
+            ),
+          ).then((result) {
+            if (result == true) punchVM.punchIn;
+          });
+        } else {
+          punchVM.punchIn;
+        }
+      },
+    );
+  }
+
+ void handlePunchOutFlow() {
+    PunchDialogs.showUnifiedPunchDialog(
+      context: context,
+      isPunchIn: false,
+      onSelected: (_) => punchVM.punchOut,
+    );
+  }
+
 
   final BottomNavigationViewModel bottomNavViewModel =
       BottomNavigationViewModel();
@@ -89,24 +128,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return DateFormat.jm().format(DateTime.now());
   }
 
-  void handleCheckIn() {
-    setState(() {
-      checkedIn = true;
-      checkInStatus = "You've Checked-in at ${getFormattedTime()}";
-      statusColor = AppColors.green;
-      checkOutTimeMessage = null;
-    });
-  }
-
-  void handleCheckOut() {
-    setState(() {
-      checkedIn = false;
-      checkInStatus = AppStrings.checkInPrompt;
-      statusColor = AppColors.red;
-      checkOutTimeMessage = "You've Checked-out at ${getFormattedTime()}";
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,14 +149,14 @@ class _HomeScreenState extends State<HomeScreen> {
               style: const TextStyle(fontSize: 18, color: AppColors.grey),
             ),
             const SizedBox(height: 12),
-            CheckInSection(
-              checkedIn: checkedIn,
-              checkInStatus: checkInStatus,
-              statusColor: statusColor,
-              checkOutTimeMessage: checkOutTimeMessage,
-              onCheckIn: handleCheckIn,
-              onCheckOut: handleCheckOut,
-            ),
+           CheckInSection(
+            checkInStatus: checkInStatus,
+            statusColor: statusColor,
+            checkedIn: checkedIn,
+            checkOutTimeMessage: checkOutTimeMessage,
+            onPunchInTap: handlePunchInFlow,
+            onPunchOutTap: handlePunchOutFlow,
+          ),
             const SizedBox(height: 24),
             const Text(
               AppStrings.overview,

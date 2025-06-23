@@ -1,21 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../models/task_model.dart';
+import '../../constants/app_colors.dart';
 
 class TrackerViewModel {
   final List<TaskModel> tasks = [
-    TaskModel(title: "Responsive Design", dueDate: "18-06-2025", statusIndex: 1, progress: 0.45, daysRemaining: 2, assignedBy: "optional", priority: "Medium"),
-    TaskModel(title: "UI/UX Design Implementation", dueDate: "18-06-2025", statusIndex: 2, progress: 0.65, daysRemaining: 2, assignedBy: "optional", priority: "High"),
-    TaskModel(title: "Back-end Development", dueDate: "18-06-2025", statusIndex: 1, progress: 0.75, daysRemaining: 2, assignedBy: "optional", priority: "High"),
+    TaskModel(
+        title: "Responsive Design",
+        dueDate: "18-06-2025",
+        statusIndex: 1,
+        progress: 0.45,
+        daysRemaining: 2,
+        assignedBy: "optional",
+        priority: "Medium"),
+    TaskModel(
+        title: "UI/UX Design Implementation",
+        dueDate: "18-06-2025",
+        statusIndex: 2,
+        progress: 0.65,
+        daysRemaining: 2,
+        assignedBy: "optional",
+        priority: "High"),
+    TaskModel(
+        title: "Back-end Development",
+        dueDate: "18-06-2025",
+        statusIndex: 1,
+        progress: 0.75,
+        daysRemaining: 2,
+        assignedBy: "optional",
+        priority: "High"),
   ];
 
-  final List<String> statuses = ["Not Started", "In Progress", "Completed", "Overdue"];
+  final List<String> statuses = [
+    "Not Started",
+    "In Progress",
+    "Completed",
+    "Overdue"
+  ];
   final List<String> actions = ["Start", "Update", "Complete"];
 
   final Map<String, Color> priorityColors = {
-    "Low": Colors.grey,
-    "Medium": Colors.teal,
-    "High": Colors.red,
+    "Low": AppColors.grey,
+    "Medium": AppColors.dashboardTeal,
+    "High": AppColors.red,
   };
 
   final Map<int, String> selectedActions = {};
@@ -35,7 +62,7 @@ class TrackerViewModel {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: AppColors.grey),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -45,46 +72,51 @@ class TrackerViewModel {
           Row(
             children: [
               Expanded(
-                child: Text(task.title,
-                    style: const TextStyle(
-                        color: Colors.green,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                    overflow: TextOverflow.ellipsis),
+                child: Text(
+                  task.title,
+                  style: const TextStyle(
+                    color: AppColors.green,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               const SizedBox(width: 8),
-              Text("Due: ${task.dueDate}",
-                  style: const TextStyle(fontSize: 13, color: Colors.grey)),
+              Text(
+                "Due: ${task.dueDate}",
+                style: const TextStyle(fontSize: 13, color: AppColors.grey),
+              ),
             ],
           ),
           const SizedBox(height: 8),
 
-          /// Status
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                const Text("Status: "),
-                ...List.generate(statuses.length, (i) {
-                  final isActive = task.statusIndex == i;
-                  return Row(
-                    children: [
-                      Icon(Icons.circle,
-                          size: 10,
-                          color: isActive ? Colors.green : Colors.grey),
-                      const SizedBox(width: 4),
-                      Text(
-                        statuses[i],
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: isActive ? Colors.green : Colors.grey),
-                      ),
-                      const SizedBox(width: 10),
-                    ],
-                  );
-                }),
-              ],
-            ),
+          /// Status (replaced Row+Scroll with Wrap to fix overflow)
+          Wrap(
+            spacing: 10,
+            runSpacing: 4,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              const Text("Status: "),
+              ...List.generate(statuses.length, (i) {
+                final isActive = task.statusIndex == i;
+                final statusColor = isActive
+                    ? (statuses[i] == "Overdue" ? AppColors.red : AppColors.green)
+                    : Colors.grey;
+
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.circle, size: 10, color: statusColor),
+                    const SizedBox(width: 4),
+                    Text(
+                      statuses[i],
+                      style: TextStyle(fontSize: 12, color: statusColor),
+                    ),
+                  ],
+                );
+              }),
+            ],
           ),
           const SizedBox(height: 12),
 
@@ -97,24 +129,27 @@ class TrackerViewModel {
                 lineWidth: 6.0,
                 percent: task.progress,
                 center: Text("${(task.progress * 100).toInt()}%"),
-                progressColor: Colors.green,
-                backgroundColor: Colors.grey.shade300,
+                progressColor: AppColors.green,
+                backgroundColor: AppColors.grey,
               ),
               Row(
                 children: [
-                  const Icon(Icons.timer, size: 20, color: Colors.orange),
+                  const Icon(Icons.timer, size: 20, color: AppColors.orange),
                   const SizedBox(width: 4),
-                  Text("${task.daysRemaining} days remaining",
-                      style: const TextStyle(
-                          color: Colors.orange, fontSize: 13)),
+                  Text(
+                    "${task.daysRemaining} days remaining",
+                    style: const TextStyle(color: AppColors.orange, fontSize: 13),
+                  ),
                 ],
               ),
               Row(
                 children: const [
-                  Icon(Icons.person_outline, size: 20, color: Colors.black54),
+                  Icon(Icons.person_outline, size: 20, color: AppColors.black),
                   SizedBox(width: 4),
-                  Text("Assigned By\n(optional)",
-                      style: TextStyle(fontSize: 12, color: Colors.black87)),
+                  Text(
+                    "Assigned By\n(optional)",
+                    style: TextStyle(fontSize: 12, color: AppColors.black),
+                  ),
                 ],
               ),
             ],
@@ -133,7 +168,7 @@ class TrackerViewModel {
                   child: Text(
                     level,
                     style: TextStyle(
-                      color: isCurrent ? priorityColors[level] : Colors.grey,
+                      color: isCurrent ? priorityColors[level] : AppColors.grey,
                     ),
                   ),
                 );
@@ -153,10 +188,10 @@ class TrackerViewModel {
                   Radio<String>(
                     value: action,
                     groupValue: selectedAction,
-                    activeColor: Colors.green,
+                    activeColor: AppColors.green,
                     onChanged: (value) => onActionChanged(value!),
                   ),
-                  Text(action, style: const TextStyle(color: Colors.black)),
+                  Text(action, style: const TextStyle(color: AppColors.black)),
                 ],
               );
             }).toList(),
@@ -182,7 +217,7 @@ class TrackerViewModel {
                 width: dotWidth,
                 height: 1,
                 child: DecoratedBox(
-                  decoration: BoxDecoration(color: Colors.grey),
+                  decoration: BoxDecoration(color: AppColors.grey),
                 ),
               );
             }),
