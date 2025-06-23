@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:ziya_user/constants/app_colors.dart';
 import 'package:ziya_user/views/punch_out_success.dart';
 import 'punch_in_success_page.dart';
+import 'package:ziya_user/constants/app_colors.dart';
 
-
-class CenterFacePage extends StatelessWidget {
+class ScanQrPage extends StatelessWidget {
   final bool isPunchOutFlow;
-  final VoidCallback? onFaceCentered;
+  final VoidCallback? onQrScanned;
 
-  const CenterFacePage({
+  const ScanQrPage({
     this.isPunchOutFlow = false,
-    this.onFaceCentered,
+    this.onQrScanned,
     Key? key,
   }) : super(key: key);
 
@@ -27,12 +26,12 @@ class CenterFacePage extends StatelessWidget {
                 children: const [
                   SizedBox(height: 24),
                   Text(
-                    "Center your face",
+                    "Scan QR Code",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    "Point your face right at the box,\nthen take a photo",
+                    "Align the QR code inside the box\nto scan it successfully",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 14),
                   ),
@@ -46,7 +45,7 @@ class CenterFacePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.camera_alt, size: 32),
+                  const Icon(Icons.qr_code_scanner, size: 32),
                   const SizedBox(width: 40),
                   GestureDetector(
                     onTap: () async {
@@ -61,8 +60,8 @@ class CenterFacePage extends StatelessWidget {
 
                       if (result == true) {
                         Navigator.pop(context, true); // return to previous page
-                        if (onFaceCentered != null) {
-                          onFaceCentered!();
+                        if (onQrScanned != null) {
+                          onQrScanned!();
                         }
                       }
                     },
@@ -73,7 +72,7 @@ class CenterFacePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 40),
-                  const Icon(Icons.flash_on, size: 32),
+                  const Icon(Icons.lightbulb, size: 32),
                 ],
               ),
             ),

@@ -20,8 +20,12 @@ class PunchDialogs {
           return AlertDialog(
             backgroundColor: AppColors.white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(20),
             ),
+            insetPadding:
+                const EdgeInsets.symmetric(horizontal: 30, vertical: 24),
+            titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+            contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
             title: Stack(
               alignment: Alignment.center,
               children: [
@@ -29,7 +33,7 @@ class PunchDialogs {
                   isPunchIn ? "Select Punch In Type" : "",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 20,
                     color: AppColors.black,
                   ),
                   textAlign: TextAlign.center,
@@ -48,70 +52,69 @@ class PunchDialogs {
               children: [
                 if (!isPunchIn) ...[
                   const Icon(Icons.warning_amber_rounded,
-                      size: 50, color: AppColors.orange),
-                  const SizedBox(height: 10),
+                      size: 60, color: AppColors.orange),
+                  const SizedBox(height: 12),
                   const Text(
                     "Do you really want to checkout?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: AppColors.orange,
-                      fontSize: 16,
+                      fontSize: 17,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 28),
                 ],
                 if (isPunchIn) ...[
                   const Text(
                     "Are you working from home or on site today?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 17,
                       color: AppColors.black,
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 28),
                 ],
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: options.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final type = entry.value;
+                  children: options.map((type) {
                     final isSelected = selectedOption == type;
-
-                    return Row(
-                      children: [
-                        ElevatedButton(
+                    return Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                        child: ElevatedButton(
                           onPressed: () {
                             setStateSB(() => selectedOption = type);
-                            Future.delayed(const Duration(milliseconds: 200), () {
+                            Future.delayed(const Duration(milliseconds: 200),
+                                () {
                               Navigator.pop(context);
                               onSelected(type);
                             });
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: isSelected
-                                ? AppColors.blue
-                                : AppColors.white,
-                            foregroundColor: isSelected
-                                ? AppColors.white
-                                : AppColors.black,
+                            backgroundColor:
+                                isSelected ? AppColors.blue : AppColors.white,
+                            foregroundColor:
+                                isSelected ? AppColors.white : AppColors.black,
+                            elevation: 4,
+                            // ignore: deprecated_member_use
+                            shadowColor: AppColors.grey.withOpacity(0.4),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              side: BorderSide(
-                                color: isSelected
-                                    ? AppColors.blue
-                                    : AppColors.grey,
-                              ),
+                              borderRadius: BorderRadius.circular(14),
                             ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            minimumSize: const Size(0, 50),
                           ),
-                          child: Text(type),
+                          child: Text(
+                            type,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
-                        if (index < options.length - 1)
-                          const SizedBox(width: 16),
-                      ],
+                      ),
                     );
                   }).toList(),
                 ),

@@ -12,6 +12,8 @@ import 'package:ziya_user/views/home/punch_dialogs.dart';
 import 'package:ziya_user/views/ongoing_pending_page.dart';
 import 'package:ziya_user/views/overview_section.dart';
 import 'package:ziya_user/views/punch_out_success.dart';
+import 'package:ziya_user/views/qr_verification_page.dart';
+import 'package:ziya_user/views/scan_qr_code_page.dart';
 import 'package:ziya_user/views/tasks_page.dart';
 import 'package:ziya_user/views/tracker_page.dart';
 import 'package:ziya_user/views/work_summary_page.dart';
@@ -75,62 +77,85 @@ class _HomeScreenState extends State<HomeScreen> {
             if (result == true) punchVM.punchIn(updateUI, "Work From Home");
           });
         } else {
-          punchVM.punchIn(updateUI, "On Site");
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => QrVerificationPage()),
+          ).then((result) {
+            if (result == true) punchVM.punchIn(updateUI, "On Site");
+          });
         }
       },
     );
   }
 
+  void handlePunchOutFlow() {
+    PunchDialogs.showUnifiedPunchDialog(
+      context: context,
+      isPunchIn: false,
+      onSelected: (type) async {
+        if (type == "Punch Out") {
+          String? mode = await punchVM.getLastPunchInMode();
 
-void handlePunchOutFlow() {
-  PunchDialogs.showUnifiedPunchDialog(
-    context: context,
-    isPunchIn: false,
-    onSelected: (type) async {
-      if (type == "Punch Out") {
-        String? mode = await punchVM.getLastPunchInMode();
-
-        if (mode == "Work From Home") {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => FaceVerificationPage(isPunchOutFlow: true),
-            ),
-          ).then((faceVerified) {
-            if (faceVerified == true) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => CenterFacePage(isPunchOutFlow: true),
-                ),
-              ).then((faceCentered) {
-                if (faceCentered == true) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const PunchOutSuccessPage(),
-                    ),
-                  ).then((_) {
-                    punchVM.punchOut(updateUI); // mark state as punched out
-                  });
-                }
-              });
-            }
-          });
-        } else {
-          // Replace with actual QR Verification when available
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('QR verification for On Site punch out not implemented yet.'),
-            ),
-          );
+          if (mode == "Work From Home") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => FaceVerificationPage(isPunchOutFlow: true),
+              ),
+            ).then((faceVerified) {
+              if (faceVerified == true) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CenterFacePage(isPunchOutFlow: true),
+                  ),
+                ).then((faceCentered) {
+                  if (faceCentered == true) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const PunchOutSuccessPage(),
+                      ),
+                    ).then((_) {
+                      punchVM.punchOut(updateUI); // mark state as punched out
+                    });
+                  }
+                });
+              }
+            });
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => QrVerificationPage(isPunchOutFlow: true),
+              ),
+            ).then((qrVerified) {
+              if (qrVerified == true) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ScanQrPage(isPunchOutFlow: true),
+                  ),
+                ).then((qrCentered) {
+                  if (qrCentered == true) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const PunchOutSuccessPage(),
+                      ),
+                    ).then((_) {
+                      punchVM.punchOut(updateUI); // mark state as punched out
+                    });
+                  }
+                });
+              }
+            });
+          }
         }
-      }
-      // If "Update Task" is selected, do nothing or handle accordingly
-    },
-  );
-}
-
+        // If "Update Task" is selected, do nothing or handle accordingly
+      },
+    );
+  }
 
   @override
   void initState() {

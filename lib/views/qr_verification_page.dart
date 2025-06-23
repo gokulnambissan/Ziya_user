@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_user/constants/app_colors.dart';
-import 'center_face_page.dart';
+import 'package:ziya_user/views/scan_qr_code_page.dart';
 
-class FaceVerificationPage extends StatefulWidget {
+
+class QrVerificationPage extends StatefulWidget {
   final bool isPunchOutFlow;
   final VoidCallback? onVerificationComplete;
 
-  const FaceVerificationPage({
+  const QrVerificationPage({
     this.isPunchOutFlow = false,
     this.onVerificationComplete,
     Key? key,
   }) : super(key: key);
 
   @override
-  _FaceVerificationPageState createState() => _FaceVerificationPageState();
+  _QrVerificationPageState createState() => _QrVerificationPageState();
 }
 
-class _FaceVerificationPageState extends State<FaceVerificationPage>
+class _QrVerificationPageState extends State<QrVerificationPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -39,7 +40,7 @@ class _FaceVerificationPageState extends State<FaceVerificationPage>
     super.dispose();
   }
 
-  Widget _buildFaceContainer() {
+  Widget _buildQrContainer() {
     return SizedBox(
       width: 160,
       height: 160,
@@ -61,7 +62,7 @@ class _FaceVerificationPageState extends State<FaceVerificationPage>
             ),
             alignment: Alignment.center,
             child: Image.asset(
-              'assets/face.png', 
+              'assets/qr.png', // Replace with your QR icon path
               width: 100,
               height: 100,
               fit: BoxFit.contain,
@@ -89,7 +90,7 @@ class _FaceVerificationPageState extends State<FaceVerificationPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -98,21 +99,21 @@ class _FaceVerificationPageState extends State<FaceVerificationPage>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "Face Verification",
+                  "QR Code Verification",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.black,
+                    color: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  "Please capture your face",
+                  "Please scan the QR code",
                   style: TextStyle(fontSize: 16, color: Colors.black54),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 40),
-                _buildFaceContainer(),
+                _buildQrContainer(),
                 const SizedBox(height: 60),
                 SizedBox(
                   width: double.infinity,
@@ -122,9 +123,9 @@ class _FaceVerificationPageState extends State<FaceVerificationPage>
                       final result = await Navigator.push<bool>(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => CenterFacePage(
+                          builder: (_) => ScanQrPage(
                             isPunchOutFlow: widget.isPunchOutFlow,
-                            onFaceCentered: widget.onVerificationComplete,
+                            onQrScanned: widget.onVerificationComplete,
                           ),
                         ),
                       );
@@ -134,14 +135,14 @@ class _FaceVerificationPageState extends State<FaceVerificationPage>
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.lightblue,
+                      backgroundColor: Colors.lightBlue,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     child: const Text(
-                      "Take Photo",
-                      style: TextStyle(fontSize: 16, color: AppColors.white),
+                      "Scan QR Code",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
                 ),
