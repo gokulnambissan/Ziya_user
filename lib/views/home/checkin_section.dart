@@ -6,6 +6,8 @@ class CheckInSection extends StatelessWidget {
   final Color statusColor;
   final bool checkedIn;
   final String? checkOutTimeMessage;
+  final String? extraTimeInfo;
+  final String? locationInfo;
   final VoidCallback onPunchInTap;
   final VoidCallback onPunchOutTap;
 
@@ -17,13 +19,14 @@ class CheckInSection extends StatelessWidget {
     required this.checkOutTimeMessage,
     required this.onPunchInTap,
     required this.onPunchOutTap,
+    this.extraTimeInfo,
+    this.locationInfo,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      height: 150,
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
@@ -32,45 +35,93 @@ class CheckInSection extends StatelessWidget {
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(checkInStatus,
-                  style: TextStyle(color: statusColor, fontSize: 16)),
+              Text(
+                checkInStatus,
+                style: TextStyle(color: statusColor, fontSize: 16, fontWeight: FontWeight.w600),
+              ),
               const SizedBox(height: 8),
-              Text(checkOutTimeMessage ?? '',
-                  style: const TextStyle(color: AppColors.black, fontSize: 14)),
+              if (extraTimeInfo != null)
+                Row(
+                  children: [
+                    const Icon(Icons.access_time, color: AppColors.orange, size: 20),
+                    const SizedBox(width: 6),
+                    Text(
+                      extraTimeInfo!,
+                      style: const TextStyle(
+                        color: AppColors.orange,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              if (locationInfo != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.location_on, color: AppColors.red, size: 20),
+                      const SizedBox(width: 6),
+                      Text(
+                        locationInfo!,
+                        style: const TextStyle(
+                          color: AppColors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              const SizedBox(height: 8),
+              if (checkOutTimeMessage != null)
+                Text(
+                  checkOutTimeMessage!,
+                  style: const TextStyle(color: AppColors.black, fontSize: 14),
+                ),
             ],
           ),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton.icon(
                 onPressed: checkedIn ? null : onPunchInTap,
-                icon: const Icon(Icons.login),
+                icon: ColorFiltered(
+                  colorFilter: const ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                  child: Image.asset('assets/login.png', height: 20, width: 20),
+                ),
                 label: const Text("Punch In"),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.blue,
                   foregroundColor: AppColors.white,
                   disabledBackgroundColor: AppColors.grey,
                   disabledForegroundColor: AppColors.white,
-                  shape:
-                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
               ElevatedButton.icon(
                 onPressed: checkedIn ? onPunchOutTap : null,
-                icon: const Icon(Icons.logout),
+                icon: ColorFiltered(
+                  colorFilter: const ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                  child: Image.asset('assets/logout.png', height: 20, width: 20),
+                ),
                 label: const Text("Punch Out"),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.blue,
                   foregroundColor: AppColors.white,
                   disabledBackgroundColor: AppColors.grey,
                   disabledForegroundColor: AppColors.white,
-                  shape:
-                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
             ],

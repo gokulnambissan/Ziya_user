@@ -208,6 +208,8 @@ class _HomeScreenState extends State<HomeScreen> {
               statusColor: punchVM.statusColor,
               checkedIn: punchVM.checkedIn,
               checkOutTimeMessage: punchVM.checkOutTimeMessage,
+              extraTimeInfo: punchVM.extraTimeInfo,      // 👈 new
+              locationInfo: punchVM.locationInfo,      // 👈 new
               onPunchInTap: handlePunchInFlow,
               onPunchOutTap: handlePunchOutFlow,
             ),
