@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_user/constants/app_colors.dart';
+import 'package:ziya_user/view_models/leave_application_view_model.dart';
 import 'package:ziya_user/views/common/top_navigation_bar.dart';
 
 class LeaveApplicationPageBody extends StatefulWidget {
@@ -11,35 +12,11 @@ class LeaveApplicationPageBody extends StatefulWidget {
 }
 
 class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
-  final TextEditingController reasonController = TextEditingController();
-  final TextEditingController attachmentController = TextEditingController();
-
-  DateTime? fromDate;
-  DateTime? toDate;
-  String? selectedLeaveType;
-
-  Future<void> pickDate(BuildContext context, bool isFromDate) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2022),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null) {
-      setState(() {
-        if (isFromDate) {
-          fromDate = picked;
-        } else {
-          toDate = picked;
-        }
-      });
-    }
-  }
+  final LeaveApplicationViewModel viewModel = LeaveApplicationViewModel();
 
   @override
   void dispose() {
-    reasonController.dispose();
-    attachmentController.dispose();
+    viewModel.disposeControllers();
     super.dispose();
   }
 
@@ -74,8 +51,6 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 24),
-
-                    // Employee Name
                     const Text("Employee Name",
                         style: TextStyle(fontWeight: FontWeight.w600)),
                     const SizedBox(height: 6),
@@ -87,8 +62,6 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                       ),
                     ),
                     const SizedBox(height: 16),
-
-                    // Employee ID
                     const Text("Employee ID",
                         style: TextStyle(fontWeight: FontWeight.w600)),
                     const SizedBox(height: 6),
@@ -100,8 +73,6 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                       ),
                     ),
                     const SizedBox(height: 16),
-
-                    // From - To
                     const Text("Duration",
                         style: TextStyle(fontWeight: FontWeight.w600)),
                     const SizedBox(height: 6),
@@ -116,12 +87,13 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                                       TextStyle(fontWeight: FontWeight.w500)),
                               const SizedBox(height: 4),
                               GestureDetector(
-                                onTap: () => pickDate(context, true),
+                                onTap: () =>
+                                    viewModel.pickDate(context, true, setState),
                                 child: AbsorbPointer(
                                   child: TextField(
                                     decoration: InputDecoration(
-                                      hintText: fromDate != null
-                                          ? "${fromDate!.day}/${fromDate!.month}/${fromDate!.year}"
+                                      hintText: viewModel.fromDate != null
+                                          ? "${viewModel.fromDate!.day}/${viewModel.fromDate!.month}/${viewModel.fromDate!.year}"
                                           : 'From Date',
                                       prefixIcon:
                                           const Icon(Icons.calendar_today),
@@ -132,7 +104,14 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                             ],
                           ),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: 6),
+                        Row(
+                          children: const [
+                            Icon(Icons.arrow_back_ios_new, size: 16),
+                            Icon(Icons.arrow_forward_ios, size: 16),
+                          ],
+                        ),
+                        const SizedBox(width: 6),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,12 +121,13 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                                       TextStyle(fontWeight: FontWeight.w500)),
                               const SizedBox(height: 4),
                               GestureDetector(
-                                onTap: () => pickDate(context, false),
+                                onTap: () => viewModel.pickDate(
+                                    context, false, setState),
                                 child: AbsorbPointer(
                                   child: TextField(
                                     decoration: InputDecoration(
-                                      hintText: toDate != null
-                                          ? "${toDate!.day}/${toDate!.month}/${toDate!.year}"
+                                      hintText: viewModel.toDate != null
+                                          ? "${viewModel.toDate!.day}/${viewModel.toDate!.month}/${viewModel.toDate!.year}"
                                           : 'To Date',
                                       prefixIcon:
                                           const Icon(Icons.calendar_today),
@@ -160,10 +140,7 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                         ),
                       ],
                     ),
-
                     const SizedBox(height: 16),
-
-                    // Leave Type
                     const Text("Leave Type",
                         style: TextStyle(fontWeight: FontWeight.w600)),
                     const SizedBox(height: 6),
@@ -171,27 +148,35 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                       children: [
                         Expanded(
                           child: TextField(
+                            enabled: false,
                             decoration: const InputDecoration(
                               hintText: 'Leave Type',
-                              prefixIcon: Icon(Icons.list),
+                              prefixIcon: Icon(Icons.article_outlined),
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 12),
                             ),
                           ),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: 12),
                         Expanded(
                           child: DropdownButtonFormField<String>(
-                            value: selectedLeaveType,
+                            isExpanded: true, // <== CRUCIAL
                             decoration: const InputDecoration(
                               hintText: 'Choose Type',
-                              prefixIcon: Icon(Icons.arrow_drop_down),
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 12),
                             ),
-                            items: ['Sick', 'Casual', 'Earned','Maternity']
-                                .map((type) => DropdownMenuItem(
-                                    value: type, child: Text(type)))
-                                .toList(),
-                            onChanged: (value) {
+                            value: viewModel.selectedLeaveType,
+                            items: viewModel.leaveTypes.map((String type) {
+                              return DropdownMenuItem<String>(
+                                value: type,
+                                child:
+                                    Text(type, overflow: TextOverflow.ellipsis),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
                               setState(() {
-                                selectedLeaveType = value;
+                                viewModel.selectedLeaveType = newValue!;
                               });
                             },
                           ),
@@ -199,44 +184,39 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                       ],
                     ),
                     const SizedBox(height: 16),
-
-                    // Reason
                     const Text("Reason",
                         style: TextStyle(fontWeight: FontWeight.w600)),
                     const SizedBox(height: 6),
                     TextField(
-                      controller: reasonController,
+                      controller: viewModel.reasonController,
                       maxLines: 3,
-                      decoration: const InputDecoration(
-                        hintText: 'Text area',
-                      ),
+                      decoration: const InputDecoration(hintText: 'Text area'),
                     ),
                     const SizedBox(height: 16),
-
-                    // Attachment
                     const Text("Attachment",
                         style: TextStyle(fontWeight: FontWeight.w600)),
                     const SizedBox(height: 6),
                     TextField(
-                      controller: attachmentController,
+                      controller: viewModel.attachmentController,
                       decoration: const InputDecoration(
                         hintText: 'Attachment (Optional)',
                         prefixIcon: Icon(Icons.attach_file),
                       ),
                     ),
-
                     const SizedBox(height: 24),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.blue),
+                          backgroundColor: AppColors.blue,
+                          foregroundColor: AppColors.white,
+                        ),
                         onPressed: () {
-                          // TODO: Handle form submission logic
+                          // TODO: Form submission
                         },
                         child: const Text('Submit'),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

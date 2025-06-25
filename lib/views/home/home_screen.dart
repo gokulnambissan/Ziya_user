@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ziya_user/view_models/filter_options_viewmodel.dart';
 import 'package:ziya_user/view_models/bottom_navigation_viewmodel.dart';
 import 'package:ziya_user/view_models/punch_viewmodel.dart';
+import 'package:ziya_user/views/leave/leave_application_page.dart';
 import 'package:ziya_user/views/work_from_home/center_face_page.dart';
 import 'package:ziya_user/views/work_from_home/face_verification_page.dart';
 import 'package:ziya_user/views/filter_options.dart';
@@ -187,10 +188,26 @@ class _HomeScreenState extends State<HomeScreen> {
     return BottomNavigationLayout(
       currentIndex: bottomNavViewModel.currentIndex,
       onTap: (index) {
-        bottomNavViewModel.setIndex(index, () {
-          setState(() {});
-        });
-      },
+  if (index == bottomNavViewModel.currentIndex) return;
+
+  switch (index) {
+    case 0:
+      // Already on Home, do nothing
+      break;
+    case 2:
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const LeaveApplicationPage()),
+      );
+      break;
+    //  add more cases for History (1) and Profile (3) if needed
+  }
+
+  bottomNavViewModel.setIndex(index, () {
+    setState(() {});
+  });
+},
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(5),
         child: Column(
