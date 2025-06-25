@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:ziya_user/views/punch_out_success.dart';
-import 'punch_in_success_page.dart';
 import 'package:ziya_user/constants/app_colors.dart';
+import 'package:ziya_user/views/punch_out_success.dart';
+import '../punch_in_success_page.dart';
 
-class ScanQrPage extends StatelessWidget {
+
+class CenterFacePage extends StatelessWidget {
   final bool isPunchOutFlow;
-  final VoidCallback? onQrScanned;
+  final VoidCallback? onFaceCentered;
 
-  const ScanQrPage({
+  const CenterFacePage({
     this.isPunchOutFlow = false,
-    this.onQrScanned,
+    this.onFaceCentered,
     Key? key,
   }) : super(key: key);
 
@@ -26,12 +27,12 @@ class ScanQrPage extends StatelessWidget {
                 children: const [
                   SizedBox(height: 24),
                   Text(
-                    "Scan QR Code",
+                    "Center your face",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    "Align the QR code inside the box\nto scan it successfully",
+                    "Point your face right at the box,\nthen take a photo",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 14),
                   ),
@@ -45,7 +46,7 @@ class ScanQrPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.qr_code_scanner, size: 32),
+                  const Icon(Icons.camera_alt, size: 32),
                   const SizedBox(width: 40),
                   GestureDetector(
                     onTap: () async {
@@ -60,8 +61,8 @@ class ScanQrPage extends StatelessWidget {
 
                       if (result == true) {
                         Navigator.pop(context, true); // return to previous page
-                        if (onQrScanned != null) {
-                          onQrScanned!();
+                        if (onFaceCentered != null) {
+                          onFaceCentered!();
                         }
                       }
                     },
@@ -72,7 +73,7 @@ class ScanQrPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 40),
-                  const Icon(Icons.lightbulb, size: 32),
+                  const Icon(Icons.flash_on, size: 32),
                 ],
               ),
             ),

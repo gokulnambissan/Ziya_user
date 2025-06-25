@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_user/view_models/dashboard_item_viewmodel.dart';
 import 'package:ziya_user/views/dashboard_item.dart';
+import 'package:ziya_user/views/leave/leave_application_page.dart';
 import '../../constants/app_strings.dart';
 import '../../constants/app_colors.dart';
 
@@ -43,8 +44,21 @@ class DashboardGrid extends StatelessWidget {
       crossAxisSpacing: 16,
       physics: const NeverScrollableScrollPhysics(),
       children: items
-          .map((viewModel) => DashboardItem(viewModel: viewModel))
-          .toList(),
+          // .map((viewModel) => DashboardItem(viewModel: viewModel))
+          // .toList(),
+          .map((viewModel) {
+  return GestureDetector(
+    onTap: () {
+      if (viewModel.label == AppStrings.leave) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LeaveApplicationPage()),
+        );
+      }
+    },
+    child: DashboardItem(viewModel: viewModel),
+  );
+}).toList(),
     );
   }
 }

@@ -4,24 +4,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ziya_user/view_models/filter_options_viewmodel.dart';
 import 'package:ziya_user/view_models/bottom_navigation_viewmodel.dart';
 import 'package:ziya_user/view_models/punch_viewmodel.dart';
-import 'package:ziya_user/views/center_face_page.dart';
-import 'package:ziya_user/views/face_verification_page.dart';
+import 'package:ziya_user/views/work_from_home/center_face_page.dart';
+import 'package:ziya_user/views/work_from_home/face_verification_page.dart';
 import 'package:ziya_user/views/filter_options.dart';
 import 'package:ziya_user/views/home/dashboard_grid.dart';
 import 'package:ziya_user/views/home/punch_dialogs.dart';
 import 'package:ziya_user/views/ongoing_pending_page.dart';
 import 'package:ziya_user/views/overview_section.dart';
 import 'package:ziya_user/views/punch_out_success.dart';
-import 'package:ziya_user/views/qr_verification_page.dart';
-import 'package:ziya_user/views/scan_qr_code_page.dart';
+import 'package:ziya_user/views/on_site/qr_verification_page.dart';
+import 'package:ziya_user/views/on_site/scan_qr_code_page.dart';
 import 'package:ziya_user/views/tasks_page.dart';
 import 'package:ziya_user/views/tracker_page.dart';
 import 'package:ziya_user/views/work_summary_page.dart';
+import 'package:ziya_user/views/home/checkin_section.dart';
+import 'package:ziya_user/views/home/header_section.dart';
+import 'package:ziya_user/views/home/navigation_tabs.dart';
+import 'package:ziya_user/views/common/bottom_navigation.dart';
 import '../../constants/app_strings.dart';
 import '../../constants/app_colors.dart';
-import 'checkin_section.dart';
-import 'header_section.dart';
-import 'navigation_tabs.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -117,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (_) => const PunchOutSuccessPage(),
                       ),
                     ).then((_) {
-                      punchVM.punchOut(updateUI); // mark state as punched out
+                      punchVM.punchOut(updateUI);
                     });
                   }
                 });
@@ -144,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (_) => const PunchOutSuccessPage(),
                       ),
                     ).then((_) {
-                      punchVM.punchOut(updateUI); // mark state as punched out
+                      punchVM.punchOut(updateUI);
                     });
                   }
                 });
@@ -152,7 +153,6 @@ class _HomeScreenState extends State<HomeScreen> {
             });
           }
         }
-        // If "Update Task" is selected, do nothing or handle accordingly
       },
     );
   }
@@ -184,8 +184,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
+    return BottomNavigationLayout(
+      currentIndex: bottomNavViewModel.currentIndex,
+      onTap: (index) {
+        bottomNavViewModel.setIndex(index, () {
+          setState(() {});
+        });
+      },
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(5),
         child: Column(
@@ -208,8 +213,8 @@ class _HomeScreenState extends State<HomeScreen> {
               statusColor: punchVM.statusColor,
               checkedIn: punchVM.checkedIn,
               checkOutTimeMessage: punchVM.checkOutTimeMessage,
-              extraTimeInfo: punchVM.extraTimeInfo,      // 👈 new
-              locationInfo: punchVM.locationInfo,      // 👈 new
+              extraTimeInfo: punchVM.extraTimeInfo,
+              locationInfo: punchVM.locationInfo,
               onPunchInTap: handlePunchInFlow,
               onPunchOutTap: handlePunchOutFlow,
             ),
@@ -253,47 +258,6 @@ class _HomeScreenState extends State<HomeScreen> {
             const DashboardGrid(),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: bottomNavViewModel.currentIndex,
-        selectedItemColor: AppColors.blue,
-        unselectedItemColor: AppColors.grey,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          bottomNavViewModel.setIndex(index, () {
-            setState(() {});
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home,
-                color: bottomNavViewModel.currentIndex == 0
-                    ? AppColors.blue
-                    : AppColors.grey),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history,
-                color: bottomNavViewModel.currentIndex == 1
-                    ? AppColors.blue
-                    : AppColors.grey),
-            label: 'History',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add,
-                color: bottomNavViewModel.currentIndex == 2
-                    ? AppColors.blue
-                    : AppColors.grey),
-            label: 'Leave',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person,
-                color: bottomNavViewModel.currentIndex == 3
-                    ? AppColors.blue
-                    : AppColors.grey),
-            label: 'Profile',
-          ),
-        ],
       ),
     );
   }

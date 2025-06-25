@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_user/constants/app_colors.dart';
-import 'package:ziya_user/views/scan_qr_code_page.dart';
+import 'package:ziya_user/views/on_site/scan_qr_code_page.dart';
 
 
 class QrVerificationPage extends StatefulWidget {
