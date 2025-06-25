@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ziya_user/constants/app_colors.dart';
 import 'package:ziya_user/view_models/leave_application_view_model.dart';
 import 'package:ziya_user/views/common/top_navigation_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart'; //new
-import 'package:cloud_firestore/cloud_firestore.dart'; //new
+import 'package:firebase_auth/firebase_auth.dart'; 
+import 'package:cloud_firestore/cloud_firestore.dart'; 
 
 class LeaveApplicationPageBody extends StatefulWidget {
   const LeaveApplicationPageBody({super.key});
