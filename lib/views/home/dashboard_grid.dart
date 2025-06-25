@@ -44,8 +44,6 @@ class DashboardGrid extends StatelessWidget {
       crossAxisSpacing: 16,
       physics: const NeverScrollableScrollPhysics(),
       children: items
-          // .map((viewModel) => DashboardItem(viewModel: viewModel))
-          // .toList(),
           .map((viewModel) {
   return GestureDetector(
     onTap: () {
