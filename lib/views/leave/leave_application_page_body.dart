@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ziya_user/constants/app_colors.dart';
 import 'package:ziya_user/view_models/leave_application_view_model.dart';
 import 'package:ziya_user/views/common/top_navigation_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart'; 
-import 'package:cloud_firestore/cloud_firestore.dart'; 
+import 'package:ziya_user/views/leave/leave_dashboard_page.dart';
+import 'package:ziya_user/views/leave/leave_tab_header.dart';
 
 class LeaveApplicationPageBody extends StatefulWidget {
   const LeaveApplicationPageBody({super.key});
@@ -20,7 +22,7 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
   final currentUser = FirebaseAuth.instance.currentUser;
 
   @override
-   void initState() {
+  void initState() {
     super.initState();
     fetchUserName();
   }
@@ -44,6 +46,13 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
     }
   }
 
+  Widget _buildLabel(String label) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, bottom: 4),
+      child: Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
+    );
+  }
+
   Widget _buildFieldContainer({required Widget child}) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -65,13 +74,6 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
     );
   }
 
-  Widget _buildLabel(String label) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 4),
-      child: Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,34 +85,40 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ElevatedButton.icon(
-                onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.white,
-                  foregroundColor: AppColors.black,
-                  elevation: 3,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                ),
-                icon: const Icon(Icons.arrow_back),
-                label: const Text("Back"),
+              LeaveTabHeader(
+                selectedTab: 1,
+                onTabSelected: (index) {
+                  if (index == 0) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const LeaveDashboardPage()),
+                    );
+                  }
+                },
               ),
-              const SizedBox(height: 16),
-              const Text("Apply for Leave",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 24),
+              const Text(
+                "Apply for Leave",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 24),
+
+              // Employee Name
               _buildLabel("Employee Name"),
               _buildFieldContainer(
                 child: TextField(
                   enabled: false,
-                  controller:
-                      TextEditingController(text: userName ?? 'Employee ID - auto-filled'),
+                  controller: TextEditingController(
+                      text: userName ?? 'Employee ID - auto-filled'),
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.person),
                     border: InputBorder.none,
                   ),
                 ),
               ),
+
+              // Employee ID (disabled static field)
               _buildLabel("Employee ID"),
               _buildFieldContainer(
                 child: const TextField(
@@ -122,6 +130,8 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                   ),
                 ),
               ),
+
+              // From & To Dates
               Row(
                 children: [
                   Expanded(
@@ -131,15 +141,16 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                         _buildLabel("From Date"),
                         _buildFieldContainer(
                           child: GestureDetector(
-                            onTap: () =>
-                                viewModel.pickDate(context, true, setState),
+                            onTap: () => viewModel.pickDate(
+                                context, true, setState),
                             child: AbsorbPointer(
                               child: TextField(
                                 decoration: InputDecoration(
                                   hintText: viewModel.fromDate != null
                                       ? "${viewModel.fromDate!.day}/${viewModel.fromDate!.month}/${viewModel.fromDate!.year}"
                                       : 'From',
-                                  prefixIcon: const Icon(Icons.calendar_today),
+                                  prefixIcon:
+                                      const Icon(Icons.calendar_today),
                                   border: InputBorder.none,
                                 ),
                               ),
@@ -154,7 +165,7 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                     children: [
                       Transform.rotate(
                         angle: 3.14,
-                        child: Icon(Icons.play_arrow, size: 16),
+                        child: const Icon(Icons.play_arrow, size: 16),
                       ),
                       const SizedBox(width: 2),
                       const Icon(Icons.play_arrow, size: 16),
@@ -168,15 +179,16 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                         _buildLabel("To Date"),
                         _buildFieldContainer(
                           child: GestureDetector(
-                            onTap: () =>
-                                viewModel.pickDate(context, false, setState),
+                            onTap: () => viewModel.pickDate(
+                                context, false, setState),
                             child: AbsorbPointer(
                               child: TextField(
                                 decoration: InputDecoration(
                                   hintText: viewModel.toDate != null
                                       ? "${viewModel.toDate!.day}/${viewModel.toDate!.month}/${viewModel.toDate!.year}"
                                       : 'To',
-                                  prefixIcon: const Icon(Icons.calendar_today),
+                                  prefixIcon:
+                                      const Icon(Icons.calendar_today),
                                   border: InputBorder.none,
                                 ),
                               ),
@@ -188,6 +200,8 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                   ),
                 ],
               ),
+
+              // Leave Type
               _buildLabel("Leave Type"),
               Row(
                 children: [
@@ -212,14 +226,15 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                           decoration: const InputDecoration(
                             hintText: 'Choose Type',
                             border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 8),
                           ),
                           value: viewModel.selectedLeaveType,
                           items: viewModel.leaveTypes.map((String type) {
                             return DropdownMenuItem<String>(
                               value: type,
-                              child:
-                                  Text(type, overflow: TextOverflow.ellipsis),
+                              child: Text(type,
+                                  overflow: TextOverflow.ellipsis),
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
@@ -233,6 +248,8 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                   ),
                 ],
               ),
+
+              // Reason
               _buildLabel("Reason"),
               _buildFieldContainer(
                 child: TextField(
@@ -244,6 +261,8 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                   ),
                 ),
               ),
+
+              // Attachment
               _buildLabel("Attachment"),
               _buildFieldContainer(
                 child: TextField(
@@ -255,7 +274,10 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                   ),
                 ),
               ),
+
               const SizedBox(height: 24),
+
+              // Submit Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -268,7 +290,7 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                     ),
                   ),
                   onPressed: () {
-                    // TODO: Form submission
+                    // TODO: Handle submission logic
                   },
                   child: const Text('Submit'),
                 ),

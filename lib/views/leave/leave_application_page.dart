@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:ziya_user/views/common/bottom_navigation.dart';
 import 'package:ziya_user/views/home/home_screen.dart';
@@ -10,18 +9,14 @@ class LeaveApplicationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationLayout(
-      currentIndex: 2, 
+      currentIndex: 2,
       onTap: (index) {
-        if (index == 2) return; 
-
-        switch (index) {
-          case 0:
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const HomeScreen()),
-            );
-            break;
-          // Add more case if needed for other tabs
+        if (index == 2) return;
+        if (index == 0) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const HomeScreen()),
+          );
         }
       },
       body: const Column(
