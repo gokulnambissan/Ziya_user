@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -97,7 +98,7 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                   }
                 },
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 8),
               const Text(
                 "Apply for Leave",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -141,16 +142,15 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                         _buildLabel("From Date"),
                         _buildFieldContainer(
                           child: GestureDetector(
-                            onTap: () => viewModel.pickDate(
-                                context, true, setState),
+                            onTap: () =>
+                                viewModel.pickDate(context, true, setState),
                             child: AbsorbPointer(
                               child: TextField(
                                 decoration: InputDecoration(
                                   hintText: viewModel.fromDate != null
                                       ? "${viewModel.fromDate!.day}/${viewModel.fromDate!.month}/${viewModel.fromDate!.year}"
                                       : 'From',
-                                  prefixIcon:
-                                      const Icon(Icons.calendar_today),
+                                  prefixIcon: const Icon(Icons.calendar_today),
                                   border: InputBorder.none,
                                 ),
                               ),
@@ -179,16 +179,15 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                         _buildLabel("To Date"),
                         _buildFieldContainer(
                           child: GestureDetector(
-                            onTap: () => viewModel.pickDate(
-                                context, false, setState),
+                            onTap: () =>
+                                viewModel.pickDate(context, false, setState),
                             child: AbsorbPointer(
                               child: TextField(
                                 decoration: InputDecoration(
                                   hintText: viewModel.toDate != null
                                       ? "${viewModel.toDate!.day}/${viewModel.toDate!.month}/${viewModel.toDate!.year}"
                                       : 'To',
-                                  prefixIcon:
-                                      const Icon(Icons.calendar_today),
+                                  prefixIcon: const Icon(Icons.calendar_today),
                                   border: InputBorder.none,
                                 ),
                               ),
@@ -226,15 +225,14 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                           decoration: const InputDecoration(
                             hintText: 'Choose Type',
                             border: InputBorder.none,
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 8),
+                            contentPadding: EdgeInsets.symmetric(horizontal: 8),
                           ),
                           value: viewModel.selectedLeaveType,
                           items: viewModel.leaveTypes.map((String type) {
                             return DropdownMenuItem<String>(
                               value: type,
-                              child: Text(type,
-                                  overflow: TextOverflow.ellipsis),
+                              child:
+                                  Text(type, overflow: TextOverflow.ellipsis),
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
@@ -263,14 +261,36 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
               ),
 
               // Attachment
+              // Attachment (as tile)
               _buildLabel("Attachment"),
-              _buildFieldContainer(
-                child: TextField(
-                  controller: viewModel.attachmentController,
-                  decoration: const InputDecoration(
-                    hintText: 'Attachment (Optional)',
-                    prefixIcon: Icon(Icons.attach_file),
-                    border: InputBorder.none,
+              GestureDetector(
+                onTap: () async {
+                  final result = await FilePicker.platform.pickFiles();
+                  if (result != null && result.files.isNotEmpty) {
+                    setState(() {
+                      viewModel.attachmentController.text =
+                          result.files.single.name;
+                    });
+                  }
+                },
+                child: _buildFieldContainer(
+                  child: Row(
+                    children: [
+                      const Icon(Icons.attach_file, color: Colors.grey),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          viewModel.attachmentController.text.isNotEmpty
+                              ? viewModel.attachmentController.text
+                              : 'Select Attachment (Optional)',
+                          style: const TextStyle(
+                            color: Colors.black87,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const Icon(Icons.upload_file, color: Colors.grey),
+                    ],
                   ),
                 ),
               ),

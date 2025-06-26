@@ -31,19 +31,19 @@ class _BottomNavigationLayoutState extends State<BottomNavigationLayout> {
         onTap: widget.onTap,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_filled),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history),
+            icon: Icon(Icons.list_alt_rounded),
             label: 'History',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
+            icon: Icon(Icons.arrow_circle_right_rounded),
             label: 'Leave',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.person_2),
             label: 'Profile',
           ),
         ],

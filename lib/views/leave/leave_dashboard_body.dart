@@ -51,7 +51,6 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                     const SizedBox(height: 20),
                     DynamicHeightCard(child: _buildUpcomingLeave()),
                     const SizedBox(height: 12),
-                    _buildPendingApprovalCard(),
                     const SizedBox(height: 20),
                   ],
                 ),
@@ -73,7 +72,8 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                 child: StatCard(
                   title: "Total Leave Taken",
                   value: "${viewModel.totalLeaveTaken} days",
-                  subtitle: "${viewModel.remainingLeave} days remaining this year",
+                  subtitle:
+                      "${viewModel.remainingLeave} days remaining this year",
                   icon: Icons.add_chart_outlined,
                   showProgress: true,
                 ),
@@ -85,7 +85,8 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                 child: StatCard(
                   title: "Approval Rate",
                   value: "${viewModel.approvalRate}%",
-                  subtitle: "${viewModel.remainingLeave} days remaining this year",
+                  subtitle:
+                      "${viewModel.remainingLeave} days remaining this year",
                   icon: Icons.disc_full_outlined,
                 ),
               ),
@@ -100,7 +101,8 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                 child: StatCard(
                   title: "Pending Request",
                   value: "${viewModel.pendingRequests}",
-                  subtitle: "${viewModel.remainingLeave} days remaining this year",
+                  subtitle:
+                      "${viewModel.remainingLeave} days remaining this year",
                   icon: Icons.hourglass_empty,
                 ),
               ),
@@ -111,7 +113,8 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                 child: StatCard(
                   title: "Team Member on Leave",
                   value: "${viewModel.teamMembersOnLeave}",
-                  subtitle: "${viewModel.remainingLeave} days remaining this year",
+                  subtitle:
+                      "${viewModel.remainingLeave} days remaining this year",
                   icon: Icons.group_outlined,
                 ),
               ),
@@ -130,7 +133,8 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Leave Overview", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const Text("Leave Overview",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 6),
         const Text("Your leave distribution for the current year"),
         const SizedBox(height: 16),
@@ -148,15 +152,19 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                     getTitlesWidget: (value, _) {
                       final index = value.toInt();
                       if (index >= 0 && index < quarters.length) {
-                        return Text(quarters[index], style: const TextStyle(fontSize: 12));
+                        return Text(quarters[index],
+                            style: const TextStyle(fontSize: 12));
                       }
                       return const Text('');
                     },
                   ),
                 ),
-                leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                leftTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                topTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                rightTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
               ),
               gridData: FlGridData(show: false),
               borderData: FlBorderData(show: false),
@@ -197,7 +205,8 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Total days: ${viewModel.leavePerQuarter.reduce((a, b) => a + b)}"),
+            Text(
+                "Total days: ${viewModel.leavePerQuarter.reduce((a, b) => a + b)}"),
             Text("Remaining: ${viewModel.remainingLeave}"),
           ],
         ),
@@ -209,21 +218,24 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Upcoming Leave", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const Text("Upcoming Leave",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 6),
         const Text("Your scheduled time off"),
         const SizedBox(height: 10),
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Colors.grey.shade100,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(viewModel.upcomingLeaveTitle,
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text(
+                viewModel.upcomingLeaveTitle,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -235,7 +247,8 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: AppColors.grey),
@@ -244,32 +257,46 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                   )
                 ],
               ),
+              const SizedBox(height: 14),
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFF3E0), // Light orange background
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    Text(
+                      "Pending Approval",
+                      style: TextStyle(
+                        color: AppColors.coffee,
+                        fontSize: 16,
+                      ),
+                    ),
+                    
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.error_outline,
+                            color: AppColors.orange, size: 30),
+                        SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            "Your leave request is awaiting manager approval.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: AppColors.coffee),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildPendingApprovalCard() {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 255, 235, 204),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        children: const [
-          Icon(Icons.error_outline, color: AppColors.orange),
-          SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              "Your leave request is awaiting manager approval.",
-              style: TextStyle(color: Colors.orangeAccent),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

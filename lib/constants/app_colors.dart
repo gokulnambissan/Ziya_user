@@ -14,6 +14,7 @@ class AppColors {
   static const gradGreen=Color.fromARGB(255, 97, 250, 102);
   static const gradOrange=Color.fromARGB(255, 255, 137, 27);
   static const Color lightblue = Colors.lightBlue;
+  static const Color coffee = Color.fromARGB(255, 90, 63, 53);
 
 
 
