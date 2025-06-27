@@ -5,7 +5,9 @@ import 'package:ziya_user/constants/stat_card_wigets.dart';
 import 'package:ziya_user/view_models/leave_dashboard_view_model.dart';
 import 'package:ziya_user/views/common/top_navigation_bar.dart';
 import 'package:ziya_user/views/leave/leave_application_page.dart';
-import 'package:ziya_user/views/leave/leave_tab_header.dart';
+import 'package:ziya_user/views/leave/leave_tab_header_page.dart';
+
+
 
 class LeaveDashboardBody extends StatefulWidget {
   const LeaveDashboardBody({super.key});
@@ -21,19 +23,18 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: const TopNavigationBar(),
+      appBar: const TopNavigationBar(),          // ◀︎ Leaves  bar
       body: SafeArea(
         child: Column(
           children: [
-            LeaveTabHeader(
+            LeaveTabHeaderPage(
               selectedTab: 0,
-              onTabSelected: (index) {
-                if (index == 1) {
+              onTabSelected: (idx) {
+                if (idx == 1) {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const LeaveApplicationPage(),
-                    ),
+                        builder: (_) => const LeaveApplicationPage()),
                   );
                 }
               },
@@ -49,9 +50,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                     const SizedBox(height: 20),
                     DynamicHeightCard(child: _buildLeaveOverview()),
                     const SizedBox(height: 20),
-                    DynamicHeightCard(child: _buildUpcomingLeave()),
-                    const SizedBox(height: 12),
-                    const SizedBox(height: 20),
+                    _buildUpcomingLeave(),
                   ],
                 ),
               ),
@@ -61,6 +60,8 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
       ),
     );
   }
+
+  // ──────────────────  UI building helpers  ──────────────────
 
   Widget _buildGrid() {
     return Column(
@@ -74,28 +75,12 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                   value: "${viewModel.totalLeaveTaken} days",
                   subtitle:
                       "${viewModel.remainingLeave} days remaining this year",
-                  icon: Icons.add_chart_outlined,
+                  icon: Icons.article_outlined,
                   showProgress: true,
                 ),
               ),
             ),
             const SizedBox(width: 10),
-            Expanded(
-              child: FixedHeightCard(
-                child: StatCard(
-                  title: "Approval Rate",
-                  value: "${viewModel.approvalRate}%",
-                  subtitle:
-                      "${viewModel.remainingLeave} days remaining this year",
-                  icon: Icons.disc_full_outlined,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Row(
-          children: [
             Expanded(
               child: FixedHeightCard(
                 child: StatCard(
@@ -107,15 +92,59 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                 ),
               ),
             ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              child: FixedHeightCard(
+                child: StatCard(
+                  title: "Leave Balance",
+                  value: "${viewModel.leaveBalance} days",
+                  subtitle:
+                      "${viewModel.remainingLeave} days remaining this year",
+                  icon: Icons.date_range_outlined,
+                ),
+              ),
+            ),
             const SizedBox(width: 10),
             Expanded(
               child: FixedHeightCard(
                 child: StatCard(
-                  title: "Team Member on Leave",
-                  value: "${viewModel.teamMembersOnLeave}",
+                  title: "Approved Leaves",
+                  value: "${viewModel.approvedLeaves} days",
                   subtitle:
                       "${viewModel.remainingLeave} days remaining this year",
-                  icon: Icons.group_outlined,
+                  icon: Icons.check_circle_outline,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              child: FixedHeightCard(
+                child: StatCard(
+                  title: "Rejected Leaves",
+                  value: "${viewModel.rejectedLeaves} days",
+                  subtitle:
+                      "${viewModel.remainingLeave} days remaining this year ",
+                  icon: Icons.cancel_outlined,
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: FixedHeightCard(
+                child: StatCard(
+                  title: "Upcoming Leaves",
+                  value: "${viewModel.upcomingLeaves} days",
+                  subtitle:
+                      "${viewModel.remainingLeave} days remaining this year",
+                  icon: Icons.date_range_outlined,
                 ),
               ),
             ),
@@ -175,7 +204,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                     BarChartRodData(
                       toY: data[index].toDouble(),
                       width: 60,
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(2),
                       color: AppColors.blue,
                     ),
                   ],
@@ -215,88 +244,74 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
   }
 
   Widget _buildUpcomingLeave() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text("Upcoming Leave",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 6),
-        const Text("Your scheduled time off"),
-        const SizedBox(height: 10),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                viewModel.upcomingLeaveTitle,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+    Widget _cell(String text,
+        {TextStyle? style,
+        EdgeInsets padding =
+            const EdgeInsets.symmetric(vertical: 14, horizontal: 8)}) {
+      return Padding(
+        padding: padding,
+        child: Text(
+          text,
+          style: style ??
+              const TextStyle(
+                fontSize: 14,
+                color: AppColors.black,
               ),
-              const SizedBox(height: 6),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      viewModel.formattedLeaveDates,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppColors.grey),
-                    ),
-                    child: const Text("Pending"),
-                  )
-                ],
-              ),
-              const SizedBox(height: 14),
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFF3E0), // Light orange background
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text(
-                      "Pending Approval",
-                      style: TextStyle(
-                        color: AppColors.coffee,
-                        fontSize: 16,
-                      ),
-                    ),
-                    
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.error_outline,
-                            color: AppColors.orange, size: 30),
-                        SizedBox(width: 6),
-                        Expanded(
-                          child: Text(
-                            "Your leave request is awaiting manager approval.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: AppColors.coffee),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
         ),
-      ],
+      );
+    }
+
+    final headerRow = TableRow(children: [
+      _cell('Date',
+          style: const TextStyle(
+              color: AppColors.blue, fontWeight: FontWeight.w600)),
+      _cell('Leave Type',
+          style: const TextStyle(
+              color: AppColors.blue, fontWeight: FontWeight.w600)),
+      _cell('Status',
+          style: const TextStyle(
+              color: AppColors.blue, fontWeight: FontWeight.w600)),
+      _cell('Reason',
+          style: const TextStyle(
+              color: AppColors.blue, fontWeight: FontWeight.w600)),
+    ]);
+
+    final dataRows = viewModel.leaveRecords.map<TableRow>((record) {
+      final statusStyle = TextStyle(
+        color: switch (record['status']) {
+          'Approved' => AppColors.green,
+          'Pending' => AppColors.pendingColor,
+          'Rejected' => AppColors.red,
+          _ => AppColors.black,
+        },
+      );
+
+      return TableRow(children: [
+        _cell(record['date']!),
+        _cell(record['type']!),
+        _cell(record['status']!, style: statusStyle),
+        _cell(record['reason']!),
+      ]);
+    }).toList();
+
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.borderColor),
+      ),
+      child: Table(
+        border: TableBorder.all(color: AppColors.borderColor),
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        columnWidths: const {
+          0: FlexColumnWidth(1.6),
+          1: FlexColumnWidth(1.6),
+          2: FlexColumnWidth(1.6),
+          3: FlexColumnWidth(1.6),
+        },
+        children: [headerRow, ...dataRows],
+      ),
     );
   }
 }

@@ -19,10 +19,7 @@ class DashboardGrid extends StatelessWidget {
           icon: Icons.logout_sharp,
           label: AppStrings.leave,
           color: AppColors.orange),
-      DashboardItemViewModel(
-          icon: Icons.pie_chart,
-          label: AppStrings.orangetatus,
-          color: AppColors.dashboardPurple),
+    
       DashboardItemViewModel(
           icon: Icons.checklist_sharp,
           label: AppStrings.holidayList,

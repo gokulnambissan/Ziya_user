@@ -4,15 +4,14 @@ import 'package:ziya_user/views/home/home_screen.dart';
 import 'leave_application_page_body.dart';
 
 class LeaveApplicationPage extends StatelessWidget {
-  const LeaveApplicationPage({Key? key}) : super(key: key);
+  const LeaveApplicationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationLayout(
       currentIndex: 2,
-      onTap: (index) {
-        if (index == 2) return;
-        if (index == 0) {
+      onTap: (idx) {
+        if (idx == 0) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (_) => const HomeScreen()),

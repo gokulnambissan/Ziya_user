@@ -114,7 +114,7 @@ class HeaderSection extends StatelessWidget {
 
             // Logo positioned at the edge
             Positioned(
-              right: MediaQuery.of(context).size.width * 0.26 - 40,
+              right: MediaQuery.of(context).size.width * 0.26 - 35,
               top: 10,
               child: ClipOval(
                 child: Container(
@@ -122,8 +122,8 @@ class HeaderSection extends StatelessWidget {
                   padding: const EdgeInsets.all(2),
                   child: Image.asset(
                     'assets/logo.jpg',
-                    height: 55,
-                    width: 55,
+                    height: 50,
+                    width: 50,
                     fit: BoxFit.cover,
                   ),
                 ),

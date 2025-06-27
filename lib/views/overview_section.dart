@@ -23,9 +23,9 @@ class _OverviewSectionState extends State<OverviewSection> {
           borderRadius: BorderRadius.circular(12),
           boxShadow: const [
             BoxShadow(
-              color: AppColors.black,
-              blurRadius: 4,
-              offset: Offset(0, 2),
+              color: AppColors.grey,
+              blurRadius: 0.5,
+              offset: Offset(0, 1),
             ),
           ],
         ),

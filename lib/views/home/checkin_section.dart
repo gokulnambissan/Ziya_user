@@ -31,7 +31,7 @@ class CheckInSection extends StatelessWidget {
         color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [
-          BoxShadow(color: AppColors.black, blurRadius: 4, offset: Offset(0, 2)),
+          BoxShadow(color: AppColors.grey, blurRadius: .5, offset: Offset(0, 1)),
         ],
       ),
       child: Column(

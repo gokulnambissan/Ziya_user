@@ -15,6 +15,8 @@ class AppColors {
   static const gradOrange=Color.fromARGB(255, 255, 137, 27);
   static const Color lightblue = Colors.lightBlue;
   static const Color coffee = Color.fromARGB(255, 90, 63, 53);
+  static const borderColor   = Color(0xFFDFE2E5);   // light‑grey grid
+  static const pendingColor  = Color(0xFFF5DD60);   // yellow
 
 
 
