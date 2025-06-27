@@ -29,7 +29,7 @@ class CheckInSection extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
         boxShadow: const [
           BoxShadow(color: AppColors.grey, blurRadius: .5, offset: Offset(0, 1)),
         ],

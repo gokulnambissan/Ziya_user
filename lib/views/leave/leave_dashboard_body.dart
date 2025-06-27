@@ -142,6 +142,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                 child: StatCard(
                   title: "Upcoming Leaves",
                   value: "${viewModel.upcomingLeaves} days",
+                  extraText: "Scheduled ( 25 June )",
                   subtitle:
                       "${viewModel.remainingLeave} days remaining this year",
                   icon: Icons.date_range_outlined,

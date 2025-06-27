@@ -10,17 +10,17 @@ class FixedHeightCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
+      height: 130,
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(6),
         boxShadow: const [
           BoxShadow(
             color: Color(0xFFEDEDED),
-            blurRadius: 8,
-            offset: Offset(0, 4),
+            blurRadius: 0.5,
+            offset: Offset(0, 1),
           ),
         ],
       ),
@@ -42,12 +42,12 @@ class DynamicHeightCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(6),
         boxShadow: const [
           BoxShadow(
             color: Color(0xFFEDEDED),
-            blurRadius: 8,
-            offset: Offset(0, 4),
+            blurRadius: 0.5,
+            offset: Offset(0, 1),
           ),
         ],
       ),
@@ -62,6 +62,7 @@ class StatCard extends StatelessWidget {
   final String value;
   final String subtitle;
   final IconData icon;
+  final String? extraText; 
   final bool showProgress;
 
   const StatCard({
@@ -70,6 +71,7 @@ class StatCard extends StatelessWidget {
     required this.value,
     required this.subtitle,
     required this.icon,
+    this.extraText,
     this.showProgress = false,
   });
 
@@ -81,19 +83,52 @@ class StatCard extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(child: Text(title, style: const TextStyle(fontSize: 12))),
-            Icon(icon, size: 30, color: AppColors.blue),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(fontSize: 12),
+              ),
+            ),
+            Icon(icon, size: 30, color: AppColors.dashboardTeal),
           ],
         ),
-        Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        Text(subtitle, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            if (extraText != null) 
+              Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Text(
+                  extraText!,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: AppColors.black,
+                  ),
+                ),
+              ),
+          ],
+        ),
+        Text(
+          subtitle,
+          style: const TextStyle(
+            fontSize: 10,
+            color: AppColors.black,
+          ),
+        ),
         if (showProgress)
           Padding(
             padding: const EdgeInsets.only(top: 6),
             child: LinearProgressIndicator(
               value: 0.7,
               backgroundColor: Colors.grey.shade300,
-              color: Colors.blue,
+              color: AppColors.blue,
               minHeight: 5,
             ),
           ),

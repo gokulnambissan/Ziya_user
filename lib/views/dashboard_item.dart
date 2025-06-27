@@ -1,7 +1,8 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:ziya_user/view_models/dashboard_item_viewmodel.dart';
 import '../constants/app_colors.dart';
-
 
 class DashboardItem extends StatelessWidget {
   final DashboardItemViewModel viewModel;
@@ -25,14 +26,24 @@ class DashboardItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(viewModel.icon, size: 32, color: viewModel.color),
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: viewModel.color.withOpacity(0.1), 
+            ),
+            child: Icon(
+              viewModel.icon,
+              size: 30,
+              color: viewModel.color, 
+            ),
+          ),
           const SizedBox(height: 8),
           Text(
             viewModel.label,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
+              fontSize: 14,
               color: AppColors.black,
             ),
           ),
