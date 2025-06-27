@@ -10,7 +10,7 @@ class TasksPage extends StatelessWidget {
     final tasks = viewModel.tasks;
 
     return Column(
-      children: List.generate(tasks.length * 2 - 1, (i) {
+      children: List.generate(tasks.length * 2 , (i) {
         if (i.isOdd) {
           return viewModel.buildDottedDivider();
         } else {

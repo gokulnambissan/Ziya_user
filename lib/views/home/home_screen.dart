@@ -59,9 +59,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<IconData> pageIcons = [
     Icons.calendar_today,
-    Icons.access_time,
-    Icons.pending_actions,
-    Icons.summarize,
+    Icons.hourglass_empty_sharp,
+    Icons.sync_sharp,
+    Icons.event_note_sharp,
   ];
 
   void updateUI() => setState(() {});

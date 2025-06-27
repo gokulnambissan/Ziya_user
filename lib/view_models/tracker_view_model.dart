@@ -90,8 +90,6 @@ class TrackerViewModel {
             ],
           ),
           const SizedBox(height: 8),
-
-          /// Status (replaced Row+Scroll with Wrap to fix overflow)
           Wrap(
             spacing: 10,
             runSpacing: 4,

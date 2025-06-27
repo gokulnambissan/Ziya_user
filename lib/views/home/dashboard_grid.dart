@@ -12,11 +12,11 @@ class DashboardGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final items = [
       DashboardItemViewModel(
-          icon: Icons.calendar_today,
+          icon: Icons.calendar_month_sharp,
           label: AppStrings.attendance,
           color: AppColors.green),
       DashboardItemViewModel(
-          icon: Icons.exit_to_app,
+          icon: Icons.logout_sharp,
           label: AppStrings.leave,
           color: AppColors.orange),
       DashboardItemViewModel(
@@ -24,11 +24,11 @@ class DashboardGrid extends StatelessWidget {
           label: AppStrings.orangetatus,
           color: AppColors.dashboardPurple),
       DashboardItemViewModel(
-          icon: Icons.check_box,
+          icon: Icons.checklist_sharp,
           label: AppStrings.holidayList,
           color: AppColors.blue),
       DashboardItemViewModel(
-          icon: Icons.money,
+          icon: Icons.receipt_long_sharp,
           label: AppStrings.payslip,
           color: AppColors.dashboardTeal),
       DashboardItemViewModel(
@@ -50,7 +50,6 @@ class DashboardGrid extends StatelessWidget {
       if (viewModel.label == AppStrings.leave) {
         Navigator.push(
           context,
-         // MaterialPageRoute(builder: (context) => const LeaveApplicationPage()),
           MaterialPageRoute(builder: (context) => const LeaveDashboardPage()),
         );
       }

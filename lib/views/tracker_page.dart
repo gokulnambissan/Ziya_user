@@ -21,7 +21,7 @@ class _TrackerPageState extends State<TrackerPage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        children: List.generate(viewModel.tasks.length * 2 - 1, (i) {
+        children: List.generate(viewModel.tasks.length * 2 , (i) {
           if (i.isOdd) {
             return viewModel.buildDottedDivider();
           } else {
