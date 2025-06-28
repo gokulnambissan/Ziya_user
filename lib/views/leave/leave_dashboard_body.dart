@@ -61,7 +61,6 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
     );
   }
 
-  // ──────────────────  UI building helpers  ──────────────────
 
   Widget _buildGrid() {
     return Column(

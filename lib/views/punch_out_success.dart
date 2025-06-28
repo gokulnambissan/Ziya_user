@@ -33,7 +33,7 @@ class _PunchOutSuccessPageState extends State<PunchOutSuccessPage> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [AppColors.white, AppColors.gradOrange],
+            colors: [AppColors.white, Color.fromARGB(255, 255, 155, 61)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),

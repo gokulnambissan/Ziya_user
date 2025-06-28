@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,11 +20,21 @@ class SignUpViewModel {
   }
 
   Future<Map<String, dynamic>> signUp() async {
-    try {
-      final name = fullNameController.text.trim();
-      final email = emailController.text.trim();
-      final password = passwordController.text.trim();
+    final name = fullNameController.text.trim();
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
 
+    // Validate the password conditions
+    validatePassword(password);
+    if (!has8Chars || !hasNumber || !hasLetter) {
+      return {
+        'success': false,
+        // 'message':
+        //     'Password must be at least 8 characters long, contain at least one number and one letter.'
+      };
+    }
+
+    try {
       final userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 

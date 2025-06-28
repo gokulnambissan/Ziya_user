@@ -29,32 +29,32 @@ class TasksViewModel {
 
   Widget buildTaskCard(TaskDefinition task) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(14),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(task.title,
               style: const TextStyle(
-                  color: Colors.green,
+                  color: Color.fromARGB(255, 30, 245, 37),
                   fontSize: 16,
                   fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
           Row(
             children: [
               const Icon(Icons.circle, size: 6),
-              const SizedBox(width: 6),
+              const SizedBox(width: 5),
               Expanded(
                 child: Text(task.description,
                     style: const TextStyle(color: Colors.black87)),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerRight,
             child: ElevatedButton(

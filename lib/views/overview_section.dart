@@ -13,46 +13,47 @@ class _OverviewSectionState extends State<OverviewSection> {
   final OverviewSectionViewModel viewModel = OverviewSectionViewModel();
 
   Widget buildCard(OverviewItem item) {
-    return Expanded(
-      child: Container(
-        height: 100,
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: const [
-            BoxShadow(
-              color: AppColors.grey,
-              blurRadius: 0.5,
-              offset: Offset(0, 1),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              item.number,
-              style: TextStyle(
-                color: item.color,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              item.label,
-              style: const TextStyle(
-                color: AppColors.grey,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
+  return Expanded(
+    child: Container(
+      height: 100,
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.grey,
+            blurRadius: 0.5,
+            offset: Offset(0, 1),
+          ),
+        ],
       ),
-    );
-  }
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            item.label,
+            style: TextStyle(
+              color: item.color, 
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            item.number,
+            style: TextStyle(
+              color: item.color,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {

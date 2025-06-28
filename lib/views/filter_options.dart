@@ -19,35 +19,68 @@ class _FilterOptionsState extends State<FilterOptions> {
       children: [
         Row(
           children: [
-            Radio<bool>(
-              value: true,
-              groupValue: widget.viewModel.isDeadlineSelected,
-              onChanged: (bool? value) {
-                if (value != null) {
-                  setState(() {
-                    widget.viewModel.onChanged(value);
-                  });
-                }
+            const Text(
+              "Sort by : ",
+              style: TextStyle(
+                fontSize: 13,
+              ),
+            ),
+            const SizedBox(width: 16),
+
+            _buildCustomRadio(
+              isSelected: true, // Always active for demo
+              onTap: () {
+                setState(() {
+                  widget.viewModel.onChanged(true);
+                });
               },
             ),
+            const SizedBox(width: 6),
             const Text(AppStrings.deadline),
-            const SizedBox(width: 10),
-            Radio<bool>(
-              value: true,
-              groupValue: widget.viewModel.isDeadlineSelected,
-              onChanged: (bool? value) {
-                if (value != null) {
-                  setState(() {
-                    widget.viewModel.onChanged(value);
-                  });
-                }
+
+            const SizedBox(width: 35),
+
+            _buildCustomRadio(
+              isSelected: true, // Always active for demo
+              onTap: () {
+                setState(() {
+                  widget.viewModel.onChanged(false);
+                });
               },
             ),
+            const SizedBox(width: 4),
             const Text(AppStrings.project),
           ],
         ),
-        const Icon(Icons.filter_list),
+        const Icon(Icons.format_list_bulleted_rounded),
       ],
+    );
+  }
+
+  Widget _buildCustomRadio({
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width:16,
+        height: 16,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color.fromARGB(255, 218, 218, 218), // Light grey background
+        ),
+        child: Center(
+          child: Container(
+            width: 8,
+            height: 8,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isSelected ? Colors.black : Colors.transparent, // Always black for demo
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

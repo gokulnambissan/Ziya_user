@@ -20,26 +20,28 @@ class PunchDialogs {
           return AlertDialog(
             backgroundColor: AppColors.white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(5),
             ),
             insetPadding:
-                const EdgeInsets.symmetric(horizontal: 30, vertical: 24),
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
             contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
             title: Stack(
               alignment: Alignment.center,
               children: [
                 Text(
-                  isPunchIn ? "Select Punch In Type" : "",
+                  isPunchIn ? "Select Punch - In Type" : "",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                     color: AppColors.black,
+                    letterSpacing: 1,
                   ),
                   textAlign: TextAlign.center,
                 ),
+                const SizedBox(width: 10),
                 Positioned(
-                  right: 0,
+                  right: -10,
                   child: IconButton(
                     icon: const Icon(Icons.close),
                     onPressed: () => Navigator.pop(context),
@@ -70,7 +72,8 @@ class PunchDialogs {
                     "Are you working from home or on site today?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
                       color: AppColors.black,
                     ),
                   ),
@@ -96,13 +99,13 @@ class PunchDialogs {
                                 isSelected ? AppColors.blue : AppColors.white,
                             foregroundColor:
                                 isSelected ? AppColors.white : AppColors.black,
-                            elevation: 4,
+                            elevation: 6,
                             // ignore: deprecated_member_use
-                            shadowColor: AppColors.grey.withOpacity(0.4),
+                            shadowColor: AppColors.white.withOpacity(0.4),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            padding: const EdgeInsets.symmetric(vertical: 8),
                             minimumSize: const Size(0, 50),
                           ),
                           child: Text(

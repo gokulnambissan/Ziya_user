@@ -21,7 +21,7 @@ class NavigationTabs extends StatelessWidget {
     double tabWidth = screenWidth / 3; // show exactly 3 tabs
 
     return SizedBox(
-      height: 40,
+      height: 35,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: pageTitles.length,
@@ -42,6 +42,7 @@ class NavigationTabs extends StatelessWidget {
                   pageTitles[index],
                   style: TextStyle(
                     color: isSelected ? AppColors.white : AppColors.black,
+                    fontSize: 12,
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
@@ -51,8 +52,8 @@ class NavigationTabs extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   elevation: isSelected ? 2 : 1,
-                  side: BorderSide(color: AppColors.grey),
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  side: BorderSide(color: const Color.fromARGB(255, 231, 229, 229)),
+                  padding: const EdgeInsets.symmetric(horizontal: 1.0),
                 ),
               ),
             ),

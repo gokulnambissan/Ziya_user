@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ziya_user/constants/app_colors.dart';
 import 'package:ziya_user/view_models/tasks_view_model.dart';
 
 class OngoingPendingTask {
@@ -24,9 +25,9 @@ class OngoingPendingTask {
 class OngoingPendingViewModel {
   final List<OngoingPendingTask> tasks = [
     OngoingPendingTask(
-      title: "UI/UX Design",
+      title: "UI/UX Design ",
       progress: "80% Done",
-      status: "Ongoing",
+      status: "Ongoing Task",
       statusColor: Colors.blue,
       priority: "High",
       priorityColor: Colors.red,
@@ -35,7 +36,7 @@ class OngoingPendingViewModel {
     OngoingPendingTask(
       title: "Responsive Design",
       progress: "45% Done",
-      status: "Pending",
+      status: "Pending Task",
       statusColor: Colors.orange,
       priority: "Medium",
       priorityColor: Colors.orange,
@@ -44,7 +45,7 @@ class OngoingPendingViewModel {
     OngoingPendingTask(
       title: "Backend Development",
       progress: "75% Done",
-      status: "Ongoing",
+      status: "Ongoing Task",
       statusColor: Colors.blue,
       priority: "High",
       priorityColor: Colors.red,
@@ -53,7 +54,7 @@ class OngoingPendingViewModel {
     OngoingPendingTask(
       title: "Server Side Logic",
       progress: "75% Done",
-      status: "Pending",
+      status: "Pending Task",
       statusColor: Colors.orange,
       priority: "Low",
       priorityColor: Colors.grey,
@@ -63,12 +64,10 @@ class OngoingPendingViewModel {
 
   Widget buildTaskCard(OngoingPendingTask task) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 12),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +75,7 @@ class OngoingPendingViewModel {
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(task.title,
                 style: const TextStyle(
-                    color: Colors.green,
+                    color: Color.fromARGB(255, 30, 245, 37),
                     fontSize: 16,
                     fontWeight: FontWeight.bold)),
             Text(task.progress, style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -88,15 +87,41 @@ class OngoingPendingViewModel {
                 style: TextStyle(color: task.statusColor, fontWeight: FontWeight.bold)),
           ]),
           const SizedBox(height: 6),
-          const Text("Assigned Date: 12-05-2025"),
-          const Text("Due Date: 12-06-2025"),
+          Row(
+  children: const [
+    Text(
+      "Assigned Date: ",
+      style: TextStyle(fontSize: 14,color: AppColors.black),
+    ),
+    Text(
+      "12-05-2025",
+      style: TextStyle(fontSize: 12,color: AppColors.black), 
+    ),
+  ],
+),
+
+SizedBox(height: 4),
+
+Row(
+  children: const [
+    Text(
+      "Due Date: ",
+      style: TextStyle(fontSize: 14,color: AppColors.black),
+    ),
+    Text(
+      "12-06-2025",
+      style: TextStyle(fontSize: 12,color: AppColors.black), 
+    ),
+  ],
+),
+
           const SizedBox(height: 6),
           Row(children: [
             const Text("Priority: "),
             Text(task.priority,
                 style: TextStyle(color: task.priorityColor, fontWeight: FontWeight.bold)),
           ]),
-          const SizedBox(height: 12),
+          const SizedBox(height: 4),
           Align(
             alignment: Alignment.centerRight,
             child: ElevatedButton(
@@ -104,7 +129,7 @@ class OngoingPendingViewModel {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
               child: Text(task.buttonLabel),

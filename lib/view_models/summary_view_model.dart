@@ -36,12 +36,12 @@ class SummaryViewModel {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: const [
           BoxShadow(
-            color: AppColors.black,
-            blurRadius: 6,
-            offset: Offset(2, 2),
+            color: AppColors.grey,
+            blurRadius: 0.4,
+            offset: Offset(0,0),
           ),
         ],
       ),
@@ -61,20 +61,19 @@ class SummaryViewModel {
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 13,
-                    fontWeight: FontWeight.w600,
                     color: AppColors.black,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           Center(
             child: Text(
               item.value,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: AppColors.black,
               ),

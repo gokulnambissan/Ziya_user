@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:ziya_user/constants/app_colors.dart';
 import 'package:ziya_user/constants/app_strings.dart';
@@ -70,7 +72,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(height: 16),
                 Center(
                   child: Text(AppStrings.appName,
-                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: AppColors.blue)),
+                      style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.blue)),
                 ),
                 const SizedBox(height: 4),
                 Center(
@@ -79,7 +84,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 32),
                 const Text(AppStrings.fullName,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.black)),
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.black)),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: viewModel.fullNameController,
@@ -93,7 +101,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 16),
                 const Text(AppStrings.email,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.black)),
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.black)),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: viewModel.emailController,
@@ -104,7 +115,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) return 'Enter email';
-                    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$').hasMatch(value)) {
+                    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$')
+                        .hasMatch(value)) {
                       return 'Enter valid email';
                     }
                     return null;
@@ -112,7 +124,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 16),
                 const Text(AppStrings.password,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.black)),
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.black)),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: viewModel.passwordController,
@@ -131,7 +146,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           : Icons.visibility_off),
                       onPressed: () {
                         setState(() {
-                          viewModel.isPasswordVisible = !viewModel.isPasswordVisible;
+                          viewModel.isPasswordVisible =
+                              !viewModel.isPasswordVisible;
                         });
                       },
                     ),
@@ -142,33 +158,51 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Row(
                   children: [
                     Icon(viewModel.has8Chars ? Icons.check : Icons.close,
-                        color: viewModel.has8Chars ? AppColors.green : AppColors.red, size: 18),
+                        color: viewModel.has8Chars
+                            ? AppColors.green
+                            : AppColors.red,
+                        size: 18),
                     const SizedBox(width: 8),
                     Text(AppStrings.passwordMin,
                         style: TextStyle(
-                            color: viewModel.has8Chars ? AppColors.green : AppColors.red, fontSize: 14)),
+                            color: viewModel.has8Chars
+                                ? AppColors.green
+                                : AppColors.red,
+                            fontSize: 14)),
                   ],
                 ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
                     Icon(viewModel.hasNumber ? Icons.check : Icons.close,
-                        color: viewModel.hasNumber ? AppColors.green : AppColors.red, size: 18),
+                        color: viewModel.hasNumber
+                            ? AppColors.green
+                            : AppColors.red,
+                        size: 18),
                     const SizedBox(width: 8),
                     Text(AppStrings.passwordNumber,
                         style: TextStyle(
-                            color: viewModel.hasNumber ? AppColors.green : AppColors.red, fontSize: 14)),
+                            color: viewModel.hasNumber
+                                ? AppColors.green
+                                : AppColors.red,
+                            fontSize: 14)),
                   ],
                 ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
                     Icon(viewModel.hasLetter ? Icons.check : Icons.close,
-                        color: viewModel.hasLetter ? AppColors.green : AppColors.red, size: 18),
+                        color: viewModel.hasLetter
+                            ? AppColors.green
+                            : AppColors.red,
+                        size: 18),
                     const SizedBox(width: 8),
                     Text(AppStrings.passwordLetter,
                         style: TextStyle(
-                            color: viewModel.hasLetter ? AppColors.green : AppColors.red, fontSize: 14)),
+                            color: viewModel.hasLetter
+                                ? AppColors.green
+                                : AppColors.red,
+                            fontSize: 14)),
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -185,7 +219,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       foregroundColor: AppColors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text(AppStrings.signUp, style: TextStyle(fontSize: 16)),
+                    child: const Text(AppStrings.signUp,
+                        style: TextStyle(fontSize: 16)),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -196,11 +231,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     GestureDetector(
                       onTap: () => Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const LoginScreen()),
+                        MaterialPageRoute(
+                            builder: (_) => const LoginScreen()),
                       ),
                       child: const Text(AppStrings.login,
                           style: TextStyle(
-                              color: AppColors.blue, fontWeight: FontWeight.bold)),
+                              color: AppColors.blue,
+                              fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
@@ -212,3 +249,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
+

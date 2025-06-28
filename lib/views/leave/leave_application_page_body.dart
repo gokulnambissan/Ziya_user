@@ -197,8 +197,7 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                         ),
                       ],
                     ),
-
-                    // Leave Type
+     // Leave Type
                     _label('Leave Type'),
                     Row(
                       children: [

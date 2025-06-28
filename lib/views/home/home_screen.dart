@@ -192,7 +192,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   switch (index) {
     case 0:
-      // Already on Home, do nothing
       break;
     case 2:
       Navigator.pushReplacement(
@@ -253,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 10),
             FilterOptions(
               viewModel: FilterOptionsViewModel(
                 isDeadlineSelected: isDeadlineSelected,
@@ -264,9 +263,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
             pages[currentPage],
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
             const Text(
               AppStrings.dashboard,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

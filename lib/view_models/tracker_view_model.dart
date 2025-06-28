@@ -52,177 +52,198 @@ class TrackerViewModel {
   }
 
   Widget buildTaskCard({
-  required TaskModel task,
-  required int index,
-  required String? selectedAction,
-  required Function(String) onActionChanged,
-}) {
-  return Container(
-    margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      border: Border.all(color: AppColors.grey),
-      borderRadius: BorderRadius.circular(16),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        /// Header
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                task.title,
-                style: const TextStyle(
-                  color: AppColors.green,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+    required TaskModel task,
+    required int index,
+    required String? selectedAction,
+    required Function(String) onActionChanged,
+  }) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// Header
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  task.title,
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 30, 245, 37),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.ellipsis,
               ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              "Due: ${task.dueDate}",
-              style: const TextStyle(fontSize: 13, color: AppColors.grey),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 10,
-          runSpacing: 4,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            const Text("Status: "),
-            ...List.generate(statuses.length, (i) {
-              final isActive = task.statusIndex == i;
-              final statusColor = isActive
-                  ? (statuses[i] == "Overdue" ? AppColors.red : AppColors.green)
-                  : Colors.grey;
+              const SizedBox(width: 8),
+              Text(
+                "Due: ${task.dueDate}",
+                style: const TextStyle(fontSize: 13, color: AppColors.black),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 6,
+            runSpacing: 3,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              const Text("Status: "),
+              ...List.generate(statuses.length, (i) {
+                final isActive = task.statusIndex == i;
+                final statusColor = isActive
+                    ? (statuses[i] == "Overdue"
+                        ? AppColors.red
+                        : AppColors.green)
+                    : Colors.grey;
+
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.circle, size: 10, color: statusColor),
+                    const SizedBox(width: 4),
+                    Text(
+                      statuses[i],
+                      style: TextStyle(fontSize: 10, color: AppColors.black),
+                    ),
+                  ],
+                );
+              }),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          /// Progress & Metadata
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                "Progress : ",
+                style: TextStyle(
+                  fontSize: 12,
+                ),
+              ),
+              CircularPercentIndicator(
+                radius: 15.0,
+                lineWidth: 5.0,
+                percent: task.progress,
+                center: Text(
+                  "${(task.progress * 100).toInt()}%",
+                  style: TextStyle(
+                    fontSize: 8,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                progressColor: AppColors.green,
+                backgroundColor: AppColors.grey,
+              ),
+              Row(
+                children: [
+                  const Icon(Icons.timer, size: 18, color: AppColors.orange),
+                  const SizedBox(width: 5),
+                  Text(
+                    "${task.daysRemaining} days \nremaining",
+                    style:
+                        const TextStyle(color: AppColors.orange, fontSize: 13),
+                  ),
+                ],
+              ),
+              Row(
+                children: const [
+                  Icon(Icons.create_outlined, size: 20, color: AppColors.black),
+                  SizedBox(width: 4),
+                  Text(
+                    "Assigned By\n(optional)",
+                    style: TextStyle(fontSize: 12, color: AppColors.black),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          /// Priority
+          Row(
+            children: [
+              const Text("Priority: "),
+              const SizedBox(width: 10),
+              ...["Low", "Medium", "High"].map((level) {
+                final isCurrent = task.priority == level;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Text(
+                    level,
+                    style: TextStyle(
+                      color:
+                          isCurrent ? priorityColors[level] : AppColors.black,
+                    ),
+                  ),
+                );
+              }).toList(),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 60,
+            children: actions.map((action) {
+              Color dotColor = AppColors.black;
+
+              if (task.title == "Responsive Design" && action == "Complete") {
+                dotColor = AppColors.green;
+              } else if (task.title == "UI/UX Design Implementation" &&
+                  action == "Update") {
+                dotColor = AppColors.green;
+              } else if (task.title == "Back-end Development" &&
+                  action == "Start") {
+                dotColor = AppColors.green;
+              }
 
               return Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.circle, size: 10, color: statusColor),
-                  const SizedBox(width: 4),
-                  Text(
-                    statuses[i],
-                    style: TextStyle(fontSize: 12, color: statusColor),
-                  ),
-                ],
-              );
-            }),
-          ],
-        ),
-        const SizedBox(height: 12),
-
-        /// Progress & Metadata
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            CircularPercentIndicator(
-              radius: 30.0,
-              lineWidth: 6.0,
-              percent: task.progress,
-              center: Text("${(task.progress * 100).toInt()}%"),
-              progressColor: AppColors.green,
-              backgroundColor: AppColors.grey,
-            ),
-            Row(
-              children: [
-                const Icon(Icons.timer, size: 20, color: AppColors.orange),
-                const SizedBox(width: 4),
-                Text(
-                  "${task.daysRemaining} days remaining",
-                  style: const TextStyle(color: AppColors.orange, fontSize: 13),
-                ),
-              ],
-            ),
-            Row(
-              children: const [
-                Icon(Icons.person_outline, size: 20, color: AppColors.black),
-                SizedBox(width: 4),
-                Text(
-                  "Assigned By\n(optional)",
-                  style: TextStyle(fontSize: 12, color: AppColors.black),
-                ),
-              ],
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-
-        /// Priority
-        Row(
-          children: [
-            const Text("Priority: "),
-            const SizedBox(width: 8),
-            ...["Low", "Medium", "High"].map((level) {
-              final isCurrent = task.priority == level;
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  level,
-                  style: TextStyle(
-                    color: isCurrent ? priorityColors[level] : AppColors.grey,
-                  ),
-                ),
-              );
-            }).toList(),
-          ],
-        ),
-        const SizedBox(height: 12),
-
-        /// Actions (Custom Always-On Dots)
-        Wrap(
-          alignment: WrapAlignment.center,
-          spacing: 50,
-          children: actions.map((action) {
-            Color dotColor = AppColors.black;
-
-            // 🟢 Apply your special rules here:
-            if (task.title == "Responsive Design" && action == "Complete") {
-              dotColor = AppColors.green;
-            } else if (task.title == "UI/UX Design Implementation" && action == "Update") {
-              dotColor = AppColors.green;
-            } else if (task.title == "Back-end Development" && action == "Start") {
-              dotColor = AppColors.green;
-            }
-
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: dotColor, width: 2),
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: dotColor,
+                  Container(
+                    width: 16,
+                    height: 16,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromARGB(
+                          255, 218, 218, 218), // light grey background
+                      // ✅ Border removed!
+                    ),
+                    child: Center(
+                      child: Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: dotColor, // inner dot
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 4),
-                Text(action, style: const TextStyle(color: AppColors.black)),
-              ],
-            );
-          }).toList(),
-        ),
-      ],
-    ),
-  );
-}
-
+                  const SizedBox(width: 4),
+                  Text(
+                    action,
+                    style: const TextStyle(
+                      color: AppColors.black,
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+              );
+            }).toList(),
+          )
+        ],
+      ),
+    );
+  }
 
   Widget buildDottedDivider() {
     return Padding(
@@ -240,7 +261,7 @@ class TrackerViewModel {
                 width: dotWidth,
                 height: 1,
                 child: DecoratedBox(
-                  decoration: BoxDecoration(color: AppColors.grey),
+                  decoration: BoxDecoration(color: AppColors.black),
                 ),
               );
             }),

@@ -89,7 +89,7 @@ class StatCard extends StatelessWidget {
                 style: const TextStyle(fontSize: 12),
               ),
             ),
-            Icon(icon, size: 30, color: AppColors.dashboardTeal),
+            Icon(icon, size: 30, color: AppColors.blue),
           ],
         ),
         Column(
@@ -108,7 +108,7 @@ class StatCard extends StatelessWidget {
                 child: Text(
                   extraText!,
                   style: const TextStyle(
-                    fontSize: 10,
+                    fontSize: 8,
                     color: AppColors.black,
                   ),
                 ),
