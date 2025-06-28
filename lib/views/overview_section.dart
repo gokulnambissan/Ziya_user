@@ -15,12 +15,12 @@ class _OverviewSectionState extends State<OverviewSection> {
   Widget buildCard(OverviewItem item) {
   return Expanded(
     child: Container(
-      height: 100,
+      height: 90,
       margin: const EdgeInsets.symmetric(horizontal: 4),
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: const [
           BoxShadow(
             color: AppColors.grey,

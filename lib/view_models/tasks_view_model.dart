@@ -50,7 +50,7 @@ class TasksViewModel {
               const SizedBox(width: 5),
               Expanded(
                 child: Text(task.description,
-                    style: const TextStyle(color: Colors.black87)),
+                    style: const TextStyle(color: Colors.black87,fontSize: 12)),
               ),
             ],
           ),
@@ -62,6 +62,8 @@ class TasksViewModel {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
+                padding: EdgeInsets.all(10),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
               ),
               child: const Text("Start"),
             ),

@@ -120,12 +120,12 @@ class TrackerViewModel {
 
           /// Progress & Metadata
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
                 "Progress : ",
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                 ),
               ),
               CircularPercentIndicator(
@@ -142,6 +142,7 @@ class TrackerViewModel {
                 progressColor: AppColors.green,
                 backgroundColor: AppColors.grey,
               ),
+              const SizedBox(width: 30),
               Row(
                 children: [
                   const Icon(Icons.timer, size: 18, color: AppColors.orange),
@@ -153,13 +154,14 @@ class TrackerViewModel {
                   ),
                 ],
               ),
+              const SizedBox(width: 30),
               Row(
                 children: const [
                   Icon(Icons.create_outlined, size: 20, color: AppColors.black),
-                  SizedBox(width: 4),
+                  SizedBox(width: 5),
                   Text(
                     "Assigned By\n(optional)",
-                    style: TextStyle(fontSize: 12, color: AppColors.black),
+                    style: TextStyle(fontSize: 10, color: AppColors.black),
                   ),
                 ],
               ),

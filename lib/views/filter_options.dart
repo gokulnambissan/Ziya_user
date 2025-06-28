@@ -28,7 +28,7 @@ class _FilterOptionsState extends State<FilterOptions> {
             const SizedBox(width: 16),
 
             _buildCustomRadio(
-              isSelected: true, // Always active for demo
+              isSelected: true, 
               onTap: () {
                 setState(() {
                   widget.viewModel.onChanged(true);
@@ -41,7 +41,7 @@ class _FilterOptionsState extends State<FilterOptions> {
             const SizedBox(width: 35),
 
             _buildCustomRadio(
-              isSelected: true, // Always active for demo
+              isSelected: true,
               onTap: () {
                 setState(() {
                   widget.viewModel.onChanged(false);
@@ -64,16 +64,16 @@ class _FilterOptionsState extends State<FilterOptions> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width:16,
-        height: 16,
+        width:14,
+        height: 14,
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: Color.fromARGB(255, 218, 218, 218), // Light grey background
         ),
         child: Center(
           child: Container(
-            width: 8,
-            height: 8,
+            width: 6,
+            height: 6,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: isSelected ? Colors.black : Colors.transparent, // Always black for demo
