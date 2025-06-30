@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:ziya_user/constants/app_colors.dart';
 
 class TopNavigationBar extends StatelessWidget implements PreferredSizeWidget {
+  final GlobalKey searchBarKey;
+  final String searchHint;
   final VoidCallback onSearchTap;
 
-  const TopNavigationBar({super.key, required this.onSearchTap});
+  const TopNavigationBar({
+    super.key,
+    required this.onSearchTap,
+    required this.searchBarKey,
+    this.searchHint = 'Search',
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(50);
@@ -14,11 +21,7 @@ class TopNavigationBar extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       decoration: const BoxDecoration(
         color: AppColors.white,
-        border: Border(
-          bottom: BorderSide(
-            color: AppColors.grey,
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: AppColors.grey)),
       ),
       child: AppBar(
         backgroundColor: AppColors.white,
@@ -27,13 +30,11 @@ class TopNavigationBar extends StatelessWidget implements PreferredSizeWidget {
         titleSpacing: 16,
         title: Row(
           children: [
-            Image.asset(
-              'assets/logo.jpg',
-              height: 45,
-            ),
+            Image.asset('assets/logo.jpg', height: 45),
             const SizedBox(width: 12),
             Expanded(
               child: GestureDetector(
+                key: searchBarKey,
                 onTap: onSearchTap,
                 child: Container(
                   height: 34,
@@ -49,14 +50,15 @@ class TopNavigationBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                     ],
                   ),
-                  child: const Row(
+                  child: Row(
                     children: [
-                      SizedBox(width: 8),
-                      Icon(Icons.search, size: 20),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 8),
+                      const Icon(Icons.search, size: 20),
+                      const SizedBox(width: 4),
                       Text(
-                        'Search',
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                        searchHint,
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                     ],
                   ),
@@ -71,11 +73,8 @@ class TopNavigationBar extends StatelessWidget implements PreferredSizeWidget {
                 color: AppColors.blue,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
-                Icons.notifications,
-                color: Colors.white,
-                size: 18,
-              ),
+              child: const Icon(Icons.notifications,
+                  color: Colors.white, size: 18),
             ),
             const SizedBox(width: 12),
             const CircleAvatar(

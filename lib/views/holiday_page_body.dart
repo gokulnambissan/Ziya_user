@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ziya_user/constants/app_colors.dart';
 import 'package:ziya_user/constants/stat_card_wigets.dart';
 import 'package:ziya_user/view_models/holiday_view_model.dart';
-import 'package:ziya_user/views/common/search_overlay.dart'  // ← helper import
+import 'package:ziya_user/views/common/search_overlay.dart'
     show showSearchOverlay;
 import 'package:ziya_user/views/common/top_navigation_bar.dart';
 
@@ -15,14 +15,27 @@ class HolidayPageBody extends StatefulWidget {
 
 class _HolidayPageBodyState extends State<HolidayPageBody> {
   final HolidayViewModel viewModel = HolidayViewModel();
+  final GlobalKey _searchKey = GlobalKey();
+  String _searchHint = 'Search';
 
-  void _handleSearchTap() => showSearchOverlay(context);
+  void _handleSearchTap() {
+    setState(() => _searchHint = '05 May 2025');
+    showSearchOverlay(
+      context,
+      searchBarKey: _searchKey,
+      afterClosed: () => setState(() => _searchHint = 'Search'),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: TopNavigationBar(onSearchTap: _handleSearchTap),
+      appBar: TopNavigationBar(
+        onSearchTap: _handleSearchTap,
+        searchBarKey: _searchKey,
+        searchHint: _searchHint,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(

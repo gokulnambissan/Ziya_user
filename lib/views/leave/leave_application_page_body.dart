@@ -1,10 +1,10 @@
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:ziya_user/constants/app_colors.dart';
 import 'package:ziya_user/view_models/leave_application_view_model.dart';
-import 'package:ziya_user/views/common/search_overlay.dart'   // ← helper lives here
+import 'package:ziya_user/views/common/search_overlay.dart'
     show showSearchOverlay;
 import 'package:ziya_user/views/common/top_navigation_bar.dart';
 import 'package:ziya_user/views/leave/leave_dashboard_page.dart';
@@ -21,7 +21,17 @@ class LeaveApplicationPageBody extends StatefulWidget {
 class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
   final LeaveApplicationViewModel viewModel = LeaveApplicationViewModel();
 
-  void _handleSearchTap() => showSearchOverlay(context);
+  final GlobalKey _searchKey = GlobalKey();
+  String _searchHint = 'Search';
+
+  void _handleSearchTap() {
+    setState(() => _searchHint = '05 May 2025');
+    showSearchOverlay(
+      context,
+      searchBarKey: _searchKey,
+      afterClosed: () => setState(() => _searchHint = 'Search'),
+    );
+  }
 
   String? userName;
   final currentUser = FirebaseAuth.instance.currentUser;
@@ -47,53 +57,51 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
     }
   }
 
-
-  Widget _label(String text) => Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 4),
-        child: Text(text, style: const TextStyle(fontWeight: FontWeight.w600)),
-      );
-
+  Widget _label(String t) => Padding(
+      padding: const EdgeInsets.only(top: 8, bottom: 4),
+      child: Text(t, style: const TextStyle(fontWeight: FontWeight.w600)));
   Widget _field({required Widget child}) => Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              spreadRadius: 1,
-              blurRadius: 6,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: child,
-      );
-
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 1,
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: child);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: TopNavigationBar(onSearchTap: _handleSearchTap),
+      appBar: TopNavigationBar(
+        onSearchTap: _handleSearchTap,
+        searchBarKey: _searchKey,
+        searchHint: _searchHint,
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            // top tabs
             LeaveTabHeaderPage(
               selectedTab: 1,
               onTabSelected: (idx) {
                 if (idx == 0) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (_) => const LeaveDashboardPage()),
+                    MaterialPageRoute(
+                        builder: (_) => const LeaveDashboardPage()),
                   );
                 }
               },
             ),
             const SizedBox(height: 8),
-            // form
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
@@ -101,8 +109,8 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('Apply for Leave',
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 24),
 
                     // ── Employee name ──
@@ -236,8 +244,8 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                                               overflow: TextOverflow.ellipsis),
                                         ))
                                     .toList(),
-                                onChanged: (newVal) =>
-                                    setState(() => viewModel.selectedLeaveType = newVal!),
+                                onChanged: (newVal) => setState(() =>
+                                    viewModel.selectedLeaveType = newVal!),
                               ),
                             ),
                           ),
