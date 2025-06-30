@@ -6,6 +6,7 @@ class AppColors {
   static const Color red = Colors.red;
   static const Color white = Colors.white;
   static const Color black = Colors.black;
+  static const Color yellow=Colors.yellow;
   static const Color grey = Color.fromARGB(255, 204, 196, 196);
   static const Color orange = Colors.orange;
   static const Color dashboardPurple = Colors.purple;

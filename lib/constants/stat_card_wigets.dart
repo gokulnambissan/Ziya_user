@@ -62,7 +62,7 @@ class StatCard extends StatelessWidget {
   final String value;
   final String subtitle;
   final IconData icon;
-  final String? extraText; 
+  final String? extraText;
   final bool showProgress;
 
   const StatCard({
@@ -102,7 +102,7 @@ class StatCard extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            if (extraText != null) 
+            if (extraText != null)
               Padding(
                 padding: const EdgeInsets.only(top: 2),
                 child: Text(
@@ -130,6 +130,126 @@ class StatCard extends StatelessWidget {
               backgroundColor: Colors.grey.shade300,
               color: AppColors.blue,
               minHeight: 5,
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class FixedHolidayCard extends StatelessWidget {
+  final Widget child;
+
+  const FixedHolidayCard({
+    super.key,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 140, // fixed height
+      padding: const EdgeInsets.all(12), // slightly smaller padding to help fit
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(6),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0xFFEDEDED),
+            blurRadius: 0.5,
+            offset: Offset(0, 1),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+}
+
+class HolidayCard extends StatelessWidget {
+  final String title;
+  final String value;
+  final String subtitle;
+  final IconData icon;
+  final String? extraText;
+  final bool showProgress;
+
+  const HolidayCard({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.subtitle,
+    required this.icon,
+    this.extraText,
+    this.showProgress = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(fontSize: 14),
+              ),
+            ),
+            Icon(
+              icon,
+              size: 22, 
+              color: AppColors.blue,
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            if (extraText != null)
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 6,bottom: 5),
+                  child: Text(
+                    extraText!,
+                    style: const TextStyle(
+                      fontSize: 9,
+                      color: AppColors.black,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Text(
+          subtitle,
+          style: const TextStyle(
+            fontSize: 9,
+            color: AppColors.black,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        if (showProgress)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: LinearProgressIndicator(
+              value: 0.7,
+              backgroundColor: Colors.grey.shade300,
+              color: AppColors.blue,
+              minHeight: 4,
             ),
           ),
       ],

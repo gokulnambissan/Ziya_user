@@ -12,7 +12,7 @@ class LoginViewModel {
     try {
       final email = emailController.text.trim();
       final password = passwordController.text.trim();
-
+      FirebaseAuth.instance.setLanguageCode('en');
       final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,

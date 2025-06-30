@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_user/view_models/dashboard_item_viewmodel.dart';
 import 'package:ziya_user/views/dashboard_item.dart';
+import 'package:ziya_user/views/holiday_page.dart';
 import 'package:ziya_user/views/leave/leave_dashboard_page.dart';
 import '../../constants/app_strings.dart';
 import '../../constants/app_colors.dart';
@@ -48,6 +49,12 @@ class DashboardGrid extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const LeaveDashboardPage()),
+        );
+      }
+      else if (viewModel.label == AppStrings.holidayList) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HolidayPage()),
         );
       }
     },

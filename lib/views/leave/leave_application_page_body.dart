@@ -1,16 +1,14 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ziya_user/constants/app_colors.dart';
 import 'package:ziya_user/view_models/leave_application_view_model.dart';
+import 'package:ziya_user/views/common/search_overlay.dart'   // ← helper lives here
+    show showSearchOverlay;
 import 'package:ziya_user/views/common/top_navigation_bar.dart';
 import 'package:ziya_user/views/leave/leave_dashboard_page.dart';
 import 'package:ziya_user/views/leave/leave_tab_header_page.dart';
-
-
 
 class LeaveApplicationPageBody extends StatefulWidget {
   const LeaveApplicationPageBody({super.key});
@@ -23,28 +21,32 @@ class LeaveApplicationPageBody extends StatefulWidget {
 class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
   final LeaveApplicationViewModel viewModel = LeaveApplicationViewModel();
 
+  void _handleSearchTap() => showSearchOverlay(context);
+
   String? userName;
   final currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
     super.initState();
-    fetchUserName();
+    _fetchUserName();
   }
 
-  Future<void> fetchUserName() async {
+  Future<void> _fetchUserName() async {
     try {
       if (currentUser != null) {
         final doc = await FirebaseFirestore.instance
             .collection('users')
             .doc(currentUser!.uid)
             .get();
-        setState(() => userName = doc.data()?['name'] ?? currentUser!.email);
+        setState(() =>
+            userName = doc.data()?['name']?.toString() ?? currentUser!.email);
       }
-    } catch (e) {
+    } catch (_) {
       setState(() => userName = currentUser?.email ?? 'Unknown');
     }
   }
+
 
   Widget _label(String text) => Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 4),
@@ -69,27 +71,29 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
         child: child,
       );
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: const TopNavigationBar(),            // ◀︎ Leaves  bar
+      appBar: TopNavigationBar(onSearchTap: _handleSearchTap),
       body: SafeArea(
         child: Column(
           children: [
+            // top tabs
             LeaveTabHeaderPage(
               selectedTab: 1,
               onTabSelected: (idx) {
                 if (idx == 0) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(
-                        builder: (_) => const LeaveDashboardPage()),
+                    MaterialPageRoute(builder: (_) => const LeaveDashboardPage()),
                   );
                 }
               },
             ),
             const SizedBox(height: 8),
+            // form
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
@@ -97,17 +101,16 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('Apply for Leave',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
+                        style:
+                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 24),
 
-                    // Employee Name
+                    // ── Employee name ──
                     _label('Employee Name'),
                     _field(
                       child: TextField(
                         enabled: false,
-                        controller:
-                            TextEditingController(text: userName ?? ''),
+                        controller: TextEditingController(text: userName ?? ''),
                         decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.person),
                           border: InputBorder.none,
@@ -115,7 +118,7 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                       ),
                     ),
 
-                    // Employee ID
+                    // ── Employee ID ──
                     _label('Employee ID'),
                     _field(
                       child: const TextField(
@@ -128,7 +131,7 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                       ),
                     ),
 
-                    // From / To
+                    // ── Date range ──
                     Row(
                       children: [
                         Expanded(
@@ -197,7 +200,8 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                         ),
                       ],
                     ),
-     // Leave Type
+
+                    // ── Leave type ──
                     _label('Leave Type'),
                     Row(
                       children: [
@@ -225,17 +229,15 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                                       EdgeInsets.symmetric(horizontal: 8),
                                 ),
                                 value: viewModel.selectedLeaveType,
-                                items:
-                                    viewModel.leaveTypes.map((String type) {
-                                  return DropdownMenuItem<String>(
-                                    value: type,
-                                    child: Text(type,
-                                        overflow: TextOverflow.ellipsis),
-                                  );
-                                }).toList(),
-                                onChanged: (newValue) =>
-                                    setState(() => viewModel
-                                        .selectedLeaveType = newValue!),
+                                items: viewModel.leaveTypes
+                                    .map((type) => DropdownMenuItem<String>(
+                                          value: type,
+                                          child: Text(type,
+                                              overflow: TextOverflow.ellipsis),
+                                        ))
+                                    .toList(),
+                                onChanged: (newVal) =>
+                                    setState(() => viewModel.selectedLeaveType = newVal!),
                               ),
                             ),
                           ),
@@ -243,7 +245,7 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                       ],
                     ),
 
-                    // Reason
+                    // ── Reason ──
                     _label('Reason'),
                     _field(
                       child: TextField(
@@ -256,7 +258,7 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                       ),
                     ),
 
-                    // Attachment
+                    // ── Attachment ──
                     _label('Attachment'),
                     GestureDetector(
                       onTap: () async {
@@ -287,7 +289,7 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
 
                     const SizedBox(height: 24),
 
-                    // Submit
+                    // ── Submit button ──
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(

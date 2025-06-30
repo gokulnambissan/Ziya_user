@@ -3,11 +3,11 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:ziya_user/constants/app_colors.dart';
 import 'package:ziya_user/constants/stat_card_wigets.dart';
 import 'package:ziya_user/view_models/leave_dashboard_view_model.dart';
+import 'package:ziya_user/views/common/search_overlay.dart'  // ← contains showSearchOverlay()
+    show showSearchOverlay;
 import 'package:ziya_user/views/common/top_navigation_bar.dart';
 import 'package:ziya_user/views/leave/leave_application_page.dart';
 import 'package:ziya_user/views/leave/leave_tab_header_page.dart';
-
-
 
 class LeaveDashboardBody extends StatefulWidget {
   const LeaveDashboardBody({super.key});
@@ -19,11 +19,13 @@ class LeaveDashboardBody extends StatefulWidget {
 class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
   final LeaveDashboardViewModel viewModel = LeaveDashboardViewModel();
 
+  void _handleSearchTap() => showSearchOverlay(context);   // ← single call
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: const TopNavigationBar(),          // ◀︎ Leaves  bar
+      appBar: TopNavigationBar(onSearchTap: _handleSearchTap),
       body: SafeArea(
         child: Column(
           children: [
@@ -33,8 +35,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                 if (idx == 1) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(
-                        builder: (_) => const LeaveApplicationPage()),
+                    MaterialPageRoute(builder: (_) => const LeaveApplicationPage()),
                   );
                 }
               },
@@ -60,7 +61,6 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
       ),
     );
   }
-
 
   Widget _buildGrid() {
     return Column(
