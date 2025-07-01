@@ -77,7 +77,7 @@ class AppStrings {
   static const String passwordNumber = 'At least 1 number';
   static const String passwordLetter = 'At least 1 letter (A-Z or a-z)';
   static const String signUpPrompt = 'Create an account and enjoy all services';
-  static const String haveAccount = 'Have account? ';
+  static const String haveAccount = 'Already Have account? ';
   static const String login = 'Log In';
 
 

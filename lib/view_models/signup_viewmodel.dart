@@ -7,6 +7,7 @@ class SignUpViewModel {
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final mobileController= TextEditingController();
 
   bool isPasswordVisible = false;
   bool has8Chars = false;
@@ -23,6 +24,7 @@ class SignUpViewModel {
     final name = fullNameController.text.trim();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
+    final mobile=mobileController.text.trim();
 
     // Validate the password conditions
     validatePassword(password);
@@ -44,6 +46,7 @@ class SignUpViewModel {
         'uid': uid,
         'name': name,
         'email': email,
+        'mobile':mobile,
         'createdAt': Timestamp.now(),
       });
 

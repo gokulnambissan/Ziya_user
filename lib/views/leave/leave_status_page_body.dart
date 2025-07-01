@@ -228,16 +228,16 @@ Widget _buildCalendar() {
             Color? bgColor;
             switch (status) {
               case LeaveStatus.approved:
-                bgColor = AppColors.green;
+                bgColor = const Color.fromARGB(255, 29, 211, 35);
                 break;
               case LeaveStatus.pending:
-                bgColor = AppColors.pendingColor;
+                bgColor = const Color.fromARGB(255, 250, 215, 38);
                 break;
               case LeaveStatus.rejected:
-                bgColor = AppColors.red;
+                bgColor = const Color.fromARGB(255, 247, 38, 23);
                 break;
               case LeaveStatus.upcoming:
-                bgColor = AppColors.blue;
+                bgColor = const Color.fromARGB(255, 20, 148, 252);
                 break;
               default:
                 bgColor = AppColors.white;
