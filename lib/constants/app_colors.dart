@@ -18,7 +18,8 @@ class AppColors {
   static const Color coffee = Color.fromARGB(255, 90, 63, 53);
   static const borderColor   = Color(0xFFDFE2E5);   
   static const pendingColor  = Color(0xFFF5DD60);   
-  static const lightGrey  = Color.fromARGB(255, 187, 186, 186);   
+  static const lightGrey  = Color.fromARGB(255, 187, 186, 186); 
+
 
 
 

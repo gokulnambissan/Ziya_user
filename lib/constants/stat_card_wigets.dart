@@ -89,7 +89,7 @@ class StatCard extends StatelessWidget {
                 style: const TextStyle(fontSize: 12),
               ),
             ),
-            Icon(icon, size: 30, color: AppColors.blue),
+            Icon(icon, size: 25, color: AppColors.blue),
           ],
         ),
         Column(

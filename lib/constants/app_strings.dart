@@ -16,9 +16,12 @@ class AppStrings {
   static const String taskTracker = "Task Tracker";
   static const String ongoingPending = "Ongoing & Pending";
   static const String workSummary = "Work Summary";
-
+  static const approved = 'approved';
+  static const pending  = 'pending';
+  static const rejected = 'rejected';
+  static const upcoming = 'upcoming';
   static const String attendance = "Attendance";
-  static const String orangetatus = "Leave Status";
+  static const String leaveStatus = "Leave Status";
   static const String holidayList = "Holiday List";
   static const String payslip = "Payslip";
   static const String reports = "Reports";
@@ -76,6 +79,7 @@ class AppStrings {
   static const String signUpPrompt = 'Create an account and enjoy all services';
   static const String haveAccount = 'Have account? ';
   static const String login = 'Log In';
+
 
   // Misc
   static const assignedByOptional = "Assigned By\n(optional)";

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_user/view_models/dashboard_item_viewmodel.dart';
+import 'package:ziya_user/views/attendance_page.dart';
 import 'package:ziya_user/views/dashboard_item.dart';
 import 'package:ziya_user/views/holiday_page.dart';
 import 'package:ziya_user/views/leave/leave_dashboard_page.dart';
+import 'package:ziya_user/views/leave/leave_status_page.dart';
 import '../../constants/app_strings.dart';
 import '../../constants/app_colors.dart';
 
@@ -20,7 +22,10 @@ class DashboardGrid extends StatelessWidget {
           icon: Icons.logout_sharp,
           label: AppStrings.leave,
           color: AppColors.orange),
-    
+      DashboardItemViewModel(
+          icon: Icons.pie_chart_outline,
+          label: AppStrings.leaveStatus,
+          color: AppColors.dashboardPurple),
       DashboardItemViewModel(
           icon: Icons.checklist_sharp,
           label: AppStrings.holidayList,
@@ -55,6 +60,18 @@ class DashboardGrid extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const HolidayPage()),
+        );
+      }
+      else if (viewModel.label == AppStrings.attendance) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AttendancePage()),
+        );
+      }
+      else if (viewModel.label == AppStrings.leaveStatus) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LeaveStatusPage()),
         );
       }
     },

@@ -121,7 +121,7 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
   Widget _buildCalendar() {
     final daysInJune = List<int>.generate(30, (index) => index + 1);
     final weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
+    
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -133,22 +133,22 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Weekday headers
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: weekDays
-                .map((day) => Expanded(
-                      child: Center(
-                        child: Text(
-                          day,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: day == 'Sun' ? Colors.red : AppColors.black,
-                          ),
+           Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: weekDays
+              .map((day) => Expanded(
+                    child: Center(
+                      child: Text(
+                        day,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: day == 'Sun' ? Colors.red : AppColors.black,
                         ),
                       ),
-                    ))
-                .toList(),
-          ),
+                    ),
+                  ))
+              .toList(),
+        ),
           const SizedBox(height: 14),
           const Text(
             "June 2025",
@@ -175,7 +175,7 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
               } else if (viewModel.companyHolidays.contains(day)) {
                 bgColor = AppColors.blue;
               }
-
+              final isSunday = index % 7 == 0;
               return Container(
                 height: 60,
                 width: 60,
@@ -187,7 +187,11 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
                 alignment: Alignment.center,
                 child: Text(
                   '$day',
-                  style: const TextStyle(fontSize: 16),
+                  style: TextStyle(
+                    fontSize: 16,
+                  color: bgColor == null
+                      ? (isSunday ? Colors.red : AppColors.black)
+                      : AppColors.white,),
                 ),
               );
             },
