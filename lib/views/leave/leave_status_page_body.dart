@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:ziya_user/constants/app_colors.dart';
 import 'package:ziya_user/constants/leave_calender_constants.dart';
 import 'package:ziya_user/constants/stat_card_wigets.dart';
@@ -24,9 +23,6 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
   final GlobalKey _searchKey = GlobalKey();
   String _searchHint = 'Search';
 
-  DateTime _focusedDay   = DateTime.now();
-  DateTime? _selectedDay;
-  CalendarFormat _calendarFormat = CalendarFormat.month;
 
   void _handleSearchTap() {
     setState(() => _searchHint = '05 May 2025');

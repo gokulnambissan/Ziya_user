@@ -13,10 +13,9 @@ extension LeaveStatusLabel on LeaveStatus {
 
 const Map<String, LeaveStatus> kDemoLeaveStatus = {
   '2025-06-03': LeaveStatus.approved,
-  '2025-06-11': LeaveStatus.pending,
   '2025-06-12': LeaveStatus.approved,
   '2025-06-16': LeaveStatus.rejected,
   '2025-06-17': LeaveStatus.rejected,
-  '2025-06-20': LeaveStatus.upcoming,
-  '2025-06-25': LeaveStatus.approved,
+  '2025-06-20': LeaveStatus.pending,
+  '2025-06-25': LeaveStatus.upcoming,
 };
