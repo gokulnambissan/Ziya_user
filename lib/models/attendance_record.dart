@@ -7,21 +7,24 @@ class AttendanceRecord {
   final DayType    type;
   final TimeOfDay? checkIn;
   final TimeOfDay? checkOut;
-  final String     workMode;
-  final String     verification;
-  final String?    notes;
   final double?    lat;
   final double?    lon;
+  final String?    notes;
+  final String     workMode;
+  final String     verificationType;
 
   const AttendanceRecord({
     required this.date,
     required this.type,
     this.checkIn,
     this.checkOut,
-    required this.workMode,
-    required this.verification,
-    this.notes,
     this.lat,
     this.lon,
+    this.notes,
+    this.workMode        = 'Office',
+    this.verificationType = 'Selfie',
   });
+
+  double get locationLat => lat ?? 0;
+  double get locationLng => lon ?? 0;
 }

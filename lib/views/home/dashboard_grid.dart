@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_user/view_models/dashboard_item_viewmodel.dart';
-import 'package:ziya_user/views/attendance_page.dart';
+import 'package:ziya_user/views/attendance/attendance_page.dart';
 import 'package:ziya_user/views/dashboard_item.dart';
 import 'package:ziya_user/views/holiday_page.dart';
 import 'package:ziya_user/views/leave/leave_dashboard_page.dart';

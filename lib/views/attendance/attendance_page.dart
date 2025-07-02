@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ziya_user/views/attendance_page_body.dart';
+import 'package:ziya_user/views/attendance/attendance_page_body.dart';
 import 'package:ziya_user/views/common/bottom_navigation.dart';
 import 'package:ziya_user/views/home/home_screen.dart';
 
