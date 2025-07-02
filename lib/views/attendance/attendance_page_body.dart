@@ -1,15 +1,13 @@
-// attendance_page_body.dart
-
 import 'package:flutter/material.dart';
-import 'package:ziya_user/constants/app_colors.dart';
-import 'package:ziya_user/views/attendance/attendance_detail_section.dart';
-import 'package:ziya_user/view_models/attendance_view_model.dart';
-import 'package:ziya_user/views/common/search_overlay.dart'
-    show showSearchOverlay;
-import 'package:ziya_user/views/common/top_navigation_bar.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:intl/intl.dart';
+import 'package:ziya_user/view_models/attendance_view_model.dart';
+import 'package:ziya_user/views/common/search_overlay.dart';
+import 'package:ziya_user/views/common/top_navigation_bar.dart';
+import '../../constants/app_colors.dart';
+import '../../models/attendance_record.dart';
+import '../../views/attendance/attendance_detail_section.dart';
 
 class AttendancePageBody extends StatefulWidget {
   const AttendancePageBody({super.key});
@@ -19,13 +17,12 @@ class AttendancePageBody extends StatefulWidget {
 }
 
 class _AttendancePageBodyState extends State<AttendancePageBody> {
-  final AttendanceOverviewViewModel _overviewVM = AttendanceOverviewViewModel();
-  final AttendanceViewModel _vm = AttendanceViewModel();
-  final GlobalKey _searchKey = GlobalKey();
-  String _searchHint = 'Search';
+  final AttendanceViewModel _attendanceVM = AttendanceViewModel();
 
   DateTime _focusedDay = DateTime(2025, 6, 18);
   DateTime? _selectedDay;
+  final GlobalKey _searchKey = GlobalKey();
+  String _searchHint = 'Search';
 
   void _handleSearchTap() {
     setState(() => _searchHint = '05 May 2025');
@@ -48,42 +45,40 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _backLabel(context),
-            const SizedBox(height: 12),
-            _monthHeaderContainer(),
-            const SizedBox(height: 8),
-            _calendarContainer(),
-            const SizedBox(height: 16),
-            _overviewAndPieContainer(),
-            const SizedBox(height: 16),
-            const AttendanceDetailSection(), // ✅ Uses the new split widget
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _backLabel(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: Row(
-          children: [
-            const Icon(Icons.arrow_back_ios_new,
-                size: 18, color: AppColors.black),
-            const SizedBox(width: 6),
-            const Text(
-              'Attendance',
-              style: TextStyle(
-                fontSize: 18,
-                color: AppColors.black,
-                fontWeight: FontWeight.w500,
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Icon(
+                    Icons.arrow_back_ios,
+                    size: 16,
+                    color: AppColors.black,
+                  ),
+                  SizedBox(width: 4),
+                  Text(
+                    'Attendance Calendar',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.black,
+                    ),
+                  ),
+                ],
               ),
             ),
+            const SizedBox(height: 16),
+            _monthHeaderContainer(),
+            const SizedBox(height: 12),
+            _calendarContainer(),
+            const SizedBox(height: 20),
+            _overviewContainer(),
+            const SizedBox(height: 20),
+            const AttendanceDetailSection(),
           ],
         ),
       ),
@@ -92,119 +87,230 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
 
   Widget _monthHeaderContainer() {
     return Container(
-      height: 40,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 14),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.lightGrey),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back_ios, size: 16),
-            onPressed: () {
-              setState(() {
-                _focusedDay = DateTime(_focusedDay.year, _focusedDay.month - 1);
-              });
-            },
-          ),
-          Text(
-            DateFormat('MMMM yyyy').format(_focusedDay),
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          ),
-          IconButton(
-            icon: const Icon(Icons.arrow_forward_ios, size: 16),
-            onPressed: () {
-              setState(() {
-                _focusedDay = DateTime(_focusedDay.year, _focusedDay.month + 1);
-              });
-            },
-          ),
-        ],
-      ),
+      child: _monthHeader(),
+    );
+  }
+
+  Widget _monthHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          icon: const Icon(Icons.arrow_back_ios, size: 16),
+          onPressed: () {
+            setState(() {
+              _focusedDay = DateTime(_focusedDay.year, _focusedDay.month - 1);
+            });
+          },
+        ),
+        Text(
+          DateFormat('MMMM yyyy').format(_focusedDay),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
+        IconButton(
+          icon: const Icon(Icons.arrow_forward_ios, size: 16),
+          onPressed: () {
+            setState(() {
+              _focusedDay = DateTime(_focusedDay.year, _focusedDay.month + 1);
+            });
+          },
+        ),
+      ],
     );
   }
 
   Widget _calendarContainer() {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.lightGrey),
       ),
-      child: TableCalendar(
-        firstDay: DateTime.utc(2020, 1, 1),
-        lastDay: DateTime.utc(2030, 12, 31),
-        focusedDay: _focusedDay,
-        selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
-        startingDayOfWeek: StartingDayOfWeek.sunday,
-        calendarFormat: CalendarFormat.month,
-        headerVisible: false,
-        onDaySelected: (selected, focused) {
-          setState(() {
-            _selectedDay = selected;
-            _focusedDay = focused;
-          });
-        },
-        daysOfWeekStyle: DaysOfWeekStyle(
-          weekendStyle: const TextStyle(
-            color: AppColors.blue,
-            fontWeight: FontWeight.bold,
-          ),
-          weekdayStyle: const TextStyle(
-            color: AppColors.blue,
-            fontWeight: FontWeight.bold,
-          ),
-          dowTextFormatter: (date, locale) =>
-              DateFormat.E(locale).format(date).toUpperCase(),
+      child: _calendar(),
+    );
+  }
+
+  Widget _calendar() {
+    return TableCalendar(
+      firstDay: DateTime.utc(2020, 1, 1),
+      lastDay: DateTime.utc(2030, 12, 31),
+      focusedDay: _focusedDay,
+      selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
+      startingDayOfWeek: StartingDayOfWeek.sunday,
+      calendarFormat: CalendarFormat.month,
+      headerVisible: false,
+      onDaySelected: (selected, focused) {
+        setState(() {
+          _selectedDay = selected;
+          _focusedDay = focused;
+        });
+      },
+      daysOfWeekHeight: 30,
+      daysOfWeekStyle: const DaysOfWeekStyle(
+        weekdayStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: AppColors.blue,
+          fontSize: 12,
         ),
-        calendarBuilders: CalendarBuilders(
-          defaultBuilder: _dayBuilder,
-          selectedBuilder: _selectedBuilder,
+        weekendStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: AppColors.blue,
+          fontSize: 12,
+        ),
+      ),
+      calendarBuilders: CalendarBuilders(
+        dowBuilder: (context, day) {
+          final text = DateFormat.E().format(day).toUpperCase();
+          return Center(
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: AppColors.blue,
+                fontSize: 12,
+              ),
+            ),
+          );
+        },
+        defaultBuilder: _dayBuilder,
+        selectedBuilder: _selectedBuilder,
+      ),
+    );
+  }
+
+  Widget _dayBuilder(BuildContext context, DateTime day, DateTime _) {
+    final rec = _attendanceVM.recordFor(day);
+
+    if (rec != null) {
+      Color color;
+      switch (rec.type) {
+        case DayType.present:
+          color = const Color.fromARGB(255, 25, 221, 32);
+          break;
+        case DayType.absent:
+          color = const Color.fromARGB(255, 252, 25, 9);
+          break;
+        case DayType.leave:
+          color = const Color.fromARGB(255, 255, 136, 0);
+          break;
+        case DayType.late:
+          color = const Color.fromARGB(255, 85, 176, 250);
+          break;
+      }
+
+      return Center(
+        child: Container(
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            '${day.day}',
+            style: const TextStyle(
+              color: AppColors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Center(
+      child: Text(
+        '${day.day}',
+        style: const TextStyle(
+          color: AppColors.black,
+          fontSize: 14,
         ),
       ),
     );
   }
 
-  Widget _overviewAndPieContainer() {
+  Widget _selectedBuilder(BuildContext context, DateTime day, DateTime _) {
+    return Center(
+      child: Container(
+        width: 30,
+        height: 30,
+        decoration: const BoxDecoration(
+          color: AppColors.black,
+          shape: BoxShape.circle,
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          '${day.day}',
+          style: const TextStyle(
+            color: AppColors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _overviewContainer() {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.lightGrey),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _overviewRow(),
-          const SizedBox(height: 16),
-          _pieChartContainer(),
+          const Text('Overview',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 8),
+          Row(
+            children: _attendanceVM.overviewItems
+                .map((item) => Expanded(child: _overviewCard(item)))
+                .toList(),
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            height: 250,
+            child: PieChart(
+              PieChartData(
+                startDegreeOffset: 40,
+                sections: _attendanceVM.overviewItems
+                    .map((e) => PieChartSectionData(
+                          value: double.parse(e.number),
+                          color: e.color,
+                          title: '${e.number}\nDays',
+                          radius: 65,
+                          titleStyle: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500),
+                        ))
+                    .toList(),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _overviewRow() {
-    final tiles = <Widget>[];
-    for (var i = 0; i < _overviewVM.items.length; i++) {
-      tiles.add(Expanded(child: _buildCard(_overviewVM.items[i])));
-      if (i != _overviewVM.items.length - 1) {
-        tiles.add(const SizedBox(width: 8));
-      }
-    }
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: tiles,
-    );
-  }
-
-  Widget _buildCard(OverviewItem item) {
+  Widget _overviewCard(OverviewItem item) {
     return Container(
-      height: 80,
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.all(4),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
         boxShadow: const [
           BoxShadow(
             color: AppColors.grey,
@@ -214,68 +320,13 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
         ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(item.label, style: TextStyle(color: item.color, fontSize: 14)),
-          const SizedBox(height: 6),
+          Text(item.label,
+              style: TextStyle(color: item.color, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 4),
           Text(item.number,
-              style: TextStyle(
-                  color: item.color,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
+              style: TextStyle(color: item.color, fontWeight: FontWeight.w600)),
         ],
-      ),
-    );
-  }
-
-  Widget _pieChartContainer() {
-    return SizedBox(
-      height: 280,
-      child: PieChart(
-        PieChartData(
-          startDegreeOffset: 40,
-          sections: [
-            _pieSection(AppColors.green, 20, 'Present'),
-            _pieSection(AppColors.red, 3, 'Absent'),
-            _pieSection(AppColors.orange, 2, 'Leave'),
-            _pieSection(AppColors.blue, 6, 'Late'),
-          ],
-        ),
-      ),
-    );
-  }
-
-  PieChartSectionData _pieSection(Color color, int value, String label) {
-    return PieChartSectionData(
-      color: color,
-      value: value.toDouble(),
-      title: '${value.toString().padLeft(2, '0')}\ndays',
-      radius: 65,
-      titleStyle: const TextStyle(
-        color: Colors.white,
-        fontSize: 13,
-        fontWeight: FontWeight.w500,
-      ),
-    );
-  }
-
-  Widget _dayBuilder(BuildContext context, DateTime day, DateTime _) {
-    return Container(
-      width: 34,
-      height: 34,
-      child: Center(child: Text('${day.day}')),
-    );
-  }
-
-  Widget _selectedBuilder(BuildContext context, DateTime day, DateTime _) {
-    return Container(
-      width: 34,
-      height: 34,
-      decoration:
-          const BoxDecoration(color: AppColors.black, shape: BoxShape.circle),
-      child: Center(
-        child:
-            Text('${day.day}', style: const TextStyle(color: AppColors.white)),
       ),
     );
   }
