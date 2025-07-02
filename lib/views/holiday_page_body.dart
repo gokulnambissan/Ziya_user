@@ -152,7 +152,7 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
           const SizedBox(height: 14),
           const Text(
             "June 2025",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 14),
           GridView.builder(
@@ -188,7 +188,7 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
                 child: Text(
                   '$day',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                   color: bgColor == null
                       ? (isSunday ? Colors.red : AppColors.black)
                       : AppColors.white,),
