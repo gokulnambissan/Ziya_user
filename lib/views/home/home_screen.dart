@@ -4,26 +4,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ziya_user/view_models/filter_options_viewmodel.dart';
 import 'package:ziya_user/view_models/bottom_navigation_viewmodel.dart';
 import 'package:ziya_user/view_models/punch_viewmodel.dart';
-import 'package:ziya_user/views/leave/leave_application_page.dart';
+import 'package:ziya_user/views/overview_section.dart';
 import 'package:ziya_user/views/work_from_home/center_face_page.dart';
 import 'package:ziya_user/views/work_from_home/face_verification_page.dart';
 import 'package:ziya_user/views/filter_options.dart';
 import 'package:ziya_user/views/home/dashboard_grid.dart';
 import 'package:ziya_user/views/home/punch_dialogs.dart';
-import 'package:ziya_user/views/ongoing_pending_page.dart';
-import 'package:ziya_user/views/overview_section.dart';
-import 'package:ziya_user/views/punch_out_success.dart';
+import 'package:ziya_user/views/common/punch_out_success.dart';
 import 'package:ziya_user/views/on_site/qr_verification_page.dart';
 import 'package:ziya_user/views/on_site/scan_qr_code_page.dart';
-import 'package:ziya_user/views/tasks_page.dart';
-import 'package:ziya_user/views/tracker_page.dart';
-import 'package:ziya_user/views/work_summary_page.dart';
 import 'package:ziya_user/views/home/checkin_section.dart';
 import 'package:ziya_user/views/home/header_section.dart';
 import 'package:ziya_user/views/home/navigation_tabs.dart';
 import 'package:ziya_user/views/common/bottom_navigation.dart';
-import '../../constants/app_strings.dart';
-import '../../constants/app_colors.dart';
+import 'package:ziya_user/constants/app_strings.dart';
+import 'package:ziya_user/constants/app_colors.dart';
+import 'package:ziya_user/constants/home_constants.dart';
+import 'package:ziya_user/navigation/home_navigation.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -42,27 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String? userName;
   final currentUser = FirebaseAuth.instance.currentUser;
-
-  final List<Widget> pages = [
-    TasksPage(),
-    TrackerPage(),
-    OngoingPendingPage(),
-    WorkSummaryPage(),
-  ];
-
-  final List<String> pageTitles = [
-    AppStrings.myTasks,
-    AppStrings.taskTracker,
-    AppStrings.ongoingPending,
-    AppStrings.workSummary,
-  ];
-
-  final List<IconData> pageIcons = [
-    Icons.calendar_today,
-    Icons.hourglass_empty_sharp,
-    Icons.sync_sharp,
-    Icons.event_note_sharp,
-  ];
 
   void updateUI() => setState(() {});
 
@@ -188,25 +164,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return BottomNavigationLayout(
       currentIndex: bottomNavViewModel.currentIndex,
       onTap: (index) {
-  if (index == bottomNavViewModel.currentIndex) return;
-
-  switch (index) {
-    case 0:
-      break;
-    case 2:
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const LeaveApplicationPage()),
-      );
-      break;
-    //  add more cases for History (1) and Profile (3) if needed
-  }
-
-  bottomNavViewModel.setIndex(index, () {
-    setState(() {});
-  });
-},
-
+        HomeNavigation.handleBottomNavTap(
+          context: context,
+          index: index,
+          viewModel: bottomNavViewModel,
+          updateUI: updateUI,
+        );
+      },
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(5),
         child: Column(
@@ -244,8 +208,8 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 24),
             NavigationTabs(
               currentPage: currentPage,
-              pageIcons: pageIcons,
-              pageTitles: pageTitles,
+              pageIcons: HomeConstants.pageIcons,
+              pageTitles: HomeConstants.pageTitles,
               onTabSelected: (index) {
                 setState(() {
                   currentPage = index;
@@ -264,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 8),
-            pages[currentPage],
+            HomeConstants.pages[currentPage],
             const SizedBox(height: 14),
             const Text(
               AppStrings.dashboard,

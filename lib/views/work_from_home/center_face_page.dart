@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_user/constants/app_colors.dart';
-import 'package:ziya_user/views/punch_out_success.dart';
-import '../punch_in_success_page.dart';
+import 'package:ziya_user/views/common/punch_out_success.dart';
+import '../common/punch_in_success_page.dart';
 
 
 class CenterFacePage extends StatelessWidget {
