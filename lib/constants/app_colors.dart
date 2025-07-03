@@ -19,6 +19,9 @@ class AppColors {
   static const borderColor   = Color(0xFFDFE2E5);   
   static const pendingColor  = Color(0xFFF5DD60);   
   static const lightGrey  = Color.fromARGB(255, 187, 186, 186); 
+  static const Color lightBlue = Color.fromARGB(255, 97, 184, 255);
+  static const Color verylightgreen = Color.fromARGB(255, 112, 248, 116);
+  
 
 
 

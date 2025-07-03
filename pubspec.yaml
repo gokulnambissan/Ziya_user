@@ -38,6 +38,10 @@ dependencies:
   fl_chart: ^0.71.0
   file_picker: ^10.2.0
   table_calendar: ^3.2.0
+  screenshot: ^3.0.0
+  printing: ^5.14.2
+  pdf: ^3.11.3
+  
   
   
 

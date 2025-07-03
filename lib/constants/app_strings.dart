@@ -84,5 +84,4 @@ class AppStrings {
   // Misc
   static const assignedByOptional = "Assigned By\n(optional)";
 
-
 }

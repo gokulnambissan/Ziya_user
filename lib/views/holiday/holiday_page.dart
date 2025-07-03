@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_user/views/common/bottom_navigation.dart';
-import 'package:ziya_user/views/holiday_page_body.dart';
+import 'package:ziya_user/views/holiday/holiday_page_body.dart';
 import 'package:ziya_user/views/home/home_screen.dart';
 
 
