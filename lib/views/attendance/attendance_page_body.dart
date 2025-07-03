@@ -3,11 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:ziya_user/view_models/attendance_view_model.dart';
-import 'package:ziya_user/views/common/search_overlay.dart';
-import 'package:ziya_user/views/common/top_navigation_bar.dart';
-import '../../constants/app_colors.dart';
-import '../../models/attendance_record.dart';
-import '../../views/attendance/attendance_detail_section.dart';
+import 'package:ziya_user/views/common/inline_search_widget.dart';
+import 'package:ziya_user/constants/app_colors.dart';
+import 'package:ziya_user/models/attendance_record.dart';
+import 'package:ziya_user/views/attendance/attendance_detail_section.dart';
 
 class AttendancePageBody extends StatefulWidget {
   const AttendancePageBody({super.key});
@@ -18,72 +17,77 @@ class AttendancePageBody extends StatefulWidget {
 
 class _AttendancePageBodyState extends State<AttendancePageBody> {
   final AttendanceViewModel _attendanceVM = AttendanceViewModel();
-
   DateTime _focusedDay = DateTime(2025, 6, 18);
   DateTime? _selectedDay;
-  final GlobalKey _searchKey = GlobalKey();
-  String _searchHint = 'Search';
 
-  void _handleSearchTap() {
-    setState(() => _searchHint = '05 May 2025');
-    showSearchOverlay(
-      context,
-      searchBarKey: _searchKey,
-      afterClosed: () => setState(() => _searchHint = 'Search'),
-    );
+  void _handleSearch(String query) {
+    debugPrint('Attendance search triggered: $query');
+    // TODO: Add your real search filter here if needed
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: TopNavigationBar(
-        onSearchTap: _handleSearchTap,
-        searchBarKey: _searchKey,
-        searchHint: _searchHint,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: SafeArea(
+        child: Stack(
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Icon(
-                    Icons.arrow_back_ios,
-                    size: 16,
-                    color: AppColors.black,
-                  ),
-                  SizedBox(width: 4),
-                  Text(
-                    'Attendance Calendar',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.black,
+            Positioned.fill(
+              top: kToolbarHeight,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Icon(Icons.arrow_back_ios, size: 16, color: AppColors.black),
+                          SizedBox(width: 4),
+                          Text(
+                            'Attendance Calendar',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.black,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 16),
+                    _monthHeaderContainer(),
+                    const SizedBox(height: 12),
+                    _calendarContainer(),
+                    const SizedBox(height: 20),
+                    _overviewContainer(),
+                    const SizedBox(height: 20),
+                    const AttendanceDetailSection(),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 16),
-            _monthHeaderContainer(),
-            const SizedBox(height: 12),
-            _calendarContainer(),
-            const SizedBox(height: 20),
-            _overviewContainer(),
-            const SizedBox(height: 20),
-            const AttendanceDetailSection(),
+            // ✅ Use reusable InlineSearchWidget with global history
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: InlineSearchWidget(
+                searchHint: 'Search attendance...',
+                onSubmitQuery: _handleSearch,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+
+
 
   Widget _monthHeaderContainer() {
     return Container(

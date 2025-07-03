@@ -1,14 +1,11 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:ziya_user/constants/app_colors.dart';
 import 'package:ziya_user/constants/leave_calender_constants.dart';
 import 'package:ziya_user/constants/stat_card_wigets.dart';
 import 'package:ziya_user/view_models/leave_dashboard_view_model.dart';
-import 'package:ziya_user/views/common/search_overlay.dart'
-    show showSearchOverlay;
 import 'package:ziya_user/views/common/top_navigation_bar.dart';
+import 'package:ziya_user/views/common/inline_search_bar.dart';
 
 class LeaveStatusPageBody extends StatefulWidget {
   const LeaveStatusPageBody({super.key});
@@ -20,32 +17,41 @@ class LeaveStatusPageBody extends StatefulWidget {
 class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
   final LeaveDashboardViewModel viewModel = LeaveDashboardViewModel();
 
-  final GlobalKey _searchKey = GlobalKey();
-  String _searchHint = 'Search';
+  bool isSearching = false;
+  String searchQuery = '';
+  final List<String> searchHistory = [];
 
+  void _handleSearchSubmit() {
+    final query = searchQuery.trim();
+    if (query.isEmpty) return;
 
-  void _handleSearchTap() {
-    setState(() => _searchHint = '05 May 2025');
-    showSearchOverlay(
-      context,
-      searchBarKey: _searchKey,
-      afterClosed: () => setState(() => _searchHint = 'Search'),
-    );
+    setState(() {
+      searchHistory.insert(0, query);
+      searchQuery = '';
+      isSearching = false;
+    });
+
+    debugPrint('Search submitted: $query');
+    // Optional: implement your actual filter/search logic here.
+  }
+
+  void _toggleSearch(bool enable) {
+    setState(() {
+      isSearching = enable;
+      if (!enable) searchQuery = '';
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: TopNavigationBar(
-        onSearchTap: _handleSearchTap,
-        searchBarKey: _searchKey,
-        searchHint: _searchHint,
-      ),
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            Expanded(
+            // Content
+            Positioned.fill(
+              top: kToolbarHeight,
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -62,11 +68,75 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
                 ),
               ),
             ),
+
+            // Top Bar / Inline Search
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: isSearching
+                  ? InlineSearchBar(
+                      query: searchQuery,
+                      onQueryChanged: (val) => setState(() => searchQuery = val),
+                      onSubmit: _handleSearchSubmit,
+                      onClose: () => _toggleSearch(false),
+                    )
+                  : TopNavigationBar(
+                      searchHint: 'Search leaves...',
+                      onSearchTap: () => _toggleSearch(true),
+                    ),
+            ),
+
+            // Search History
+            if (isSearching && searchHistory.isNotEmpty)
+              Positioned(
+                top: kToolbarHeight,
+                left: 0,
+                right: 0,
+                child: Container(
+                  color: AppColors.white,
+                  constraints: const BoxConstraints(maxHeight: 200),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text(
+                          'Search History',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: AppColors.grey),
+                        ),
+                      ),
+                      const Divider(height: 1, color: AppColors.borderColor),
+                      Flexible(
+                        child: ListView.builder(
+                          itemCount: searchHistory.length,
+                          itemBuilder: (_, index) {
+                            final item = searchHistory[index];
+                            return ListTile(
+                              dense: true,
+                              visualDensity: VisualDensity.compact,
+                              title: Text(item),
+                              onTap: () {
+                                setState(() {
+                                  searchQuery = item;
+                                });
+                                _handleSearchSubmit();
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
           ],
         ),
       ),
     );
   }
+
   Widget _buildGrid() {
     return Column(
       children: [
@@ -77,21 +147,19 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
                 child: StatCard(
                   title: "Leave Taken",
                   value: "${viewModel.totalLeaveTaken} days",
-                  subtitle:
-                      "${viewModel.remainingLeave} days remaining this year",
+                  subtitle: "${viewModel.remainingLeave} days remaining",
                   icon: Icons.article_outlined,
                   showProgress: true,
                 ),
               ),
             ),
             const SizedBox(width: 10),
-             Expanded(
+            Expanded(
               child: FixedHeightCard(
                 child: StatCard(
                   title: "Leave Balance",
                   value: "${viewModel.leaveBalance} days",
-                  subtitle:
-                      "${viewModel.remainingLeave} days remaining this year",
+                  subtitle: "${viewModel.remainingLeave} days remaining",
                   icon: Icons.date_range_outlined,
                 ),
               ),
@@ -106,8 +174,7 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
                 child: StatCard(
                   title: "Pending Request",
                   value: "${viewModel.pendingRequests} request",
-                  subtitle:
-                      "${viewModel.remainingLeave} days remaining this year",
+                  subtitle: "${viewModel.remainingLeave} days remaining",
                   icon: Icons.hourglass_empty,
                 ),
               ),
@@ -118,8 +185,7 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
                 child: StatCard(
                   title: "Approved Leaves",
                   value: "${viewModel.approvedLeaves} leaves",
-                  subtitle:
-                      "${viewModel.remainingLeave} days remaining this year",
+                  subtitle: "${viewModel.remainingLeave} days remaining",
                   icon: Icons.check_circle_outline,
                 ),
               ),
@@ -134,8 +200,7 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
                 child: StatCard(
                   title: "Rejected Leaves",
                   value: "${viewModel.rejectedLeaves} leaves",
-                  subtitle:
-                      "${viewModel.remainingLeave} days remaining this year ",
+                  subtitle: "${viewModel.remainingLeave} days remaining",
                   icon: Icons.cancel_outlined,
                 ),
               ),
@@ -146,9 +211,8 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
                 child: StatCard(
                   title: "Upcoming Leaves",
                   value: "${viewModel.upcomingLeaves} days",
-                  extraText: "Scheduled ( 25 June )",
-                  subtitle:
-                      "${viewModel.remainingLeave} days remaining this year",
+                  extraText: "Scheduled (25 June)",
+                  subtitle: "${viewModel.remainingLeave} days remaining",
                   icon: Icons.date_range_outlined,
                 ),
               ),
@@ -159,120 +223,112 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
     );
   }
 
-Widget _buildCalendar() {
-  final weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  final daysInJune = List<int>.generate(30, (index) => index + 1);
+  Widget _buildCalendar() {
+    final weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    final daysInMonth = List<int>.generate(30, (index) => index + 1);
 
-  
-  final firstDay = DateTime(2025, 6, 1);
-  final weekdayOfFirst = firstDay.weekday; 
-  final blanks = weekdayOfFirst % 7;
+    final firstDay = DateTime(2025, 6, 1);
+    final blanks = firstDay.weekday % 7;
 
-  final items = [
-    ...List.generate(blanks, (_) => null),
-    ...daysInJune,
-  ];
+    final items = [...List.generate(blanks, (_) => null), ...daysInMonth];
 
-  return Container(
-    decoration: BoxDecoration(
-      color: AppColors.white,
-      border: Border.all(color: Colors.grey.shade300),
-      borderRadius: BorderRadius.circular(12),
-    ),
-    padding: const EdgeInsets.all(12),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Weekday headers
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: weekDays
-              .map((day) => Expanded(
-                    child: Center(
-                      child: Text(
-                        day,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: day == 'Sun' ? Colors.red : AppColors.black,
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: weekDays
+                .map((day) => Expanded(
+                      child: Center(
+                        child: Text(
+                          day,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: day == 'Sun' ? Colors.red : AppColors.black,
+                          ),
                         ),
                       ),
-                    ),
-                  ))
-              .toList(),
-        ),
-        const SizedBox(height: 14),
-        const Text(
-          "June 2025",
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 14),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: items.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7,
-            mainAxisSpacing: 3,
-            crossAxisSpacing: 3,
-            childAspectRatio: 1,
+                    ))
+                .toList(),
           ),
-          itemBuilder: (context, index) {
-            final day = items[index];
-            if (day == null) {
-              return const SizedBox(); // empty cell for alignment
-            }
+          const SizedBox(height: 14),
+          const Text(
+            "June 2025",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 14),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: items.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 7,
+              mainAxisSpacing: 3,
+              crossAxisSpacing: 3,
+              childAspectRatio: 1,
+            ),
+            itemBuilder: (context, index) {
+              final day = items[index];
+              if (day == null) return const SizedBox();
 
-            final date = DateTime(2025, 6, day);
-            final status = viewModel.statusForDate(date);
+              final date = DateTime(2025, 6, day);
+              final status = viewModel.statusForDate(date);
 
-            Color? bgColor;
-            switch (status) {
-              case LeaveStatus.approved:
-                bgColor = const Color.fromARGB(255, 29, 211, 35);
-                break;
-              case LeaveStatus.pending:
-                bgColor = const Color.fromARGB(255, 250, 215, 38);
-                break;
-              case LeaveStatus.rejected:
-                bgColor = const Color.fromARGB(255, 247, 38, 23);
-                break;
-              case LeaveStatus.upcoming:
-                bgColor = const Color.fromARGB(255, 20, 148, 252);
-                break;
-              default:
-                bgColor = AppColors.white;
-            }
+              Color bgColor;
+              switch (status) {
+                case LeaveStatus.approved:
+                  bgColor = const Color.fromARGB(255, 29, 211, 35);
+                  break;
+                case LeaveStatus.pending:
+                  bgColor = const Color.fromARGB(255, 250, 215, 38);
+                  break;
+                case LeaveStatus.rejected:
+                  bgColor = const Color.fromARGB(255, 247, 38, 23);
+                  break;
+                case LeaveStatus.upcoming:
+                  bgColor = const Color.fromARGB(255, 20, 148, 252);
+                  break;
+                default:
+                  bgColor = AppColors.white;
+              }
 
-            final isSunday = index % 7 == 0;
+              final isSunday = index % 7 == 0;
 
-            return Container(
-              decoration: BoxDecoration(
-                color: bgColor,
-                border: Border.all(color: Colors.grey.shade200),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                '$day',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: bgColor == AppColors.white
-                      ? (isSunday ? Colors.red : AppColors.black)
-                      : AppColors.white,
+              return Container(
+                decoration: BoxDecoration(
+                  color: bgColor,
+                  border: Border.all(color: Colors.grey.shade200),
+                  borderRadius: BorderRadius.circular(6),
                 ),
-              ),
-            );
-          },
-        ),
-      ],
-    ),
-  );
-}
+                alignment: Alignment.center,
+                child: Text(
+                  '$day',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: bgColor == AppColors.white
+                        ? (isSunday ? Colors.red : AppColors.black)
+                        : AppColors.white,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildLeaveOverview() {
-    final quarters = ["Q1", "Q2", "Q3", "Q4"];
     final data = viewModel.leavePerQuarter;
     final max = data.reduce((a, b) => a > b ? a : b);
+    const quarters = ["Q1", "Q2", "Q3", "Q4"];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,11 +351,10 @@ Widget _buildCalendar() {
                     showTitles: true,
                     getTitlesWidget: (value, _) {
                       final index = value.toInt();
-                      if (index >= 0 && index < quarters.length) {
-                        return Text(quarters[index],
-                            style: const TextStyle(fontSize: 12));
-                      }
-                      return const Text('');
+                      return (index >= 0 && index < quarters.length)
+                          ? Text(quarters[index],
+                              style: const TextStyle(fontSize: 12))
+                          : const Text('');
                     },
                   ),
                 ),
@@ -312,12 +367,12 @@ Widget _buildCalendar() {
               ),
               gridData: FlGridData(show: false),
               borderData: FlBorderData(show: false),
-              barGroups: List.generate(data.length, (index) {
+              barGroups: List.generate(data.length, (i) {
                 return BarChartGroupData(
-                  x: index,
+                  x: i,
                   barRods: [
                     BarChartRodData(
-                      toY: data[index].toDouble(),
+                      toY: data[i].toDouble(),
                       width: 60,
                       borderRadius: BorderRadius.circular(2),
                       color: AppColors.blue,
@@ -350,8 +405,8 @@ Widget _buildCalendar() {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-                "Total days: \n${viewModel.leavePerQuarter.reduce((a, b) => a + b)}"),
-            Text("Remaining: \n${viewModel.remainingLeave}"),
+                "Total days: ${data.reduce((a, b) => a + b)}"),
+            Text("Remaining: ${viewModel.remainingLeave}"),
           ],
         ),
       ],
@@ -359,7 +414,7 @@ Widget _buildCalendar() {
   }
 
   Widget _buildUpcomingLeave() {
-    Widget _cell(String text,
+    Widget cell(String text,
         {TextStyle? style,
         EdgeInsets padding =
             const EdgeInsets.symmetric(vertical: 14, horizontal: 8)}) {
@@ -376,36 +431,33 @@ Widget _buildCalendar() {
       );
     }
 
-    final headerRow = TableRow(children: [
-      _cell('Date',
+    final header = TableRow(children: [
+      cell('Date',
           style: const TextStyle(
               color: AppColors.blue, fontWeight: FontWeight.w600)),
-      _cell('Leave Type',
+      cell('Leave Type',
           style: const TextStyle(
               color: AppColors.blue, fontWeight: FontWeight.w600)),
-      _cell('Status',
+      cell('Status',
           style: const TextStyle(
               color: AppColors.blue, fontWeight: FontWeight.w600)),
-      _cell('Reason',
+      cell('Reason',
           style: const TextStyle(
               color: AppColors.blue, fontWeight: FontWeight.w600)),
     ]);
 
-    final dataRows = viewModel.leaveRecords.map<TableRow>((record) {
-      final statusStyle = TextStyle(
-        color: switch (record['status']) {
-          'Approved' => AppColors.green,
-          'Pending' => AppColors.pendingColor,
-          'Rejected' => AppColors.red,
-          _ => AppColors.black,
-        },
-      );
-
+    final rows = viewModel.leaveRecords.map<TableRow>((record) {
+      final statusColor = switch (record['status']) {
+        'Approved' => AppColors.green,
+        'Pending' => AppColors.pendingColor,
+        'Rejected' => AppColors.red,
+        _ => AppColors.black,
+      };
       return TableRow(children: [
-        _cell(record['date']!),
-        _cell(record['type']!),
-        _cell(record['status']!, style: statusStyle),
-        _cell(record['reason']!),
+        cell(record['date']!),
+        cell(record['type']!),
+        cell(record['status']!, style: TextStyle(color: statusColor)),
+        cell(record['reason']!),
       ]);
     }).toList();
 
@@ -425,7 +477,7 @@ Widget _buildCalendar() {
           2: FlexColumnWidth(1.6),
           3: FlexColumnWidth(1.6),
         },
-        children: [headerRow, ...dataRows],
+        children: [header, ...rows],
       ),
     );
   }

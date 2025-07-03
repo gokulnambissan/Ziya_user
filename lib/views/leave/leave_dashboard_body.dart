@@ -3,9 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:ziya_user/constants/app_colors.dart';
 import 'package:ziya_user/constants/stat_card_wigets.dart';
 import 'package:ziya_user/view_models/leave_dashboard_view_model.dart';
-import 'package:ziya_user/views/common/search_overlay.dart'
-    show showSearchOverlay;
-import 'package:ziya_user/views/common/top_navigation_bar.dart';
+import 'package:ziya_user/views/common/inline_search_widget.dart';
 import 'package:ziya_user/views/leave/leave_application_page.dart';
 import 'package:ziya_user/views/leave/leave_tab_header_page.dart';
 
@@ -17,58 +15,62 @@ class LeaveDashboardBody extends StatefulWidget {
 }
 
 class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
-  final LeaveDashboardViewModel viewModel = LeaveDashboardViewModel();
+  final viewModel = LeaveDashboardViewModel();
 
-  final GlobalKey _searchKey = GlobalKey();
-  String _searchHint = 'Search';
-
-  void _handleSearchTap() {
-    setState(() => _searchHint = '05 May 2025');
-    showSearchOverlay(
-      context,
-      searchBarKey: _searchKey,
-      afterClosed: () => setState(() => _searchHint = 'Search'),
-    );
+  void _handleSearch(String query) {
+    debugPrint('Leave Dashboard search triggered: $query');
+    // TODO: Implement your actual search logic here.
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: TopNavigationBar(
-        onSearchTap: _handleSearchTap,
-        searchBarKey: _searchKey,
-        searchHint: _searchHint,
-      ),
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            LeaveTabHeaderPage(
-              selectedTab: 0,
-              onTabSelected: (idx) {
-                if (idx == 1) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const LeaveApplicationPage()),
-                  );
-                }
-              },
+            Positioned.fill(
+              top: kToolbarHeight,
+              child: Column(
+                children: [
+                  LeaveTabHeaderPage(
+                    selectedTab: 0,
+                    onTabSelected: (index) {
+                      if (index == 1) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const LeaveApplicationPage()),
+                        );
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildStatGrid(),
+                          const SizedBox(height: 20),
+                          DynamicHeightCard(child: _buildLeaveOverview()),
+                          const SizedBox(height: 20),
+                          _buildUpcomingLeavesTable(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildGrid(),
-                    const SizedBox(height: 20),
-                    DynamicHeightCard(child: _buildLeaveOverview()),
-                    const SizedBox(height: 20),
-                    _buildUpcomingLeave(),
-                  ],
-                ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: InlineSearchWidget(
+                searchHint: 'Search leave...',
+                onSubmitQuery: _handleSearch,
               ),
             ),
           ],
@@ -77,7 +79,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
     );
   }
 
-  Widget _buildGrid() {
+  Widget _buildStatGrid() {
     return Column(
       children: [
         Row(
@@ -87,8 +89,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                 child: StatCard(
                   title: "Total Leave Taken",
                   value: "${viewModel.totalLeaveTaken} days",
-                  subtitle:
-                      "${viewModel.remainingLeave} days remaining this year",
+                  subtitle: "${viewModel.remainingLeave} days remaining",
                   icon: Icons.article_outlined,
                   showProgress: true,
                 ),
@@ -100,8 +101,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                 child: StatCard(
                   title: "Pending Request",
                   value: "${viewModel.pendingRequests}",
-                  subtitle:
-                      "${viewModel.remainingLeave} days remaining this year",
+                  subtitle: "${viewModel.remainingLeave} days remaining",
                   icon: Icons.hourglass_empty,
                 ),
               ),
@@ -116,8 +116,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                 child: StatCard(
                   title: "Leave Balance",
                   value: "${viewModel.leaveBalance} days",
-                  subtitle:
-                      "${viewModel.remainingLeave} days remaining this year",
+                  subtitle: "${viewModel.remainingLeave} days remaining",
                   icon: Icons.date_range_outlined,
                 ),
               ),
@@ -128,8 +127,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                 child: StatCard(
                   title: "Approved Leaves",
                   value: "${viewModel.approvedLeaves} days",
-                  subtitle:
-                      "${viewModel.remainingLeave} days remaining this year",
+                  subtitle: "${viewModel.remainingLeave} days remaining",
                   icon: Icons.check_circle_outline,
                 ),
               ),
@@ -144,8 +142,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                 child: StatCard(
                   title: "Rejected Leaves",
                   value: "${viewModel.rejectedLeaves} days",
-                  subtitle:
-                      "${viewModel.remainingLeave} days remaining this year ",
+                  subtitle: "${viewModel.remainingLeave} days remaining",
                   icon: Icons.cancel_outlined,
                 ),
               ),
@@ -156,9 +153,8 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                 child: StatCard(
                   title: "Upcoming Leaves",
                   value: "${viewModel.upcomingLeaves} days",
-                  extraText: "Scheduled ( 25 June )",
-                  subtitle:
-                      "${viewModel.remainingLeave} days remaining this year",
+                  extraText: "Scheduled (25 June)",
+                  subtitle: "${viewModel.remainingLeave} days remaining",
                   icon: Icons.date_range_outlined,
                 ),
               ),
@@ -170,7 +166,6 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
   }
 
   Widget _buildLeaveOverview() {
-    final quarters = ["Q1", "Q2", "Q3", "Q4"];
     final data = viewModel.leavePerQuarter;
     final max = data.reduce((a, b) => a > b ? a : b);
 
@@ -194,30 +189,26 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                   sideTitles: SideTitles(
                     showTitles: true,
                     getTitlesWidget: (value, _) {
+                      const quarters = ["Q1", "Q2", "Q3", "Q4"];
                       final index = value.toInt();
-                      if (index >= 0 && index < quarters.length) {
-                        return Text(quarters[index],
-                            style: const TextStyle(fontSize: 12));
-                      }
-                      return const Text('');
+                      return index >= 0 && index < quarters.length
+                          ? Text(quarters[index])
+                          : const Text('');
                     },
                   ),
                 ),
-                leftTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                topTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                rightTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
               ),
               gridData: FlGridData(show: false),
               borderData: FlBorderData(show: false),
-              barGroups: List.generate(data.length, (index) {
+              barGroups: List.generate(data.length, (i) {
                 return BarChartGroupData(
-                  x: index,
+                  x: i,
                   barRods: [
                     BarChartRodData(
-                      toY: data[index].toDouble(),
+                      toY: data[i].toDouble(),
                       width: 60,
                       borderRadius: BorderRadius.circular(2),
                       color: AppColors.blue,
@@ -249,8 +240,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-                "Total days: ${viewModel.leavePerQuarter.reduce((a, b) => a + b)}"),
+            Text("Total days: ${data.reduce((a, b) => a + b)}"),
             Text("Remaining: ${viewModel.remainingLeave}"),
           ],
         ),
@@ -258,54 +248,36 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
     );
   }
 
-  Widget _buildUpcomingLeave() {
-    Widget _cell(String text,
-        {TextStyle? style,
-        EdgeInsets padding =
-            const EdgeInsets.symmetric(vertical: 14, horizontal: 8)}) {
+  Widget _buildUpcomingLeavesTable() {
+    Widget cell(String text, {TextStyle? style}) {
       return Padding(
-        padding: padding,
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
         child: Text(
           text,
-          style: style ??
-              const TextStyle(
-                fontSize: 14,
-                color: AppColors.black,
-              ),
+          style: style ?? const TextStyle(fontSize: 14, color: AppColors.black),
         ),
       );
     }
 
-    final headerRow = TableRow(children: [
-      _cell('Date',
-          style: const TextStyle(
-              color: AppColors.blue, fontWeight: FontWeight.w600)),
-      _cell('Leave Type',
-          style: const TextStyle(
-              color: AppColors.blue, fontWeight: FontWeight.w600)),
-      _cell('Status',
-          style: const TextStyle(
-              color: AppColors.blue, fontWeight: FontWeight.w600)),
-      _cell('Reason',
-          style: const TextStyle(
-              color: AppColors.blue, fontWeight: FontWeight.w600)),
+    final header = TableRow(children: [
+      cell('Date', style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600)),
+      cell('Leave Type', style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600)),
+      cell('Status', style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600)),
+      cell('Reason', style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600)),
     ]);
 
-    final dataRows = viewModel.leaveRecords.map<TableRow>((record) {
-      final statusStyle = TextStyle(
-        color: switch (record['status']) {
-          'Approved' => AppColors.green,
-          'Pending' => AppColors.pendingColor,
-          'Rejected' => AppColors.red,
-          _ => AppColors.black,
-        },
-      );
-
+    final rows = viewModel.leaveRecords.map<TableRow>((record) {
+      final statusColor = switch (record['status']) {
+        'Approved' => AppColors.green,
+        'Pending' => AppColors.pendingColor,
+        'Rejected' => AppColors.red,
+        _ => AppColors.black,
+      };
       return TableRow(children: [
-        _cell(record['date']!),
-        _cell(record['type']!),
-        _cell(record['status']!, style: statusStyle),
-        _cell(record['reason']!),
+        cell(record['date']!),
+        cell(record['type']!),
+        cell(record['status']!, style: TextStyle(color: statusColor)),
+        cell(record['reason']!),
       ]);
     }).toList();
 
@@ -318,14 +290,13 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
       ),
       child: Table(
         border: TableBorder.all(color: AppColors.borderColor),
-        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         columnWidths: const {
           0: FlexColumnWidth(1.6),
           1: FlexColumnWidth(1.6),
           2: FlexColumnWidth(1.6),
           3: FlexColumnWidth(1.6),
         },
-        children: [headerRow, ...dataRows],
+        children: [header, ...rows],
       ),
     );
   }
