@@ -33,7 +33,7 @@ class SummaryViewModel {
 
   Widget buildSummaryCard(SummaryItem item) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(10),
@@ -53,14 +53,14 @@ class SummaryViewModel {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(getIcon(item.iconName), color: Colors.teal, size: 28),
-              const SizedBox(width: 8),
+              const SizedBox(width: 6),
               Expanded(
                 child: Text(
                   item.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: 12,
                     color: AppColors.black,
                   ),
                 ),
@@ -73,7 +73,7 @@ class SummaryViewModel {
               item.value,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
                 color: AppColors.black,
               ),

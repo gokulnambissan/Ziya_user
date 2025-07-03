@@ -58,8 +58,8 @@ class TrackerViewModel {
     required Function(String) onActionChanged,
   }) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
       ),
@@ -74,26 +74,29 @@ class TrackerViewModel {
                   task.title,
                   style: const TextStyle(
                     color: Color.fromARGB(255, 30, 245, 37),
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 4),
               Text(
                 "Due: ${task.dueDate}",
-                style: const TextStyle(fontSize: 13, color: AppColors.black),
+                style: const TextStyle(fontSize: 10, color: AppColors.black),
               ),
             ],
           ),
           const SizedBox(height: 8),
           Wrap(
-            spacing: 6,
-            runSpacing: 3,
+            spacing: 8,
+            runSpacing: 4,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              const Text("Status: "),
+              const Text("Status: ",
+              style: TextStyle(
+                  fontSize: 12,
+                ),),
               ...List.generate(statuses.length, (i) {
                 final isActive = task.statusIndex == i;
                 final statusColor = isActive
@@ -105,11 +108,11 @@ class TrackerViewModel {
                 return Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.circle, size: 10, color: statusColor),
-                    const SizedBox(width: 4),
+                    Icon(Icons.circle, size: 8, color: statusColor),
+                    const SizedBox(width: 3),
                     Text(
                       statuses[i],
-                      style: TextStyle(fontSize: 10, color: AppColors.black),
+                      style: TextStyle(fontSize: 9, color: AppColors.black),
                     ),
                   ],
                 );
@@ -125,7 +128,7 @@ class TrackerViewModel {
               Text(
                 "Progress : ",
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 12,
                 ),
               ),
               CircularPercentIndicator(
@@ -145,20 +148,20 @@ class TrackerViewModel {
               const SizedBox(width: 30),
               Row(
                 children: [
-                  const Icon(Icons.timer, size: 18, color: AppColors.orange),
-                  const SizedBox(width: 5),
+                  const Icon(Icons.timer, size: 14, color: AppColors.orange),
+                  const SizedBox(width: 3),
                   Text(
                     "${task.daysRemaining} days \nremaining",
                     style:
-                        const TextStyle(color: AppColors.orange, fontSize: 13),
+                        const TextStyle(color: AppColors.orange, fontSize: 10),
                   ),
                 ],
               ),
               const SizedBox(width: 30),
               Row(
                 children: const [
-                  Icon(Icons.create_outlined, size: 20, color: AppColors.black),
-                  SizedBox(width: 5),
+                  Icon(Icons.create_outlined, size: 14, color: AppColors.black),
+                  SizedBox(width: 4),
                   Text(
                     "Assigned By\n(optional)",
                     style: TextStyle(fontSize: 10, color: AppColors.black),
@@ -172,17 +175,21 @@ class TrackerViewModel {
           /// Priority
           Row(
             children: [
-              const Text("Priority: "),
-              const SizedBox(width: 10),
+              const Text("Priority: ",
+              style: TextStyle(
+                  fontSize: 12,
+                ),),
+              const SizedBox(width: 8),
               ...["Low", "Medium", "High"].map((level) {
                 final isCurrent = task.priority == level;
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal:23),
                   child: Text(
                     level,
                     style: TextStyle(
                       color:
                           isCurrent ? priorityColors[level] : AppColors.black,
+                      fontSize: 12,
                     ),
                   ),
                 );
@@ -193,7 +200,7 @@ class TrackerViewModel {
 
           Wrap(
             alignment: WrapAlignment.center,
-            spacing: 60,
+            spacing: 50,
             children: actions.map((action) {
               Color dotColor = AppColors.black;
 
@@ -211,8 +218,8 @@ class TrackerViewModel {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    width: 16,
-                    height: 16,
+                    width: 14,
+                    height: 14,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Color.fromARGB(
@@ -221,8 +228,8 @@ class TrackerViewModel {
                     ),
                     child: Center(
                       child: Container(
-                        width: 8,
-                        height: 8,
+                        width: 6,
+                        height: 6,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: dotColor, // inner dot
@@ -235,7 +242,7 @@ class TrackerViewModel {
                     action,
                     style: const TextStyle(
                       color: AppColors.black,
-                      fontSize: 13,
+                      fontSize: 12,
                     ),
                   ),
                 ],
