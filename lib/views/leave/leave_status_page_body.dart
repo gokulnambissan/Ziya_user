@@ -251,6 +251,7 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
                           day,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
+                            fontSize: 12,
                             color: day == 'Sun' ? Colors.red : AppColors.black,
                           ),
                         ),
@@ -261,7 +262,7 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
           const SizedBox(height: 14),
           const Text(
             "June 2025",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 14),
           GridView.builder(
@@ -270,8 +271,8 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
             itemCount: items.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 7,
-              mainAxisSpacing: 3,
-              crossAxisSpacing: 3,
+              mainAxisSpacing: 2,
+              crossAxisSpacing: 2,
               childAspectRatio: 1,
             ),
             itemBuilder: (context, index) {
@@ -311,7 +312,7 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
                 child: Text(
                   '$day',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 12,
                     color: bgColor == AppColors.white
                         ? (isSunday ? Colors.red : AppColors.black)
                         : AppColors.white,
@@ -334,12 +335,13 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text("Leave Overview",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
         const SizedBox(height: 6),
-        const Text("Your leave distribution for the current year"),
+        const Text("Your leave distribution for the current year",
+        style: TextStyle(fontSize: 12),),
         const SizedBox(height: 16),
         SizedBox(
-          height: 100,
+          height: 80,
           width: double.infinity,
           child: BarChart(
             BarChartData(
@@ -353,7 +355,7 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
                       final index = value.toInt();
                       return (index >= 0 && index < quarters.length)
                           ? Text(quarters[index],
-                              style: const TextStyle(fontSize: 12))
+                              style: const TextStyle(fontSize: 10))
                           : const Text('');
                     },
                   ),
@@ -373,7 +375,7 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
                   barRods: [
                     BarChartRodData(
                       toY: data[i].toDouble(),
-                      width: 60,
+                      width: 50,
                       borderRadius: BorderRadius.circular(2),
                       color: AppColors.blue,
                     ),
@@ -390,9 +392,9 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircleAvatar(radius: 4, backgroundColor: AppColors.blue),
+                  CircleAvatar(radius: 3, backgroundColor: AppColors.blue),
                   SizedBox(width: 6),
-                  Text("Leave days taken"),
+                  Text("Leave days taken",style: TextStyle(fontSize: 12),),
                 ],
               ),
               SizedBox(height: 6),
@@ -405,8 +407,8 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-                "Total days: ${data.reduce((a, b) => a + b)}"),
-            Text("Remaining: ${viewModel.remainingLeave}"),
+                "Total days: ${data.reduce((a, b) => a + b)}",style: TextStyle(fontSize: 12)),
+            Text("Remaining: ${viewModel.remainingLeave}",style: TextStyle(fontSize: 12)),
           ],
         ),
       ],
@@ -424,7 +426,7 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
           text,
           style: style ??
               const TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 color: AppColors.black,
               ),
         ),
@@ -434,16 +436,16 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
     final header = TableRow(children: [
       cell('Date',
           style: const TextStyle(
-              color: AppColors.blue, fontWeight: FontWeight.w600)),
+              color: AppColors.blue, fontWeight: FontWeight.w600,fontSize: 12)),
       cell('Leave Type',
           style: const TextStyle(
-              color: AppColors.blue, fontWeight: FontWeight.w600)),
+              color: AppColors.blue, fontWeight: FontWeight.w600,fontSize: 12)),
       cell('Status',
           style: const TextStyle(
-              color: AppColors.blue, fontWeight: FontWeight.w600)),
+              color: AppColors.blue, fontWeight: FontWeight.w600,fontSize: 12)),
       cell('Reason',
           style: const TextStyle(
-              color: AppColors.blue, fontWeight: FontWeight.w600)),
+              color: AppColors.blue, fontWeight: FontWeight.w600,fontSize: 12)),
     ]);
 
     final rows = viewModel.leaveRecords.map<TableRow>((record) {
@@ -456,7 +458,7 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
       return TableRow(children: [
         cell(record['date']!),
         cell(record['type']!),
-        cell(record['status']!, style: TextStyle(color: statusColor)),
+        cell(record['status']!, style: TextStyle(color: statusColor,fontSize: 12)),
         cell(record['reason']!),
       ]);
     }).toList();

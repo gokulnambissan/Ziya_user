@@ -10,8 +10,8 @@ class FixedHeightCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 130,
-      padding: const EdgeInsets.all(16),
+      height: 120,
+      padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -89,7 +89,7 @@ class StatCard extends StatelessWidget {
                 style: const TextStyle(fontSize: 12),
               ),
             ),
-            Icon(icon, size: 25, color: AppColors.blue),
+            Icon(icon, size: 18, color: AppColors.blue),
           ],
         ),
         Column(
@@ -98,7 +98,7 @@ class StatCard extends StatelessWidget {
             Text(
               value,
               style: const TextStyle(
-                fontSize: 20,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -118,7 +118,7 @@ class StatCard extends StatelessWidget {
         Text(
           subtitle,
           style: const TextStyle(
-            fontSize: 10,
+            fontSize: 8,
             color: AppColors.black,
           ),
         ),
@@ -129,7 +129,7 @@ class StatCard extends StatelessWidget {
               value: 0.7,
               backgroundColor: Colors.grey.shade300,
               color: AppColors.blue,
-              minHeight: 5,
+              minHeight: 4,
             ),
           ),
       ],
@@ -148,8 +148,8 @@ class FixedHolidayCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 140, // fixed height
-      padding: const EdgeInsets.all(12), // slightly smaller padding to help fit
+      height: 130, // fixed height
+      padding: const EdgeInsets.all(10), // slightly smaller padding to help fit
       margin: const EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -196,12 +196,12 @@ class HolidayCard extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: const TextStyle(fontSize: 14),
+                style: const TextStyle(fontSize: 12),
               ),
             ),
             Icon(
               icon,
-              size: 22, 
+              size: 18, 
               color: AppColors.blue,
             ),
           ],
@@ -213,7 +213,7 @@ class HolidayCard extends StatelessWidget {
             Text(
               value,
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
             ),

@@ -22,7 +22,7 @@ class LeaveTabHeaderPage extends StatelessWidget {
       children: [
         Container(
           color: AppColors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Row(
             children: [
               GestureDetector(
@@ -31,7 +31,7 @@ class LeaveTabHeaderPage extends StatelessWidget {
                 },
                 child: Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -45,7 +45,7 @@ class LeaveTabHeaderPage extends StatelessWidget {
                     children: [
                       const Icon(
                         Icons.arrow_back_ios_new,
-                        size: 20,
+                        size: 16,
                         color: AppColors.black,
                       ),
                       const SizedBox(width: 6),
@@ -79,7 +79,7 @@ class LeaveTabHeaderPage extends StatelessWidget {
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 180),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 12),
+                        horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
                       color: AppColors.white,
                       borderRadius: BorderRadius.circular(10),
@@ -93,14 +93,14 @@ class LeaveTabHeaderPage extends StatelessWidget {
                       children: [
                         Icon(
                           _icons[index],
-                          size: 20,
+                          size: 14,
                           color: isActive ? AppColors.blue : AppColors.black,
                         ),
                         const SizedBox(width: 6),
                         Text(
                           _titles[index],
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             color: isActive ? AppColors.blue : AppColors.black,
                           ),
                         ),

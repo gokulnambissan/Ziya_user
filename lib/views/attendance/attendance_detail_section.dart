@@ -20,13 +20,13 @@ class AttendanceDetailSection extends StatelessWidget {
         children: [
           Text(
             DateFormat('MMMM d, yyyy').format(vm.recDate),
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Row(
             children: [
               const Text('Status',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12)),
               const Spacer(),
               _statusPill(vm.status),
             ],
@@ -63,7 +63,7 @@ class AttendanceDetailSection extends StatelessWidget {
                   AppColors.blue,
                 ),
               ),
-              const SizedBox(width: 90),
+              const SizedBox(width: 100),
               Expanded(
                 child: _infoContainer(
                   'Verification',
@@ -105,13 +105,13 @@ class AttendanceDetailSection extends StatelessWidget {
         break;
     }
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(label,
-          style: TextStyle(color: color, fontWeight: FontWeight.w600)),
+          style: TextStyle(color: color, fontWeight: FontWeight.w600,fontSize: 12)),
     );
   }
 
@@ -127,7 +127,7 @@ class AttendanceDetailSection extends StatelessWidget {
           children: [
             Icon(
               isCheckIn ? Icons.alarm_on_outlined : Icons.alarm_off_outlined,
-              size: 18,
+              size: 14,
               color: AppColors.green,
             ),
             const SizedBox(width: 4),
@@ -136,6 +136,7 @@ class AttendanceDetailSection extends StatelessWidget {
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 color: AppColors.black,
+                fontSize: 12,
               ),
             ),
           ],
@@ -146,6 +147,7 @@ class AttendanceDetailSection extends StatelessWidget {
           style: const TextStyle(
             color: AppColors.green,
             fontWeight: FontWeight.w500,
+            fontSize: 12
           ),
         ),
       ],
@@ -155,7 +157,7 @@ class AttendanceDetailSection extends StatelessWidget {
   Widget _infoContainer(String title, String value, Color chipColor) {
     return Container(
       margin: const EdgeInsets.all(4),
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
@@ -181,6 +183,7 @@ class AttendanceDetailSection extends StatelessWidget {
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: AppColors.black,
+              fontSize: 12,
             ),
           ),
           const SizedBox(height: 8),
@@ -195,6 +198,7 @@ class AttendanceDetailSection extends StatelessWidget {
               style: TextStyle(
                 color: chipColor,
                 fontWeight: FontWeight.w600,
+                fontSize: 10,
               ),
             ),
           ),
@@ -208,7 +212,7 @@ class AttendanceDetailSection extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.all(4),
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
@@ -225,7 +229,7 @@ class AttendanceDetailSection extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: 18,
+            size: 14,
             color: isNote ? AppColors.black : AppColors.red,
           ),
           const SizedBox(width: 8),
@@ -236,13 +240,13 @@ class AttendanceDetailSection extends StatelessWidget {
                 Text(
                   title,
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 15),
+                      fontWeight: FontWeight.bold, fontSize: 13),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   value,
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: 10,
                     color: AppColors.black,
                     fontWeight: FontWeight.w500,
                   ),

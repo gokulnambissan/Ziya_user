@@ -15,9 +15,9 @@ class _OverviewSectionState extends State<OverviewSection> {
   Widget buildCard(OverviewItem item) {
   return Expanded(
     child: Container(
-      height: 90,
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      padding: const EdgeInsets.symmetric(vertical: 14),
+      height: 70,
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(10),
@@ -36,7 +36,7 @@ class _OverviewSectionState extends State<OverviewSection> {
             item.label,
             style: TextStyle(
               color: item.color, 
-              fontSize: 14,
+              fontSize: 12,
             ),
           ),
           const SizedBox(height: 6),
@@ -44,7 +44,7 @@ class _OverviewSectionState extends State<OverviewSection> {
             item.number,
             style: TextStyle(
               color: item.color,
-              fontSize: 24,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),

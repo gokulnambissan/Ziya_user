@@ -56,11 +56,11 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildHolidayGrid(),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 14),
                     _buildLegendRow(),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 14),
                     _buildCalendar(),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 14),
                     _buildHolidayTable(),
                   ],
                 ),
@@ -183,15 +183,15 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
     return Row(
       children: [
         Container(
-          width: 16,
-          height: 16,
+          width: 12,
+          height: 12,
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(3),
           ),
         ),
         const SizedBox(width: 6),
-        Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
+        Text(label, style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 12)),
       ],
     );
   }
@@ -224,6 +224,7 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: day == 'Sun' ? Colors.red : AppColors.black,
+                            fontSize: 12,
                           ),
                         ),
                       ),
@@ -233,7 +234,7 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
           const SizedBox(height: 14),
           const Text(
             "June 2025",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 14),
           GridView.builder(
@@ -242,8 +243,8 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
             itemCount: items.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 7,
-              mainAxisSpacing: 3,
-              crossAxisSpacing: 3,
+              mainAxisSpacing: 2,
+              crossAxisSpacing: 2,
               childAspectRatio: 1,
             ),
             itemBuilder: (context, index) {
@@ -271,7 +272,7 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
                 child: Text(
                   '$day',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 12,
                     color: bgColor == null
                         ? (isSunday ? Colors.red : AppColors.black)
                         : AppColors.white,
@@ -336,7 +337,7 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
             style: TextStyle(
               fontWeight: isFirst ? FontWeight.bold : FontWeight.normal,
               color: isFirst ? AppColors.blue : AppColors.black,
-              fontSize: 12,
+              fontSize: 10,
             ),
           ),
         );

@@ -22,7 +22,7 @@ class _FilterOptionsState extends State<FilterOptions> {
             const Text(
               "Sort by : ",
               style: TextStyle(
-                fontSize: 13,
+                fontSize: 11,
               ),
             ),
             const SizedBox(width: 16),
@@ -36,7 +36,8 @@ class _FilterOptionsState extends State<FilterOptions> {
               },
             ),
             const SizedBox(width: 6),
-            const Text(AppStrings.deadline),
+            const Text(AppStrings.deadline,
+            style: TextStyle(fontSize: 12),),
 
             const SizedBox(width: 35),
 
@@ -49,7 +50,8 @@ class _FilterOptionsState extends State<FilterOptions> {
               },
             ),
             const SizedBox(width: 4),
-            const Text(AppStrings.project),
+            const Text(AppStrings.project,
+            style: TextStyle(fontSize: 12)),
           ],
         ),
         const Icon(Icons.format_list_bulleted_rounded),
@@ -64,16 +66,16 @@ class _FilterOptionsState extends State<FilterOptions> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width:14,
-        height: 14,
+        width:12,
+        height: 12,
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: Color.fromARGB(255, 218, 218, 218), // Light grey background
         ),
         child: Center(
           child: Container(
-            width: 6,
-            height: 6,
+            width: 5,
+            height: 5,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: isSelected ? Colors.black : Colors.transparent, // Always black for demo

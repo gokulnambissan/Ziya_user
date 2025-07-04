@@ -11,21 +11,20 @@ class HeaderSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SizedBox(
-        height: 75,
+        height: 55,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
             Row(
               children: [
-                // Gradient section with extra height
                 Expanded(
                   flex: 14,
                   child: OverflowBox(
-                    maxHeight: 75, // allow it to grow taller
-                    minHeight: 70,
+                    maxHeight: 55, 
+                    minHeight: 50,
                     alignment: Alignment.centerLeft,
                     child: Container(
-                      height: 90, // taller than parent
+                      height: 55, 
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [AppColors.blue, AppColors.green],
@@ -44,8 +43,8 @@ class HeaderSection extends StatelessWidget {
                           ClipOval(
                             child: Image.asset(
                               'assets/profile_pic.jpg',
-                              height: 50,
-                              width: 50,
+                              height: 40,
+                              width: 40,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -60,7 +59,7 @@ class HeaderSection extends StatelessWidget {
                                   userName,
                                   style: const TextStyle(
                                     color: AppColors.white,
-                                    fontSize: 16,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     height: 1.2,
                                   ),
@@ -85,7 +84,7 @@ class HeaderSection extends StatelessWidget {
                   ),
                 ),
 
-                // White section with notification icon
+
                 Expanded(
                   flex: 5,
                   child: Container(
@@ -95,15 +94,15 @@ class HeaderSection extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Container(
-                        padding: EdgeInsets.all(8), // adjust as needed
+                        padding: EdgeInsets.all(8), 
                         decoration: BoxDecoration(
                           color: AppColors.blue,
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           Icons.notifications,
-                          color: Colors.white, // icon is white now
-                          size: 24, // adjust size if needed
+                          color: Colors.white, 
+                          size: 20, 
                         ),
                       ),
                     ),
@@ -112,9 +111,9 @@ class HeaderSection extends StatelessWidget {
               ],
             ),
 
-            // Logo positioned at the edge
+
             Positioned(
-              right: MediaQuery.of(context).size.width * 0.26 - 35,
+              right: MediaQuery.of(context).size.width * 0.26 - 25,
               top: 10,
               child: ClipOval(
                 child: Container(
@@ -122,8 +121,8 @@ class HeaderSection extends StatelessWidget {
                   padding: const EdgeInsets.all(2),
                   child: Image.asset(
                     'assets/logo.jpg',
-                    height: 50,
-                    width: 50,
+                    height: 45,
+                    width: 45,
                     fit: BoxFit.cover,
                   ),
                 ),

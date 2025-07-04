@@ -62,10 +62,11 @@ class TasksViewModel {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.all(6),
+                padding: EdgeInsets.symmetric(horizontal: 14,vertical: 4),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
               ),
-              child: const Text("Start"),
+              child: const Text("Start",
+              style: TextStyle(fontSize: 11),),
             ),
           ),
         ],

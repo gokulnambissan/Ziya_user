@@ -34,7 +34,7 @@ class DashboardItem extends StatelessWidget {
             ),
             child: Icon(
               viewModel.icon,
-              size: 30,
+              size: 20,
               color: viewModel.color, 
             ),
           ),
@@ -43,7 +43,7 @@ class DashboardItem extends StatelessWidget {
             viewModel.label,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 14,
+              fontSize: 12,
               color: AppColors.black,
             ),
           ),

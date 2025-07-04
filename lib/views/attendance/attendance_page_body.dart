@@ -51,7 +51,7 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
                           Text(
                             'Attendance Calendar',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: AppColors.black,
                             ),
@@ -61,17 +61,16 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
                     ),
                     const SizedBox(height: 16),
                     _monthHeaderContainer(),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 10),
                     _calendarContainer(),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 14),
                     _overviewContainer(),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 14),
                     const AttendanceDetailSection(),
                   ],
                 ),
               ),
             ),
-            // ✅ Use reusable InlineSearchWidget with global history
             Positioned(
               top: 0,
               left: 0,
@@ -91,7 +90,7 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
 
   Widget _monthHeaderContainer() {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 14),
+      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
@@ -106,7 +105,7 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
-          icon: const Icon(Icons.arrow_back_ios, size: 16),
+          icon: const Icon(Icons.arrow_back_ios, size: 12),
           onPressed: () {
             setState(() {
               _focusedDay = DateTime(_focusedDay.year, _focusedDay.month - 1);
@@ -115,10 +114,10 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
         ),
         Text(
           DateFormat('MMMM yyyy').format(_focusedDay),
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
         IconButton(
-          icon: const Icon(Icons.arrow_forward_ios, size: 16),
+          icon: const Icon(Icons.arrow_forward_ios, size: 12),
           onPressed: () {
             setState(() {
               _focusedDay = DateTime(_focusedDay.year, _focusedDay.month + 1);
@@ -161,12 +160,12 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
         weekdayStyle: TextStyle(
           fontWeight: FontWeight.bold,
           color: AppColors.blue,
-          fontSize: 12,
+          fontSize: 10,
         ),
         weekendStyle: TextStyle(
           fontWeight: FontWeight.bold,
           color: AppColors.blue,
-          fontSize: 12,
+          fontSize: 10,
         ),
       ),
       calendarBuilders: CalendarBuilders(
@@ -178,7 +177,7 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: AppColors.blue,
-                fontSize: 12,
+                fontSize: 10,
               ),
             ),
           );
@@ -211,8 +210,8 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
 
       return Center(
         child: Container(
-          width: 30,
-          height: 30,
+          width: 25,
+          height: 25,
           decoration: BoxDecoration(
             color: color,
             shape: BoxShape.circle,
@@ -222,7 +221,7 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
             '${day.day}',
             style: const TextStyle(
               color: AppColors.white,
-              fontSize: 14,
+              fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -235,7 +234,7 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
         '${day.day}',
         style: const TextStyle(
           color: AppColors.black,
-          fontSize: 14,
+          fontSize: 12,
         ),
       ),
     );
@@ -244,8 +243,8 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
   Widget _selectedBuilder(BuildContext context, DateTime day, DateTime _) {
     return Center(
       child: Container(
-        width: 30,
-        height: 30,
+        width: 25,
+        height: 25,
         decoration: const BoxDecoration(
           color: AppColors.black,
           shape: BoxShape.circle,
@@ -255,7 +254,7 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
           '${day.day}',
           style: const TextStyle(
             color: AppColors.white,
-            fontSize: 12,
+            fontSize: 10,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -275,7 +274,7 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('Overview',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           Row(
             children: _attendanceVM.overviewItems
@@ -284,7 +283,7 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
           ),
           const SizedBox(height: 20),
           SizedBox(
-            height: 250,
+            height: 200,
             child: PieChart(
               PieChartData(
                 startDegreeOffset: 40,
@@ -293,10 +292,10 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
                           value: double.parse(e.number),
                           color: e.color,
                           title: '${e.number}\nDays',
-                          radius: 65,
+                          radius: 60,
                           titleStyle: const TextStyle(
                               color: Colors.white,
-                              fontSize: 12,
+                              fontSize: 9,
                               fontWeight: FontWeight.w500),
                         ))
                     .toList(),
@@ -326,10 +325,10 @@ class _AttendancePageBodyState extends State<AttendancePageBody> {
       child: Column(
         children: [
           Text(item.label,
-              style: TextStyle(color: item.color, fontWeight: FontWeight.bold)),
+              style: TextStyle(color: item.color, fontWeight: FontWeight.bold,fontSize: 12)),
           const SizedBox(height: 4),
           Text(item.number,
-              style: TextStyle(color: item.color, fontWeight: FontWeight.w600)),
+              style: TextStyle(color: item.color, fontWeight: FontWeight.w600,fontSize: 14)),
         ],
       ),
     );

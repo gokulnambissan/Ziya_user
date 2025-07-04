@@ -172,20 +172,20 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.all(4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HeaderSection(userName: userName ?? "..."),
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
             const Text(
               AppStrings.goodMorning,
-              style: TextStyle(fontSize: 18, color: AppColors.grey),
+              style: TextStyle(fontSize: 14, color: AppColors.grey),
             ),
             const SizedBox(height: 4),
             Text(
               '${userName ?? ''}',
-              style: const TextStyle(fontSize: 18, color: AppColors.grey),
+              style: const TextStyle(fontSize: 14, color: AppColors.grey),
             ),
             const SizedBox(height: 12),
             CheckInSection(
@@ -198,10 +198,10 @@ class _HomeScreenState extends State<HomeScreen> {
               onPunchInTap: handlePunchInFlow,
               onPunchOutTap: handlePunchOutFlow,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
             const Text(
               AppStrings.overview,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             const OverviewSection(),
@@ -232,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 14),
             const Text(
               AppStrings.dashboard,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             const DashboardGrid(),

@@ -130,10 +130,11 @@ Row(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
               ),
-              child: Text(task.buttonLabel),
+              child: Text(task.buttonLabel,
+              style: TextStyle(fontSize: 11),),
             ),
           ),
         ],

@@ -51,11 +51,11 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
 
   Widget _label(String t) => Padding(
       padding: const EdgeInsets.only(top: 8, bottom: 4),
-      child: Text(t, style: const TextStyle(fontWeight: FontWeight.w600)));
+      child: Text(t, style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 12)));
 
   Widget _field({required Widget child}) => Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
@@ -102,28 +102,31 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                         children: [
                           const Text('Apply for Leave',
                               style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold)),
+                                  fontSize: 16, fontWeight: FontWeight.bold)),
                           const SizedBox(height: 24),
                           _label('Employee Name'),
                           _field(
                             child: TextField(
                               enabled: false,
                               controller: TextEditingController(text: userName ?? ''),
+                               style: const TextStyle(fontSize: 12),
                               decoration: const InputDecoration(
-                                prefixIcon: Icon(Icons.person),
-                                border: InputBorder.none,
-                              ),
+      prefixIcon: Icon(Icons.person, size: 18),
+      hintStyle: TextStyle(fontSize: 13),
+      border: InputBorder.none,
+    ),
                             ),
                           ),
                           _label('Employee ID'),
                           _field(
                             child: const TextField(
                               enabled: false,
-                              decoration: InputDecoration(
-                                hintText: 'Employee ID - auto-filled',
-                                prefixIcon: Icon(Icons.badge),
-                                border: InputBorder.none,
-                              ),
+                              decoration: const InputDecoration(
+            hintText: 'Employee ID - auto-filled',                     
+      prefixIcon: Icon(Icons.badge, size: 18),
+      hintStyle: TextStyle(fontSize: 13),
+      border: InputBorder.none,
+    ),
                             ),
                           ),
                           Row(
@@ -139,12 +142,14 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                                             context, true, setState),
                                         child: AbsorbPointer(
                                           child: TextField(
+                                            style: const TextStyle(fontSize: 18),
                                             decoration: InputDecoration(
                                               hintText: viewModel.fromDate != null
                                                   ? '${viewModel.fromDate!.day}/${viewModel.fromDate!.month}/${viewModel.fromDate!.year}'
                                                   : 'From',
-                                              prefixIcon: const Icon(Icons.calendar_today),
+                                              prefixIcon: const Icon(Icons.calendar_today,size: 16,),
                                               border: InputBorder.none,
+                                              hintStyle: const TextStyle(fontSize: 15),
                                             ),
                                           ),
                                         ),
@@ -176,12 +181,14 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                                             context, false, setState),
                                         child: AbsorbPointer(
                                           child: TextField(
+                                            style: const TextStyle(fontSize: 18),
                                             decoration: InputDecoration(
                                               hintText: viewModel.toDate != null
                                                   ? '${viewModel.toDate!.day}/${viewModel.toDate!.month}/${viewModel.toDate!.year}'
                                                   : 'To',
-                                              prefixIcon: const Icon(Icons.calendar_today),
+                                              prefixIcon: const Icon(Icons.calendar_today,size: 16,),
                                               border: InputBorder.none,
+                                              hintStyle: const TextStyle(fontSize: 15),
                                             ),
                                           ),
                                         ),
@@ -198,10 +205,12 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                               Expanded(
                                 child: _field(
                                   child: const TextField(
+                                    style: TextStyle(fontSize: 14),
                                     decoration: InputDecoration(
                                       hintText: 'Leave Type',
-                                      prefixIcon: Icon(Icons.article_outlined),
+                                      prefixIcon: Icon(Icons.article_outlined,size: 16,),
                                       border: InputBorder.none,
+                                      
                                     ),
                                   ),
                                 ),
@@ -215,10 +224,12 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                                       decoration: const InputDecoration(
                                         hintText: 'Choose Type',
                                         border: InputBorder.none,
+                                        hintStyle: TextStyle(fontSize: 14),
                                         contentPadding:
                                             EdgeInsets.symmetric(horizontal: 8),
                                       ),
-                                      value: viewModel.selectedLeaveType,
+                                      style: const TextStyle(fontSize: 12),
+                                      value: viewModel.selectedLeaveType == '' ? null : viewModel.selectedLeaveType,
                                       items: viewModel.leaveTypes
                                           .map((type) => DropdownMenuItem<String>(
                                                 value: type,
@@ -237,6 +248,7 @@ class _LeaveApplicationPageBodyState extends State<LeaveApplicationPageBody> {
                           _label('Reason'),
                           _field(
                             child: TextField(
+                              style: TextStyle(fontSize: 12),
                               controller: viewModel.reasonController,
                               maxLines: 6,
                               decoration: const InputDecoration(

@@ -173,12 +173,12 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text("Leave Overview",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
         const SizedBox(height: 6),
-        const Text("Your leave distribution for the current year"),
+        const Text("Your leave distribution for the current year",style: TextStyle(fontSize: 12),),
         const SizedBox(height: 16),
         SizedBox(
-          height: 100,
+          height: 80,
           width: double.infinity,
           child: BarChart(
             BarChartData(
@@ -193,7 +193,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                       final index = value.toInt();
                       return index >= 0 && index < quarters.length
                           ? Text(quarters[index])
-                          : const Text('');
+                          : const Text('',style: TextStyle(fontSize: 12));
                     },
                   ),
                 ),
@@ -209,7 +209,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
                   barRods: [
                     BarChartRodData(
                       toY: data[i].toDouble(),
-                      width: 60,
+                      width: 50,
                       borderRadius: BorderRadius.circular(2),
                       color: AppColors.blue,
                     ),
@@ -226,9 +226,9 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircleAvatar(radius: 4, backgroundColor: AppColors.blue),
+                  CircleAvatar(radius: 3, backgroundColor: AppColors.blue),
                   SizedBox(width: 6),
-                  Text("Leave days taken"),
+                  Text("Leave days taken",style: TextStyle(fontSize: 12)),
                 ],
               ),
               SizedBox(height: 6),
@@ -240,8 +240,8 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Total days: ${data.reduce((a, b) => a + b)}"),
-            Text("Remaining: ${viewModel.remainingLeave}"),
+            Text("Total days: ${data.reduce((a, b) => a + b)}",style: TextStyle(fontSize: 12)),
+            Text("Remaining: ${viewModel.remainingLeave}",style: TextStyle(fontSize: 12)),
           ],
         ),
       ],
@@ -254,16 +254,16 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
         child: Text(
           text,
-          style: style ?? const TextStyle(fontSize: 14, color: AppColors.black),
+          style: style ?? const TextStyle(fontSize: 12, color: AppColors.black),
         ),
       );
     }
 
     final header = TableRow(children: [
-      cell('Date', style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600)),
-      cell('Leave Type', style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600)),
-      cell('Status', style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600)),
-      cell('Reason', style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600)),
+      cell('Date', style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600,fontSize: 12)),
+      cell('Leave Type', style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600,fontSize: 12)),
+      cell('Status', style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600,fontSize: 12)),
+      cell('Reason', style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600,fontSize: 12)),
     ]);
 
     final rows = viewModel.leaveRecords.map<TableRow>((record) {
@@ -276,7 +276,7 @@ class _LeaveDashboardBodyState extends State<LeaveDashboardBody> {
       return TableRow(children: [
         cell(record['date']!),
         cell(record['type']!),
-        cell(record['status']!, style: TextStyle(color: statusColor)),
+        cell(record['status']!, style: TextStyle(color: statusColor,fontSize: 12)),
         cell(record['reason']!),
       ]);
     }).toList();

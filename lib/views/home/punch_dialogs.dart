@@ -23,7 +23,7 @@ class PunchDialogs {
               borderRadius: BorderRadius.circular(5),
             ),
             insetPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
             titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
             contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
             title: Stack(
@@ -33,7 +33,7 @@ class PunchDialogs {
                   isPunchIn ? "Select Punch - In Type" : "",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 16,
                     color: AppColors.black,
                     letterSpacing: 1,
                   ),
@@ -54,14 +54,14 @@ class PunchDialogs {
               children: [
                 if (!isPunchIn) ...[
                   const Icon(Icons.warning_amber_rounded,
-                      size: 60, color: AppColors.orange),
+                      size: 40, color: AppColors.orange),
                   const SizedBox(height: 12),
                   const Text(
                     "Do you really want to checkout?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: AppColors.orange,
-                      fontSize: 17,
+                      fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -72,7 +72,7 @@ class PunchDialogs {
                     "Are you working from home or on site today?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: AppColors.black,
                     ),
@@ -112,7 +112,7 @@ class PunchDialogs {
                             type,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 12,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
