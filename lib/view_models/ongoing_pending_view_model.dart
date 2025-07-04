@@ -76,26 +76,26 @@ class OngoingPendingViewModel {
             Text(task.title,
                 style: const TextStyle(
                     color: Color.fromARGB(255, 30, 245, 37),
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold)),
             Text(task.progress, style: const TextStyle(fontWeight: FontWeight.bold)),
           ]),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           Row(children: [
             const Text("Status: "),
             Text(task.status,
-                style: TextStyle(color: task.statusColor, fontWeight: FontWeight.bold)),
+                style: TextStyle(color: task.statusColor, fontWeight: FontWeight.bold,fontSize: 12)),
           ]),
           const SizedBox(height: 6),
           Row(
   children: const [
     Text(
       "Assigned Date: ",
-      style: TextStyle(fontSize: 14,color: AppColors.black),
+      style: TextStyle(fontSize: 13,color: AppColors.black),
     ),
     Text(
       "12-05-2025",
-      style: TextStyle(fontSize: 12,color: AppColors.black), 
+      style: TextStyle(fontSize: 11,color: AppColors.black), 
     ),
   ],
 ),
@@ -106,22 +106,23 @@ Row(
   children: const [
     Text(
       "Due Date: ",
-      style: TextStyle(fontSize: 14,color: AppColors.black),
+      style: TextStyle(fontSize: 13,color: AppColors.black),
     ),
     Text(
       "12-06-2025",
-      style: TextStyle(fontSize: 12,color: AppColors.black), 
+      style: TextStyle(fontSize: 11,color: AppColors.black), 
     ),
   ],
 ),
 
           const SizedBox(height: 6),
           Row(children: [
-            const Text("Priority: "),
+            const Text("Priority: ",
+            style: TextStyle(fontSize: 13,color: AppColors.black),),
             Text(task.priority,
-                style: TextStyle(color: task.priorityColor, fontWeight: FontWeight.bold)),
+                style: TextStyle(color: task.priorityColor, fontWeight: FontWeight.bold,fontSize: 12)),
           ]),
-          const SizedBox(height: 4),
+          const SizedBox(height: 3),
           Align(
             alignment: Alignment.centerRight,
             child: ElevatedButton(
