@@ -3,6 +3,7 @@ import 'package:ziya_user/views/common/bottom_navigation.dart';
 import 'package:ziya_user/views/home/home_screen.dart';
 import 'package:ziya_user/views/leave/leave_dashboard_page.dart';
 import 'package:ziya_user/views/profile/profile_page_body.dart';
+import 'package:ziya_user/views/report/report_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -18,6 +19,12 @@ class ProfilePage extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (_) => const HomeScreen()),
           );
+        }
+        else if(index==1){
+          Navigator.pushReplacement(
+            context, 
+            MaterialPageRoute(builder: (_)=> const ReportPage())
+            );
         }
         if (index == 2) {
           Navigator.pushReplacement(
