@@ -82,6 +82,10 @@ flutter:
   - assets/login.png
   - assets/logout.png
   - assets/vector.png
+  - assets/fonts/Roboto-Regular.ttf
+  - assets/banner.png
+  - assets/work_illu.png
+  
   
 
 

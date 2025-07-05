@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_user/view_models/bottom_navigation_viewmodel.dart';
+import 'package:ziya_user/views/profile/profile_page.dart';
 import 'package:ziya_user/views/leave/leave_application_page.dart';
 
 class HomeNavigation {
@@ -13,16 +14,19 @@ class HomeNavigation {
 
     switch (index) {
       case 0:
-        // Home tab
         break;
       case 2:
-        // Leave Application tab
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => const LeaveApplicationPage()),
         );
         break;
-      // Add cases for History (1) and Profile (3) if needed
+      case 3:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const ProfilePage()),
+        );
+        break;
     }
 
     viewModel.setIndex(index, updateUI);

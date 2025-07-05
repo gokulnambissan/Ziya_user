@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ziya_user/constants/app_colors.dart';
 
 class AuthBackground extends StatelessWidget {
-  final Widget child;
-
-  const AuthBackground({super.key, required this.child});
+  const AuthBackground({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +34,6 @@ class AuthBackground extends StatelessWidget {
               ),
             ),
           ),
-
-          
           Positioned(
             bottom: -110,
             right: 50,
@@ -46,7 +42,7 @@ class AuthBackground extends StatelessWidget {
               height: 150,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.green, 
+                color: AppColors.green,
               ),
             ),
           ),
@@ -62,8 +58,6 @@ class AuthBackground extends StatelessWidget {
               ),
             ),
           ),
-
-          child,
         ],
       ),
     );

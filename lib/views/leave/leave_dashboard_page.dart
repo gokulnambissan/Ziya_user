@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_user/views/common/bottom_navigation.dart';
 import 'package:ziya_user/views/home/home_screen.dart';
+import 'package:ziya_user/views/profile/profile_page.dart';
 import 'leave_dashboard_body.dart';
 
 class LeaveDashboardPage extends StatelessWidget {
@@ -16,6 +17,12 @@ class LeaveDashboardPage extends StatelessWidget {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (_) => const HomeScreen()),
+          );
+        }
+        else if (index == 3) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const ProfilePage()),
           );
         }
       },

@@ -6,6 +6,7 @@ import 'package:ziya_user/views/holiday/holiday_page.dart';
 import 'package:ziya_user/views/leave/leave_dashboard_page.dart';
 import 'package:ziya_user/views/leave/leave_status_page.dart';
 import 'package:ziya_user/views/payslip/payslip_page.dart';
+import 'package:ziya_user/views/report/report_page.dart';
 import '../../constants/app_strings.dart';
 import '../../constants/app_colors.dart';
 
@@ -79,6 +80,12 @@ class DashboardGrid extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const PayslipPage()),
+        );
+      }
+      else if (viewModel.label == AppStrings.reports) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ReportPage()),
         );
       }
     },

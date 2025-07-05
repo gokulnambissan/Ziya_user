@@ -123,6 +123,34 @@ class AppStrings {
   static const String netPay = "Net Pay";
   static const String action = "Action";
 
+  // Report page headings
+  static const String totalWorkingDays = 'Total Working Days\n(This Month)';
+  static const String totalHoursWorked = 'Total Hours Worked';
+  static const String tasksCompleted = 'Tasks Completed';
+  static const String avgDailyHours = 'Average Daily Hours';
+
+  static const String dailyLogTitle = 'Daily Clock-In/Out Log';
+  static const String reportChartTitle = 'Attendance';
+
+  // Table headers
+  static const String date = 'Date';
+  static const String totalHours = 'Total Hrs';
+
+
+  // Chart legend
+  static const String present = 'Present';
+  static const String absence = 'Absence';
+  static const String avgHrs = 'Avg hrs';
+
+  // Units
+  static const String days = 'days';
+  static const String hrs = 'hrs';
+  static const String hrsPerDay = 'hrs/day';
+  static const String thisMonth = 'this month';
+
+  static const String searchReportsHint = 'Search reports...';
+  static const String searchHistory = 'Search History';
+
 
 
 }

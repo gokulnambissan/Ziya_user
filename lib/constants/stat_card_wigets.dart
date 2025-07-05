@@ -137,6 +137,70 @@ class StatCard extends StatelessWidget {
   }
 }
 
+
+class ReportCard extends StatelessWidget {
+  final String title;
+  final String value;
+  final IconData icon;
+  final String? extraText;
+
+  const ReportCard({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.icon,
+    this.extraText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(fontSize: 12),
+              ),
+            ),
+            Icon(icon, size: 18, color: AppColors.blue),
+          ],
+        ),
+        const SizedBox(height: 4), // Reduced space between title & value
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            if (extraText != null)
+              Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: Text(
+                  extraText!,
+                  style: const TextStyle(
+                    fontSize:10,
+                    color: AppColors.black,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+
+
 class FixedHolidayCard extends StatelessWidget {
   final Widget child;
 

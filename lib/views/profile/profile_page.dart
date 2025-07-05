@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_user/views/common/bottom_navigation.dart';
 import 'package:ziya_user/views/home/home_screen.dart';
-import 'package:ziya_user/views/leave/leave_status_page_body.dart';
-import 'package:ziya_user/views/profile/profile_page.dart';
+import 'package:ziya_user/views/leave/leave_dashboard_page.dart';
+import 'package:ziya_user/views/profile/profile_page_body.dart';
 
-
-class LeaveStatusPage extends StatelessWidget {
-  const LeaveStatusPage({super.key});
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationLayout(
-      currentIndex: 2,
-      onTap: (idx) {
-        if (idx == 0) {
+      currentIndex: 3,
+      onTap: (index) {
+        if (index == 3) return;
+        if (index == 0) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (_) => const HomeScreen()),
           );
         }
-        else if (idx == 3) {
+        if (index == 2) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => const ProfilePage()),
+            MaterialPageRoute(builder: (_) => const LeaveDashboardPage()),
           );
         }
       },
       body: const Column(
         children: [
-          Expanded(child: LeaveStatusPageBody()),
+          Expanded(child: ProfilePageBody()),
         ],
       ),
     );
