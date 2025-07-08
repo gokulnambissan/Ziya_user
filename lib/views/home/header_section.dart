@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ziya_user/views/notification/notification_page_body.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_strings.dart';
 
@@ -17,14 +18,15 @@ class HeaderSection extends StatelessWidget {
           children: [
             Row(
               children: [
+                // 👉🏻 LEFT side gradient with name and image
                 Expanded(
                   flex: 14,
                   child: OverflowBox(
-                    maxHeight: 55, 
+                    maxHeight: 55,
                     minHeight: 50,
                     alignment: Alignment.centerLeft,
                     child: Container(
-                      height: 55, 
+                      height: 55,
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [AppColors.blue, AppColors.green],
@@ -84,7 +86,7 @@ class HeaderSection extends StatelessWidget {
                   ),
                 ),
 
-
+                // 👉🏻 RIGHT side notification icon
                 Expanded(
                   flex: 5,
                   child: Container(
@@ -93,16 +95,42 @@ class HeaderSection extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 10),
                     child: Align(
                       alignment: Alignment.centerRight,
-                      child: Container(
-                        padding: EdgeInsets.all(8), 
-                        decoration: BoxDecoration(
-                          color: AppColors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.notifications,
-                          color: Colors.white, 
-                          size: 20, 
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      const NotificationsPageBody(),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                const begin = Offset(1.0, 0.0); // From right
+                                const end = Offset.zero;
+                                const curve = Curves.easeInOut;
+
+                                final tween = Tween(begin: begin, end: end)
+                                    .chain(CurveTween(curve: curve));
+
+                                return SlideTransition(
+                                  position: animation.drive(tween),
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                            color: AppColors.blue,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.notifications,
+                            color: Colors.white,
+                            size: 20,
+                          ),
                         ),
                       ),
                     ),
@@ -111,7 +139,7 @@ class HeaderSection extends StatelessWidget {
               ],
             ),
 
-
+            // 👉🏻 Center logo
             Positioned(
               right: MediaQuery.of(context).size.width * 0.26 - 25,
               top: 10,

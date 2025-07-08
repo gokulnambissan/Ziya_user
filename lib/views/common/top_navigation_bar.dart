@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziya_user/constants/app_colors.dart';
+import 'package:ziya_user/views/notification/notification_page_body.dart';
 
 class TopNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onSearchTap;
@@ -76,20 +77,49 @@ class TopNavigationBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
             const SizedBox(width: 12),
-            Container(
-              height: 32,
-              width: 32,
-              decoration: const BoxDecoration(
-                color: AppColors.blue,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.notifications,
-                color: Colors.white,
-                size: 18,
+
+            // ✅ Wrap notification icon with GestureDetector with slide transition
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const NotificationsPageBody(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      const begin = Offset(1.0, 0.0); // Slide from right
+                      const end = Offset.zero;
+                      const curve = Curves.easeInOut;
+
+                      final tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+              child: Container(
+                height: 32,
+                width: 32,
+                decoration: const BoxDecoration(
+                  color: AppColors.blue,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.notifications,
+                  color: Colors.white,
+                  size: 18,
+                ),
               ),
             ),
+
             const SizedBox(width: 12),
+
             const CircleAvatar(
               radius: 18,
               backgroundImage: AssetImage('assets/profile_pic.jpg'),
