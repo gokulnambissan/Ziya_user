@@ -56,11 +56,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, // ✅ Fix: prevent push-up
+      resizeToAvoidBottomInset: false, 
       backgroundColor: AppColors.white,
       body: Stack(
         children: [
-          const AuthBackground(), // ✅ Only background decoration
+          const AuthBackground(), 
           SafeArea(
             child: Center(
               child: SingleChildScrollView(

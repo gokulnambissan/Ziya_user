@@ -61,11 +61,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, // ✅ Important fix
+      resizeToAvoidBottomInset: false, 
       backgroundColor: AppColors.white,
       body: Stack(
         children: [
-          const AuthBackground(), // ✅ Only the background
+          const AuthBackground(), 
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
