@@ -239,7 +239,6 @@ class _HolidayPageBodyState extends State<HolidayPageBody> {
           const SizedBox(height: 14),
           GridView.builder(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
             itemCount: items.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 7,

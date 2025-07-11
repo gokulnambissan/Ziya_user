@@ -267,7 +267,6 @@ class _LeaveStatusPageBodyState extends State<LeaveStatusPageBody> {
           const SizedBox(height: 14),
           GridView.builder(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
             itemCount: items.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 7,
